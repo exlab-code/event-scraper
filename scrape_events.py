@@ -207,6 +207,207 @@ def clean_json(json_text):
     
     return json_text
 
+def extract_event_info_from_text(text, event_url):
+    """Extract event information from unstructured text when JSON parsing fails."""
+    logger.info("Attempting to extract event information from unstructured text")
+    
+    # Initialize event with default values
+    event = {
+        "title": None,
+        "description": None,
+        "start_date": None,
+        "end_date": None,
+        "organizer": None,
+        "website": event_url,
+        "cost": None,
+        "category": "Digitale Transformation",  # Default category
+        "tags": [],
+        "speaker": None,
+        "location": "Online",  # Default location
+        "register_link": None,
+        "videocall_link": None,
+        "approved": False
+    }
+    
+    # Based on the log output, we can see the descriptions contain the title at the beginning
+    # Extract the first part of the description as the title
+    first_line_match = re.match(r'^([^0-9\n]{10,100})', text.strip())
+    if first_line_match:
+        event["title"] = first_line_match.group(1).strip()
+    
+    # If we still don't have a title, try other patterns
+    if not event["title"]:
+        # Look for patterns like "KI-Werkzeuge für Non-Profits"
+        title_match = re.search(r'([A-Z][^0-9\n]{10,100}?)(?:\s+[A-Z][a-z]+\s+[A-Z][a-z]+|$)', text)
+        if title_match:
+            event["title"] = title_match.group(1).strip()
+    
+    # If we still don't have a title, extract from URL
+    if not event["title"] and event_url:
+        # Extract from URL path, e.g., "ki-werkzeuge-fuer-non-profits" from URL
+        url_title_match = re.search(r'/([^/]+)/?$', event_url)
+        if url_title_match:
+            url_title = url_title_match.group(1).replace('-', ' ').replace('und', '&')
+            # Capitalize first letter of each word
+            event["title"] = ' '.join(word.capitalize() for word in url_title.split())
+    
+    # Extract Unix timestamps - looking at the description, there are Unix timestamps
+    timestamp_matches = re.findall(r'\b(\d{10})\b', text)
+    if len(timestamp_matches) >= 2:
+        try:
+            # Convert Unix timestamp to ISO date format
+            timestamp = int(timestamp_matches[0])
+            event["start_date"] = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
+            
+            # If there's a second timestamp, it might be the end date
+            if len(timestamp_matches) > 2:
+                end_timestamp = int(timestamp_matches[2])  # The third timestamp might be the end time
+                event["end_date"] = datetime.fromtimestamp(end_timestamp).strftime('%Y-%m-%d')
+        except Exception as e:
+            logger.warning(f"Failed to parse Unix timestamp: {str(e)}")
+    
+    # If we still don't have a date, try other patterns
+    if not event["start_date"]:
+        # Extract date - look for date patterns
+        date_patterns = [
+            r'(\d{1,2}\.\d{1,2}\.\d{4})',  # DD.MM.YYYY
+            r'(\d{4}-\d{2}-\d{2})',        # YYYY-MM-DD
+            r'(\d{1,2}\.\s*(?:Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*\d{4})'  # DD. Month YYYY
+        ]
+        
+        for pattern in date_patterns:
+            date_match = re.search(pattern, text)
+            if date_match:
+                date_str = date_match.group(1)
+                # Try to convert to ISO format
+                try:
+                    if '.' in date_str and not date_str.endswith('.'):
+                        # DD.MM.YYYY format
+                        parts = date_str.split('.')
+                        if len(parts) == 3:
+                            event["start_date"] = f"{parts[2].strip()}-{parts[1].strip().zfill(2)}-{parts[0].strip().zfill(2)}"
+                    elif '-' in date_str:
+                        # Already in YYYY-MM-DD format
+                        event["start_date"] = date_str
+                    else:
+                        # Try to parse month name
+                        month_map = {
+                            'Januar': '01', 'Februar': '02', 'März': '03', 'April': '04',
+                            'Mai': '05', 'Juni': '06', 'Juli': '07', 'August': '08',
+                            'September': '09', 'Oktober': '10', 'November': '11', 'Dezember': '12'
+                        }
+                        for month_name, month_num in month_map.items():
+                            if month_name in date_str:
+                                day = re.search(r'(\d{1,2})\.', date_str).group(1).zfill(2)
+                                year = re.search(r'(\d{4})', date_str).group(1)
+                                event["start_date"] = f"{year}-{month_num}-{day}"
+                                break
+                except Exception as e:
+                    logger.warning(f"Failed to parse date: {date_str} - {str(e)}")
+                
+                break
+    
+    # If we still don't have a start date, use today's date as a fallback
+    if not event["start_date"]:
+        event["start_date"] = datetime.now().strftime('%Y-%m-%d')
+        logger.warning(f"Using today's date as fallback for event: {event['title']}")
+    
+    # Extract speaker - looking at the description, there are names after the title
+    speaker_match = re.search(r'([A-Z][a-z]+\s+[A-Z][a-z]+)(?:\s+[A-Z][a-z]+)?', text)
+    if speaker_match:
+        event["speaker"] = speaker_match.group(0).strip()
+    
+    # Extract organizer - look for organization names after speaker names
+    org_match = re.search(r'(?:' + (event["speaker"] or '') + r')\s+([A-Z][^\n\.]{3,50})', text)
+    if org_match:
+        event["organizer"] = org_match.group(1).strip()
+    else:
+        # Try other patterns
+        org_patterns = [
+            r'(?:Veranstalter|Anbieter|Organisator):\s*([^\n]+)',
+            r'(?:von|durch|präsentiert von)\s+([A-Z][^\n.]+)',
+            r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})'  # Look for capitalized words that might be organization names
+        ]
+        
+        for pattern in org_patterns:
+            org_match = re.search(pattern, text, re.IGNORECASE)
+            if org_match:
+                potential_org = org_match.group(1).strip()
+                # Check if it's not just a common word
+                if len(potential_org) > 3 and not re.match(r'^(Der|Die|Das|Ein|Eine|Zum|Zur)$', potential_org, re.IGNORECASE):
+                    event["organizer"] = potential_org
+                    break
+    
+    # Extract cost information
+    cost_match = re.search(r'(?:Kosten|Preis|Gebühr):\s*([^\n]+)', text, re.IGNORECASE)
+    if cost_match:
+        event["cost"] = cost_match.group(1).strip()
+    elif 'kostenlos' in text.lower() or 'kostenfrei' in text.lower():
+        event["cost"] = "Kostenlos"
+    
+    # Clean up the description - take a more focused chunk of text
+    # First, try to find a proper description section
+    desc_match = re.search(r'(?:Beschreibung|Inhalt|Über):\s*([^\n]+(?:\n[^\n]+){0,5})', text, re.IGNORECASE)
+    if desc_match:
+        event["description"] = desc_match.group(1).strip()
+    else:
+        # If no specific description section, take a cleaner portion of the text
+        # Skip navigation elements and headers that appear in the scraped content
+        clean_text = re.sub(r'Zur Hauptnavigation springen.*?Webseite durchsuchen', '', text, flags=re.DOTALL)
+        clean_text = re.sub(r'Stiftungen Philanthropie.*?Engagement', '', clean_text, flags=re.DOTALL)
+        
+        # Take the first 300 characters of the cleaned text
+        if clean_text.strip():
+            event["description"] = clean_text.strip()[:300]
+        else:
+            # Fallback to the first 300 characters of the original text
+            event["description"] = text[:300].strip()
+    
+    # Extract registration link
+    reg_match = re.search(r'(?:Anmeldung|Registrierung):\s*(https?://[^\s]+)', text, re.IGNORECASE)
+    if reg_match:
+        event["register_link"] = reg_match.group(1).strip()
+    elif event_url:
+        event["register_link"] = event_url
+    
+    # Extract tags based on keywords
+    keywords = [
+        "Digital", "Online", "Webinar", "Workshop", "Digitalisierung", "Transformation",
+        "Nonprofit", "gemeinnützig", "Wohlfahrt", "Ehrenamt", "Fundraising", "Daten",
+        "Website", "Social Media", "Cloud", "Cyber", "KI", "Marketing"
+    ]
+    
+    for keyword in keywords:
+        if re.search(r'\b' + keyword + r'\b', text, re.IGNORECASE):
+            event["tags"].append(keyword)
+    
+    # Determine category based on keywords
+    category_keywords = {
+        "Digital Fundraising": ["Fundraising", "Spenden", "Finanzierung"],
+        "Datenmanagement": ["Daten", "Datenbank", "CRM"],
+        "Website-Entwicklung": ["Website", "Webseite", "Homepage"],
+        "Social Media": ["Social Media", "Facebook", "Instagram", "Twitter"],
+        "Digitale Transformation": ["Transformation", "Digitalisierung", "digital"],
+        "Cloud-Technologie": ["Cloud", "Server", "Online-Speicher"],
+        "Cybersicherheit": ["Sicherheit", "Cyber", "Datenschutz"],
+        "Datenanalyse": ["Analyse", "Auswertung", "Statistik"],
+        "KI fuer gemeinnuetzige Organisationen": ["KI", "Künstliche Intelligenz", "AI"],
+        "Digitales Marketing": ["Marketing", "Werbung", "Kommunikation"]
+    }
+    
+    for category, keywords in category_keywords.items():
+        for keyword in keywords:
+            if re.search(r'\b' + keyword + r'\b', text, re.IGNORECASE):
+                event["category"] = category
+                break
+        if event["category"] != "Digitale Transformation":  # If we've changed from default
+            break
+    
+    # Log the extracted event for debugging
+    logger.info(f"Extracted event: {event['title']} on {event['start_date']}")
+    
+    return event
+
 def process_with_local_llm(event_details, source_name):
     """Process all event details with a self-hosted language model, optimized for German content."""
     if not event_details:
@@ -228,39 +429,58 @@ def process_with_local_llm(event_details, source_name):
     with open("llm_input.txt", "w", encoding="utf-8") as f:
         f.write(events_text)
     
-    prompt = """
-    Du analysierst Texte von deutscher Webseiten, um Digitalisierungsveranstaltungen fuer gemeinnuetzige Organisationen zu identifizieren und zu extrahieren.
+    # Create a JSON template to guide the model
+    json_template = """
+[
+  {
+    "title": "Name der Veranstaltung",
+    "description": "Beschreibung der Veranstaltung",
+    "start_date": "YYYY-MM-DD",
+    "end_date": null,
+    "organizer": "Name der Organisation",
+    "website": "https://example.com",
+    "cost": "Kostenlos",
+    "category": "Digitale Transformation",
+    "tags": ["tag1", "tag2"],
+    "speaker": "Name des Referenten",
+    "location": "Online",
+    "register_link": "https://example.com/register",
+    "videocall_link": null
+  }
+]
+"""
     
-    Beruecksichtige nur Veranstaltungen, die fuer die Digitalisierung gemeinnuetziger Organisationen relevant sind! Zielgruppe sind Menschen, die sich mit dem digitalen Wandel in Wohlfahrt und gemeinnützigen Organisationen auseinandersetz. Sei hier bitte strikt!
+    prompt = f"""
+Du analysierst Texte von deutscher Webseiten, um Digitalisierungsveranstaltungen fuer gemeinnuetzige Organisationen zu identifizieren und zu extrahieren.
 
-    Sorge dafür, dass Umlaute richtig formatiert sind. 
-    
-    WICHTIG: Deine Antwort MUSS valides JSON sein. Verwende KEINE typografischen Anführungszeichen („ oder ") in Strings. Nutze ausschließlich normale ASCII-Anführungszeichen ("). Achte auf korrekte Kommasetzung zwischen Array-Elementen und Objekteigenschaften.
+Beruecksichtige nur Veranstaltungen, die fuer die Digitalisierung gemeinnuetziger Organisationen relevant sind! Zielgruppe sind Menschen, die sich mit dem digitalen Wandel in Wohlfahrt und gemeinnützigen Organisationen auseinandersetz. Sei hier bitte strikt!
 
+WICHTIG: Deine Antwort MUSS EXAKT dem folgenden JSON-Format entsprechen. Verwende KEINE typografischen Anführungszeichen („ oder ") in Strings. Nutze ausschließlich normale ASCII-Anführungszeichen (").
 
-    Extrahiere fuer jede Veranstaltung die folgenden Informationen:
-    - title: Der Name der Veranstaltung
-    - description: Umfassende Beschreibung (300 Zeichen)
-    - start_date: Im ISO-Format (JJJJ-MM-TT) oder JJJJ-MM-TTTHH:MM:SS, wenn die Uhrzeit verfuegbar ist
-    - end_date: Im ISO-Format (leer lassen, wenn nicht angegeben)
-    - organizer: Die Organisation, die die Veranstaltung durchfuehrt
-    - website: Die URL der Veranstaltung
-    - cost: Kostenlos, kostenpflichtig oder der spezifische Preis
-    - category: Waehle die passendste aus - Digital Fundraising, Datenmanagement, Website-Entwicklung, Social Media, Digitale Transformation, Cloud-Technologie, Cybersicherheit, Datenanalyse, KI fuer gemeinnuetzige Organisationen, Digitales Marketing
-    - tags: Relevante Schlagwoerter zur Veranstaltung (als Array von Strings)
-    - speaker: Name(n) der Referent(en), falls vorhanden
-    - location: Veranstaltungsort (falls physisch) oder "Online" fuer virtuelle Veranstaltungen
-    - register_link: Link zur Anmeldung fuer die Veranstaltung (falls verfuegbar)
-    - videocall_link: Link zum Videoanruf oder Webinar (falls verfuegbar)
-    
-    Wenn du ein Feld nicht mit Sicherheit extrahieren kannst, setze es auf null, anstatt zu raten oder leere Strings zu verwenden.
-    
-    
-    Gib deine Antwort als JSON-Array von Veranstaltungsobjekten zurueck, ein Objekt pro Veranstaltung. Achte darauf, dass das JSON syntaktisch korrekt ist.
+Hier ist das exakte Format, das du verwenden musst:
+{json_template}
 
-    Hier sind die zu analysierenden Veranstaltungen:
+Extrahiere fuer jede Veranstaltung die folgenden Informationen:
+- title: Der Name der Veranstaltung
+- description: Umfassende Beschreibung (300 Zeichen)
+- start_date: Im ISO-Format (JJJJ-MM-TT) oder JJJJ-MM-TTTHH:MM:SS, wenn die Uhrzeit verfuegbar ist
+- end_date: Im ISO-Format (leer lassen, wenn nicht angegeben)
+- organizer: Die Organisation, die die Veranstaltung durchfuehrt
+- website: Die URL der Veranstaltung
+- cost: Kostenlos, kostenpflichtig oder der spezifische Preis
+- category: Waehle die passendste aus - Digital Fundraising, Datenmanagement, Website-Entwicklung, Social Media, Digitale Transformation, Cloud-Technologie, Cybersicherheit, Datenanalyse, KI fuer gemeinnuetzige Organisationen, Digitales Marketing
+- tags: Relevante Schlagwoerter zur Veranstaltung (als Array von Strings)
+- speaker: Name(n) der Referent(en), falls vorhanden
+- location: Veranstaltungsort (falls physisch) oder "Online" fuer virtuelle Veranstaltungen
+- register_link: Link zur Anmeldung fuer die Veranstaltung (falls verfuegbar)
+- videocall_link: Link zum Videoanruf oder Webinar (falls verfuegbar)
 
-    """
+Wenn du ein Feld nicht mit Sicherheit extrahieren kannst, setze es auf null, anstatt zu raten oder leere Strings zu verwenden.
+
+Gib deine Antwort AUSSCHLIESSLICH als JSON-Array von Veranstaltungsobjekten zurueck, ein Objekt pro Veranstaltung. Schreibe KEINEN zusätzlichen Text vor oder nach dem JSON.
+
+Hier sind die zu analysierenden Veranstaltungen:
+"""
     
     full_prompt = prompt + events_text
     
@@ -356,16 +576,61 @@ def process_with_local_llm(event_details, source_name):
                     
                 except Exception as repair_e:
                     logger.error(f"Failed to repair JSON: {str(repair_e)}")
-                    # Return empty list as fallback
-                    return []
+                    logger.info("Falling back to manual extraction from text")
+                    
+                    # Fallback: Extract information manually from the text
+                    processed_events = []
+                    for event_detail in event_details:
+                        combined_text = ""
+                        if event_detail.get("listing_text"):
+                            combined_text += event_detail["listing_text"] + "\n\n"
+                        if event_detail.get("detail_text"):
+                            combined_text += event_detail["detail_text"]
+                        
+                        event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                        event['source'] = source_name
+                        processed_events.append(event)
+                    
+                    logger.info(f"Manually extracted {len(processed_events)} events as fallback")
+                    return processed_events
         else:
             logger.warning("No JSON found in LLM response")
+            
+            # Fallback: Extract information manually from the text
+            processed_events = []
+            for event_detail in event_details:
+                combined_text = ""
+                if event_detail.get("listing_text"):
+                    combined_text += event_detail["listing_text"] + "\n\n"
+                if event_detail.get("detail_text"):
+                    combined_text += event_detail["detail_text"]
+                
+                event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                event['source'] = source_name
+                processed_events.append(event)
+            
+            logger.info(f"Manually extracted {len(processed_events)} events as fallback")
+            return processed_events
             
     except Exception as e:
         logger.error(f"Error processing with local LLM: {str(e)}")
         logger.exception("Full exception details:")
-    
-    return []
+        
+        # Fallback: Extract information manually from the text
+        processed_events = []
+        for event_detail in event_details:
+            combined_text = ""
+            if event_detail.get("listing_text"):
+                combined_text += event_detail["listing_text"] + "\n\n"
+            if event_detail.get("detail_text"):
+                combined_text += event_detail["detail_text"]
+            
+            event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+            event['source'] = source_name
+            processed_events.append(event)
+        
+        logger.info(f"Manually extracted {len(processed_events)} events as fallback")
+        return processed_events
 
 def save_to_directus(events):
     """Save processed events to Directus."""
