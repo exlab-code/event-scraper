@@ -1,0 +1,6 @@
+requests
+beautifulsoup4
+anthropic
+schedule
+python-dateutil
+
