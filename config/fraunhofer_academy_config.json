@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "name": "Fraunhofer Academy",
+      "url": "https://www.academy.fraunhofer.de/de/weiterbildung.html",
+      "type": "html",
+      "event_selector": ".views-row .course-overview__course",
+      "link_selector": ".course__title a",
+      "full_page_selector": ".main-content"
+    }
+  ]
+}

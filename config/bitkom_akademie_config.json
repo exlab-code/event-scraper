@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "name": "Bitkom Akademie",
+      "url": "https://bitkom-akademie.de/seminare",
+      "type": "html",
+      "event_selector": ".views-row",
+      "link_selector": "a",
+      "full_page_selector": ".main-content",
+      "pagination": {
+        "type": "url-param",
+        "param_name": "page",
+        "start_index": 0,
+        "max_pages": 20
+      }
+    }
+  ]
+}

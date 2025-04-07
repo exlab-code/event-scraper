@@ -18,6 +18,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger("event-scraper")
 
+# Scraper configuration
+# Control how many events to scrape per source (set to -1 for all events)
+MAX_EVENTS_PER_SOURCE = 3
+
+# LLM configuration
+# Set USE_CLAUDE to True to use Claude API, False to use local LLM
+USE_CLAUDE = True
+
+# Batch size for LLM processing (how many events to process in a single API call)
+# Set to -1 to process all events in a single batch
+LLM_BATCH_SIZE = -1
+
+# Claude API configuration
+ANTHROPIC_API_KEY = "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"
+CLAUDE_MODEL = "claude-3-opus-20240229"  # Can be changed to any available Claude model
+
 # Self-hosted LLM configuration
 LLM_API_URL = "http://localhost:11434/api/generate"  # Default Ollama API URL
 LLM_MODEL = "mistral"  # Default model, can be changed to any model available on your server
@@ -47,8 +63,7 @@ SOURCES = [
     }
 ]
 
-# Maximum number of events to process for testing
-MAX_EVENTS = 3
+# This is now controlled by MAX_EVENTS_PER_SOURCE at the top of the file
 
 def get_page_content(url, headers=None):
     """Get content from a URL with error handling."""
@@ -84,10 +99,11 @@ def scrape_source(source):
         logger.warning(f"No events found on {source['name']} using selector: {source['event_selector']}")
         return []
     
-    # Limit to MAX_EVENTS for testing
-    event_elements = event_elements[:MAX_EVENTS]
+    # Limit events based on MAX_EVENTS_PER_SOURCE
+    if MAX_EVENTS_PER_SOURCE > 0:
+        event_elements = event_elements[:MAX_EVENTS_PER_SOURCE]
     
-    logger.info(f"Found {len(event_elements)} event listings on {source['name']} (limited to {MAX_EVENTS} for testing)")
+    logger.info(f"Found {len(event_elements)} event listings on {source['name']} (limited to {MAX_EVENTS_PER_SOURCE if MAX_EVENTS_PER_SOURCE > 0 else 'all'} events)")
     
     # Write raw HTML to file for review
     with open("scraped_listing.html", "w", encoding="utf-8") as f:
@@ -408,29 +424,40 @@ def extract_event_info_from_text(text, event_url):
     
     return event
 
-def process_with_local_llm(event_details, source_name):
-    """Process all event details with a self-hosted language model, optimized for German content."""
+def process_with_claude(event_details, source_name):
+    """Process all event details with Claude API, optimized for German content."""
     if not event_details:
         return []
     
-    # Prepare all events for a single API call
-    events_text = ""
-    for i, event in enumerate(event_details):
-        events_text += f"EVENT {i+1}:\n"
-        events_text += f"LISTING PAGE TEXT:\n{event['listing_text']}\n\n"
-        
-        if event['detail_text']:
-            events_text += f"DETAIL PAGE TEXT:\n{event['detail_text']}\n\n"
-        
-        events_text += f"EVENT URL: {event['url']}\n"
-        events_text += "="*50 + "\n\n"
+    # Determine batch size
+    batch_size = len(event_details) if LLM_BATCH_SIZE <= 0 else min(LLM_BATCH_SIZE, len(event_details))
     
-    # Log the combined text we're sending to the LLM
-    with open("llm_input.txt", "w", encoding="utf-8") as f:
-        f.write(events_text)
-    
-    # Create a JSON template to guide the model
-    json_template = """
+    # Process events in batches
+    all_processed_events = []
+    for batch_start in range(0, len(event_details), batch_size):
+        batch_end = min(batch_start + batch_size, len(event_details))
+        current_batch = event_details[batch_start:batch_end]
+        
+        logger.info(f"Processing batch of {len(current_batch)} events with Claude API (batch {batch_start//batch_size + 1}/{(len(event_details) + batch_size - 1)//batch_size})")
+        
+        # Prepare events for this batch
+        events_text = ""
+        for i, event in enumerate(current_batch):
+            events_text += f"EVENT {i+1}:\n"
+            events_text += f"LISTING PAGE TEXT:\n{event['listing_text']}\n\n"
+            
+            if event['detail_text']:
+                events_text += f"DETAIL PAGE TEXT:\n{event['detail_text']}\n\n"
+            
+            events_text += f"EVENT URL: {event['url']}\n"
+            events_text += "="*50 + "\n\n"
+        
+        # Log the combined text we're sending to Claude for this batch
+        with open(f"claude_input_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+            f.write(events_text)
+        
+        # Create a JSON template to guide the model
+        json_template = """
 [
   {
     "title": "Name der Veranstaltung",
@@ -449,8 +476,8 @@ def process_with_local_llm(event_details, source_name):
   }
 ]
 """
-    
-    prompt = f"""
+        
+        prompt = f"""
 Du analysierst Texte von deutscher Webseiten, um Digitalisierungsveranstaltungen fuer gemeinnuetzige Organisationen zu identifizieren und zu extrahieren.
 
 Beruecksichtige nur Veranstaltungen, die fuer die Digitalisierung gemeinnuetziger Organisationen relevant sind! Zielgruppe sind Menschen, die sich mit dem digitalen Wandel in Wohlfahrt und gemeinnützigen Organisationen auseinandersetz. Sei hier bitte strikt!
@@ -481,124 +508,156 @@ Gib deine Antwort AUSSCHLIESSLICH als JSON-Array von Veranstaltungsobjekten zuru
 
 Hier sind die zu analysierenden Veranstaltungen:
 """
-    
-    full_prompt = prompt + events_text
-    
-    try:
-        # Prepare the request for Ollama API
-        payload = {
-            "model": LLM_MODEL,
-            "prompt": full_prompt,
-            "stream": False,
-            "options": {
-                "temperature": 0.1,
-                "num_predict": 4000
+        
+        full_prompt = prompt + events_text
+        
+        try:
+            # Prepare the request for Claude API
+            headers = {
+                "x-api-key": ANTHROPIC_API_KEY,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json"
             }
-        }
-        
-        logger.info(f"Sending request to local LLM ({LLM_MODEL}) at {LLM_API_URL}")
-        
-        # Make the API request
-        response = requests.post(LLM_API_URL, json=payload)
-        response.raise_for_status()
-        
-        # Parse the response
-        response_data = response.json()
-        
-        # Log the full response
-        with open("llm_response.txt", "w", encoding="utf-8") as f:
-            f.write(response_data.get("response", ""))
-        
-        # Extract content from the response
-        content = response_data.get("response", "")
-        
-        # Find JSON array using regex
-        json_match = re.search(r'\[\s*\{.*\}\s*\]', content, re.DOTALL)
-        if json_match:
-            json_text = json_match.group(0)
             
-            # Apply comprehensive JSON cleaning
-            cleaned_json = clean_json(json_text)
+            payload = {
+                "model": CLAUDE_MODEL,
+                "max_tokens": 4000,
+                "temperature": 0.1,
+                "messages": [
+                    {"role": "user", "content": full_prompt}
+                ]
+            }
             
-            # Log the cleaned JSON for debugging
-            with open("cleaned_json.txt", "w", encoding="utf-8") as f:
-                f.write(cleaned_json)
+            logger.info(f"Sending request to Claude API ({CLAUDE_MODEL}) for batch {batch_start//batch_size + 1}")
             
-            try:
-                # Try to parse the JSON
-                processed_events = json.loads(cleaned_json)
+            # Make the API request
+            response = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers=headers,
+                json=payload
+            )
+            response.raise_for_status()
+            
+            # Parse the response
+            response_data = response.json()
+            
+            # Log the full response
+            with open(f"claude_response_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                f.write(json.dumps(response_data, indent=2))
+            
+            # Extract content from the response
+            content = response_data.get("content", [{}])[0].get("text", "")
+            
+            # Log the content
+            with open(f"claude_content_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                f.write(content)
+            
+            # Find JSON array using regex
+            json_match = re.search(r'\[\s*\{.*\}\s*\]', content, re.DOTALL)
+            if json_match:
+                json_text = json_match.group(0)
                 
-                # Add source to each event
-                for event in processed_events:
-                    event['source'] = source_name
-                    event['approved'] = False
+                # Apply comprehensive JSON cleaning
+                cleaned_json = clean_json(json_text)
                 
-                logger.info(f"Local LLM extracted {len(processed_events)} valid events from {source_name}")
-                return processed_events
-                    
-            except json.JSONDecodeError as e:
-                logger.error(f"Error parsing JSON from LLM response: {str(e)}")
-                
-                # Log the problematic JSON text
-                with open("problematic_json.txt", "w", encoding="utf-8") as f:
+                # Log the cleaned JSON for debugging
+                with open(f"cleaned_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
                     f.write(cleaned_json)
                 
-                # Try a more aggressive approach - use a JSON repair library or manual fix
                 try:
-                    # Manual line-by-line approach to find the problematic line
-                    lines = cleaned_json.split('\n')
-                    for i, line in enumerate(lines):
-                        try:
-                            # Try to parse each line to identify issues
-                            if '{' in line or '[' in line or '}' in line or ']' in line:
-                                logger.debug(f"Checking line {i+1}: {line}")
-                                # Look for common issues in this line
-                                if line.strip().endswith(',') and (lines[i+1].strip().startswith('}') or lines[i+1].strip().startswith(']')):
-                                    lines[i] = line.rstrip(',')
-                                    logger.debug(f"Fixed trailing comma in line {i+1}")
-                        except Exception as line_e:
-                            logger.debug(f"Error checking line {i+1}: {str(line_e)}")
-                    
-                    # Try again with manually fixed JSON
-                    fixed_json = '\n'.join(lines)
-                    with open("manually_fixed_json.txt", "w", encoding="utf-8") as f:
-                        f.write(fixed_json)
-                    
-                    processed_events = json.loads(fixed_json)
+                    # Try to parse the JSON
+                    batch_processed_events = json.loads(cleaned_json)
                     
                     # Add source to each event
-                    for event in processed_events:
+                    for event in batch_processed_events:
                         event['source'] = source_name
                         event['approved'] = False
                     
-                    logger.info(f"Local LLM extracted {len(processed_events)} valid events after manual JSON repair")
-                    return processed_events
+                    # Add to all processed events
+                    all_processed_events.extend(batch_processed_events)
                     
-                except Exception as repair_e:
-                    logger.error(f"Failed to repair JSON: {str(repair_e)}")
-                    logger.info("Falling back to manual extraction from text")
-                    
-                    # Fallback: Extract information manually from the text
-                    processed_events = []
-                    for event_detail in event_details:
-                        combined_text = ""
-                        if event_detail.get("listing_text"):
-                            combined_text += event_detail["listing_text"] + "\n\n"
-                        if event_detail.get("detail_text"):
-                            combined_text += event_detail["detail_text"]
+                    logger.info(f"Claude API extracted {len(batch_processed_events)} valid events from batch {batch_start//batch_size + 1}")
                         
-                        event = extract_event_info_from_text(combined_text, event_detail.get("url"))
-                        event['source'] = source_name
-                        processed_events.append(event)
+                except json.JSONDecodeError as e:
+                    logger.error(f"Error parsing JSON from Claude response for batch {batch_start//batch_size + 1}: {str(e)}")
                     
-                    logger.info(f"Manually extracted {len(processed_events)} events as fallback")
-                    return processed_events
-        else:
-            logger.warning("No JSON found in LLM response")
+                    # Log the problematic JSON text
+                    with open(f"problematic_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                        f.write(cleaned_json)
+                    
+                    # Try a more aggressive approach - use a JSON repair library or manual fix
+                    try:
+                        # Manual line-by-line approach to find the problematic line
+                        lines = cleaned_json.split('\n')
+                        for i, line in enumerate(lines):
+                            try:
+                                # Try to parse each line to identify issues
+                                if '{' in line or '[' in line or '}' in line or ']' in line:
+                                    logger.debug(f"Checking line {i+1}: {line}")
+                                    # Look for common issues in this line
+                                    if line.strip().endswith(',') and (lines[i+1].strip().startswith('}') or lines[i+1].strip().startswith(']')):
+                                        lines[i] = line.rstrip(',')
+                                        logger.debug(f"Fixed trailing comma in line {i+1}")
+                            except Exception as line_e:
+                                logger.debug(f"Error checking line {i+1}: {str(line_e)}")
+                        
+                        # Try again with manually fixed JSON
+                        fixed_json = '\n'.join(lines)
+                        with open(f"manually_fixed_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                            f.write(fixed_json)
+                        
+                        batch_processed_events = json.loads(fixed_json)
+                        
+                        # Add source to each event
+                        for event in batch_processed_events:
+                            event['source'] = source_name
+                            event['approved'] = False
+                        
+                        # Add to all processed events
+                        all_processed_events.extend(batch_processed_events)
+                        
+                        logger.info(f"Claude API extracted {len(batch_processed_events)} valid events after manual JSON repair for batch {batch_start//batch_size + 1}")
+                        
+                    except Exception as repair_e:
+                        logger.error(f"Failed to repair JSON for batch {batch_start//batch_size + 1}: {str(repair_e)}")
+                        logger.info(f"Falling back to manual extraction from text for batch {batch_start//batch_size + 1}")
+                        
+                        # Fallback: Extract information manually from the text for this batch
+                        for event_detail in current_batch:
+                            combined_text = ""
+                            if event_detail.get("listing_text"):
+                                combined_text += event_detail["listing_text"] + "\n\n"
+                            if event_detail.get("detail_text"):
+                                combined_text += event_detail["detail_text"]
+                            
+                            event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                            event['source'] = source_name
+                            all_processed_events.append(event)
+                        
+                        logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+            else:
+                logger.warning(f"No JSON found in Claude response for batch {batch_start//batch_size + 1}")
+                
+                # Fallback: Extract information manually from the text for this batch
+                for event_detail in current_batch:
+                    combined_text = ""
+                    if event_detail.get("listing_text"):
+                        combined_text += event_detail["listing_text"] + "\n\n"
+                    if event_detail.get("detail_text"):
+                        combined_text += event_detail["detail_text"]
+                    
+                    event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                    event['source'] = source_name
+                    all_processed_events.append(event)
+                
+                logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+                
+        except Exception as e:
+            logger.error(f"Error processing batch {batch_start//batch_size + 1} with Claude API: {str(e)}")
+            logger.exception("Full exception details:")
             
-            # Fallback: Extract information manually from the text
-            processed_events = []
-            for event_detail in event_details:
+            # Fallback: Extract information manually from the text for this batch
+            for event_detail in current_batch:
                 combined_text = ""
                 if event_detail.get("listing_text"):
                     combined_text += event_detail["listing_text"] + "\n\n"
@@ -607,30 +666,248 @@ Hier sind die zu analysierenden Veranstaltungen:
                 
                 event = extract_event_info_from_text(combined_text, event_detail.get("url"))
                 event['source'] = source_name
-                processed_events.append(event)
+                all_processed_events.append(event)
             
-            logger.info(f"Manually extracted {len(processed_events)} events as fallback")
-            return processed_events
-            
-    except Exception as e:
-        logger.error(f"Error processing with local LLM: {str(e)}")
-        logger.exception("Full exception details:")
+            logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+    
+    logger.info(f"Total events processed with Claude API: {len(all_processed_events)}")
+    return all_processed_events
+
+def process_with_local_llm(event_details, source_name):
+    """Process all event details with a self-hosted language model, optimized for German content."""
+    if not event_details:
+        return []
+    
+    # Determine batch size
+    batch_size = len(event_details) if LLM_BATCH_SIZE <= 0 else min(LLM_BATCH_SIZE, len(event_details))
+    
+    # Process events in batches
+    all_processed_events = []
+    for batch_start in range(0, len(event_details), batch_size):
+        batch_end = min(batch_start + batch_size, len(event_details))
+        current_batch = event_details[batch_start:batch_end]
         
-        # Fallback: Extract information manually from the text
-        processed_events = []
-        for event_detail in event_details:
-            combined_text = ""
-            if event_detail.get("listing_text"):
-                combined_text += event_detail["listing_text"] + "\n\n"
-            if event_detail.get("detail_text"):
-                combined_text += event_detail["detail_text"]
-            
-            event = extract_event_info_from_text(combined_text, event_detail.get("url"))
-            event['source'] = source_name
-            processed_events.append(event)
+        logger.info(f"Processing batch of {len(current_batch)} events with Local LLM (batch {batch_start//batch_size + 1}/{(len(event_details) + batch_size - 1)//batch_size})")
         
-        logger.info(f"Manually extracted {len(processed_events)} events as fallback")
-        return processed_events
+        # Prepare events for this batch
+        events_text = ""
+        for i, event in enumerate(current_batch):
+            events_text += f"EVENT {i+1}:\n"
+            events_text += f"LISTING PAGE TEXT:\n{event['listing_text']}\n\n"
+            
+            if event['detail_text']:
+                events_text += f"DETAIL PAGE TEXT:\n{event['detail_text']}\n\n"
+            
+            events_text += f"EVENT URL: {event['url']}\n"
+            events_text += "="*50 + "\n\n"
+        
+        # Log the combined text we're sending to the LLM for this batch
+        with open(f"llm_input_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+            f.write(events_text)
+        
+        # Create a JSON template to guide the model
+        json_template = """
+[
+  {
+    "title": "Name der Veranstaltung",
+    "description": "Beschreibung der Veranstaltung",
+    "start_date": "YYYY-MM-DD",
+    "end_date": null,
+    "organizer": "Name der Organisation",
+    "website": "https://example.com",
+    "cost": "Kostenlos",
+    "category": "Digitale Transformation",
+    "tags": ["tag1", "tag2"],
+    "speaker": "Name des Referenten",
+    "location": "Online",
+    "register_link": "https://example.com/register",
+    "videocall_link": null
+  }
+]
+"""
+        
+        prompt = f"""
+Du analysierst Texte von deutscher Webseiten, um Digitalisierungsveranstaltungen fuer gemeinnuetzige Organisationen zu identifizieren und zu extrahieren.
+
+Beruecksichtige nur Veranstaltungen, die fuer die Digitalisierung gemeinnuetziger Organisationen relevant sind! Zielgruppe sind Menschen, die sich mit dem digitalen Wandel in Wohlfahrt und gemeinnützigen Organisationen auseinandersetz. Sei hier bitte strikt!
+
+WICHTIG: Deine Antwort MUSS EXAKT dem folgenden JSON-Format entsprechen. Verwende KEINE typografischen Anführungszeichen („ oder ") in Strings. Nutze ausschließlich normale ASCII-Anführungszeichen (").
+
+Hier ist das exakte Format, das du verwenden musst:
+{json_template}
+
+Extrahiere fuer jede Veranstaltung die folgenden Informationen:
+- title: Der Name der Veranstaltung
+- description: Umfassende Beschreibung (300 Zeichen)
+- start_date: Im ISO-Format (JJJJ-MM-TT) oder JJJJ-MM-TTTHH:MM:SS, wenn die Uhrzeit verfuegbar ist
+- end_date: Im ISO-Format (leer lassen, wenn nicht angegeben)
+- organizer: Die Organisation, die die Veranstaltung durchfuehrt
+- website: Die URL der Veranstaltung
+- cost: Kostenlos, kostenpflichtig oder der spezifische Preis
+- category: Waehle die passendste aus - Digital Fundraising, Datenmanagement, Website-Entwicklung, Social Media, Digitale Transformation, Cloud-Technologie, Cybersicherheit, Datenanalyse, KI fuer gemeinnuetzige Organisationen, Digitales Marketing
+- tags: Relevante Schlagwoerter zur Veranstaltung (als Array von Strings)
+- speaker: Name(n) der Referent(en), falls vorhanden
+- location: Veranstaltungsort (falls physisch) oder "Online" fuer virtuelle Veranstaltungen
+- register_link: Link zur Anmeldung fuer die Veranstaltung (falls verfuegbar)
+- videocall_link: Link zum Videoanruf oder Webinar (falls verfuegbar)
+
+Wenn du ein Feld nicht mit Sicherheit extrahieren kannst, setze es auf null, anstatt zu raten oder leere Strings zu verwenden.
+
+Gib deine Antwort AUSSCHLIESSLICH als JSON-Array von Veranstaltungsobjekten zurueck, ein Objekt pro Veranstaltung. Schreibe KEINEN zusätzlichen Text vor oder nach dem JSON.
+
+Hier sind die zu analysierenden Veranstaltungen:
+"""
+        
+        full_prompt = prompt + events_text
+        
+        try:
+            # Prepare the request for Ollama API
+            payload = {
+                "model": LLM_MODEL,
+                "prompt": full_prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0.1,
+                    "num_predict": 4000
+                }
+            }
+            
+            logger.info(f"Sending request to local LLM ({LLM_MODEL}) at {LLM_API_URL} for batch {batch_start//batch_size + 1}")
+            
+            # Make the API request
+            response = requests.post(LLM_API_URL, json=payload)
+            response.raise_for_status()
+            
+            # Parse the response
+            response_data = response.json()
+            
+            # Log the full response
+            with open(f"llm_response_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                f.write(response_data.get("response", ""))
+            
+            # Extract content from the response
+            content = response_data.get("response", "")
+            
+            # Find JSON array using regex
+            json_match = re.search(r'\[\s*\{.*\}\s*\]', content, re.DOTALL)
+            if json_match:
+                json_text = json_match.group(0)
+                
+                # Apply comprehensive JSON cleaning
+                cleaned_json = clean_json(json_text)
+                
+                # Log the cleaned JSON for debugging
+                with open(f"cleaned_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                    f.write(cleaned_json)
+                
+                try:
+                    # Try to parse the JSON
+                    batch_processed_events = json.loads(cleaned_json)
+                    
+                    # Add source to each event
+                    for event in batch_processed_events:
+                        event['source'] = source_name
+                        event['approved'] = False
+                    
+                    # Add to all processed events
+                    all_processed_events.extend(batch_processed_events)
+                    
+                    logger.info(f"Local LLM extracted {len(batch_processed_events)} valid events from batch {batch_start//batch_size + 1}")
+                        
+                except json.JSONDecodeError as e:
+                    logger.error(f"Error parsing JSON from LLM response for batch {batch_start//batch_size + 1}: {str(e)}")
+                    
+                    # Log the problematic JSON text
+                    with open(f"problematic_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                        f.write(cleaned_json)
+                    
+                    # Try a more aggressive approach - use a JSON repair library or manual fix
+                    try:
+                        # Manual line-by-line approach to find the problematic line
+                        lines = cleaned_json.split('\n')
+                        for i, line in enumerate(lines):
+                            try:
+                                # Try to parse each line to identify issues
+                                if '{' in line or '[' in line or '}' in line or ']' in line:
+                                    logger.debug(f"Checking line {i+1}: {line}")
+                                    # Look for common issues in this line
+                                    if line.strip().endswith(',') and (lines[i+1].strip().startswith('}') or lines[i+1].strip().startswith(']')):
+                                        lines[i] = line.rstrip(',')
+                                        logger.debug(f"Fixed trailing comma in line {i+1}")
+                            except Exception as line_e:
+                                logger.debug(f"Error checking line {i+1}: {str(line_e)}")
+                        
+                        # Try again with manually fixed JSON
+                        fixed_json = '\n'.join(lines)
+                        with open(f"manually_fixed_json_batch_{batch_start//batch_size + 1}.txt", "w", encoding="utf-8") as f:
+                            f.write(fixed_json)
+                        
+                        batch_processed_events = json.loads(fixed_json)
+                        
+                        # Add source to each event
+                        for event in batch_processed_events:
+                            event['source'] = source_name
+                            event['approved'] = False
+                        
+                        # Add to all processed events
+                        all_processed_events.extend(batch_processed_events)
+                        
+                        logger.info(f"Local LLM extracted {len(batch_processed_events)} valid events after manual JSON repair for batch {batch_start//batch_size + 1}")
+                        
+                    except Exception as repair_e:
+                        logger.error(f"Failed to repair JSON for batch {batch_start//batch_size + 1}: {str(repair_e)}")
+                        logger.info(f"Falling back to manual extraction from text for batch {batch_start//batch_size + 1}")
+                        
+                        # Fallback: Extract information manually from the text for this batch
+                        for event_detail in current_batch:
+                            combined_text = ""
+                            if event_detail.get("listing_text"):
+                                combined_text += event_detail["listing_text"] + "\n\n"
+                            if event_detail.get("detail_text"):
+                                combined_text += event_detail["detail_text"]
+                            
+                            event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                            event['source'] = source_name
+                            all_processed_events.append(event)
+                        
+                        logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+            else:
+                logger.warning(f"No JSON found in LLM response for batch {batch_start//batch_size + 1}")
+                
+                # Fallback: Extract information manually from the text for this batch
+                for event_detail in current_batch:
+                    combined_text = ""
+                    if event_detail.get("listing_text"):
+                        combined_text += event_detail["listing_text"] + "\n\n"
+                    if event_detail.get("detail_text"):
+                        combined_text += event_detail["detail_text"]
+                    
+                    event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                    event['source'] = source_name
+                    all_processed_events.append(event)
+                
+                logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+                
+        except Exception as e:
+            logger.error(f"Error processing batch {batch_start//batch_size + 1} with local LLM: {str(e)}")
+            logger.exception("Full exception details:")
+            
+            # Fallback: Extract information manually from the text for this batch
+            for event_detail in current_batch:
+                combined_text = ""
+                if event_detail.get("listing_text"):
+                    combined_text += event_detail["listing_text"] + "\n\n"
+                if event_detail.get("detail_text"):
+                    combined_text += event_detail["detail_text"]
+                
+                event = extract_event_info_from_text(combined_text, event_detail.get("url"))
+                event['source'] = source_name
+                all_processed_events.append(event)
+            
+            logger.info(f"Manually extracted {len(current_batch)} events as fallback for batch {batch_start//batch_size + 1}")
+    
+    logger.info(f"Total events processed with local LLM: {len(all_processed_events)}")
+    return all_processed_events
 
 def save_to_directus(events):
     """Save processed events to Directus."""
@@ -703,10 +980,16 @@ def save_to_directus(events):
 def run_scraper():
     """Main function to run the scraper."""
     logger.info("Starting event scraper - TEST MODE (max 3 events)")
+    logger.info(f"Using {'Claude API' if USE_CLAUDE else 'Local LLM'} for processing")
     
     for source in SOURCES:
         event_details = scrape_source(source)
-        processed_events = process_with_local_llm(event_details, source['name'])
+        
+        # Choose processing method based on configuration
+        if USE_CLAUDE:
+            processed_events = process_with_claude(event_details, source['name'])
+        else:
+            processed_events = process_with_local_llm(event_details, source['name'])
         
         # Log the processed events
         with open("processed_events.json", "w", encoding="utf-8") as f:

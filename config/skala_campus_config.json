@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "name": "Skala Campus",
+      "url": "https://www.skala-campus.org/veranstaltungen/",
+      "type": "html",
+      "event_selector": ".teaser-wrapper.event",
+      "link_selector": "a",
+      "full_page_selector": ".main-content"
+    }
+  ]
+}

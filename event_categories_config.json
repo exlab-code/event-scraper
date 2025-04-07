@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "id": "ki_nonprofit",
+      "name": "KI für Non-Profits",
+      "description": "Künstliche Intelligenz im Kontext gemeinnütziger Organisationen",
+      "keywords": [
+        "ki", "künstliche intelligenz", "ai", "artificial intelligence", 
+        "machine learning", "maschinelles lernen", "chatbot", "llm", 
+        "large language model", "ki-werkzeuge", "ki tools", "ki praktisch nutzen",
+        "generative ai", "generative ki", "chatgpt", "claude", "gemini"
+      ]
+    },
+    {
+      "id": "digitale_kommunikation",
+      "name": "Digitale Kommunikation & Social Media",
+      "description": "Online-Kommunikation und Social-Media-Strategien für Non-Profits",
+      "keywords": [
+        "social media", "soziale medien", "facebook", "instagram", "linkedin", 
+        "twitter", "tiktok", "youtube", "online-kommunikation", "digitale kommunikation",
+        "content", "content-strategie", "social-media-strategie", "community management",
+        "facebook & instagram anzeigen", "social ads", "online-marketing", "digital marketing"
+      ]
+    },
+    {
+      "id": "foerderung_finanzierung",
+      "name": "Förderprogramme & Finanzierung",
+      "description": "Finanzierungsmöglichkeiten und Förderprogramme für Non-Profits",
+      "keywords": [
+        "förderung", "förderprogramm", "finanzierung", "funding", "grant", 
+        "act digital", "förderberatung", "fördermittel", "zuschuss", "zuwendung",
+        "spenden", "fundraising", "crowdfunding", "sponsoring", "stiftungsgelder",
+        "eu-förderung", "bundesförderung", "landesförderung"
+      ]
+    },
+    {
+      "id": "ehrenamt_engagement",
+      "name": "Ehrenamt & Engagemententwicklung",
+      "description": "Gewinnung, Betreuung und Qualifizierung von Ehrenamtlichen",
+      "keywords": [
+        "ehrenamt", "engagement", "freiwillige", "volunteers", "engagementbericht",
+        "engagemententwicklung", "freiwilligenmanagement", "volunteer management",
+        "qualifizierung von engagierten", "ehrenamtskoordination", "freiwilligenkoordination",
+        "bürgerschaftliches engagement", "zivilgesellschaft", "civil society"
+      ]
+    },
+    {
+      "id": "daten_projektmanagement",
+      "name": "Daten & Projektmanagement",
+      "description": "Datenbasierte Entscheidungsfindung und Projektmanagement",
+      "keywords": [
+        "daten", "data", "datenmanagement", "data management", "datenanalyse", "data analysis",
+        "projektmanagement", "project management", "projektberichte erstellen", "reporting",
+        "kpi", "kennzahlen", "metrics", "dashboard", "controlling", "monitoring",
+        "evaluation", "impact measurement", "wirkungsmessung"
+      ]
+    },
+    {
+      "id": "weiterbildung_qualifizierung",
+      "name": "Weiterbildung & Qualifizierung",
+      "description": "Fortbildungsangebote und Qualifizierungsmaßnahmen",
+      "keywords": [
+        "weiterbildung", "qualifizierung", "fortbildung", "training", "schulung",
+        "workshop", "seminar", "kurs", "zertifikat", "certificate", "kompetenzentwicklung",
+        "skill development", "lebenslanges lernen", "lifelong learning", "e-learning",
+        "blended learning", "online-kurs", "online course"
+      ]
+    },
+    {
+      "id": "digitale_transformation",
+      "name": "Digitale Transformation & Strategie",
+      "description": "Strategische Aspekte der digitalen Transformation",
+      "keywords": [
+        "digitale transformation", "digital transformation", "digitalisierung", "digitization",
+        "organisationsentwicklung", "organizational development", "zukunftsstrategie",
+        "future strategy", "change management", "veränderungsmanagement", "digital leadership",
+        "digitale strategie", "digital strategy", "innovation", "digitale reife", "digital maturity"
+      ]
+    },
+    {
+      "id": "tools_anwendungen",
+      "name": "Tools & Anwendungen",
+      "description": "Digitale Werkzeuge und Anwendungen für Non-Profits",
+      "keywords": [
+        "tools", "anwendungen", "applications", "software", "newsletter", "website",
+        "kollaboration", "collaboration", "crm", "customer relationship management",
+        "projektmanagement-tool", "project management tool", "cloud", "saas",
+        "software as a service", "open source", "microsoft 365", "google workspace"
+      ]
+    }
+  ],
+  "tagging_rules": {
+    "min_keyword_matches": 2,
+    "max_categories_per_event": 3,
+    "relevance_threshold": 0.7,
+    "required_nonprofit_context": true
+  }
+}

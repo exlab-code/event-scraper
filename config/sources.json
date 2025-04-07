@@ -1,0 +1,80 @@
+{
+  "sources": [
+    {
+      "name": "Stifter-helfen.de",
+      "url": "https://www.hausdesstiftens.org/non-profits/wissen/webinare/",
+      "type": "html",
+      "event_selector": ".eg-webinare-22-wrapper",
+      "link_selector": "a",
+      "full_page_selector": ".article-content"
+    },
+    {
+      "name": "Deutsche Stiftung für Engagament und Ehrenamt",
+      "url": "https://www.deutsche-stiftung-engagement-und-ehrenamt.de/veranstaltungen/liste/",
+      "type": "html",
+      "event_selector": ".tribe-events-calendar-list__event-title",
+      "link_selector": "a",
+      "full_page_selector": ".article-content"
+    },
+    {
+      "name": "Aktion Zivilcourage Weiterbildungsforum Ehrenamt",
+      "url": "https://eveeno.com/138543290",
+      "type": "html",
+      "event_selector": ".event",
+      "link_selector": "a",
+      "full_page_selector": ".article-content"
+    },
+    {
+      "name": "Smart Services BW",
+      "url": "https://smart-service-bw.de/veranstaltungen/",
+      "type": "html",
+      "event_selector": ".custom--dates",
+      "link_selector": ".post--btn a",
+      "full_page_selector": ".tribe-events-calendar-list"
+    },
+    {
+      "name": "Bitkom Akademie",
+      "url": "https://bitkom-akademie.de/seminare",
+      "type": "html",
+      "event_selector": ".views-row",
+      "link_selector": "a",
+      "full_page_selector": ".main-content",
+      "pagination": {
+        "type": "url-param",
+        "param_name": "page",
+        "start_index": 0,
+        "max_pages": 20
+      }
+    },
+    {
+      "name": "Open Transfer",
+      "url": "https://opentransfer.de/event/",
+      "type": "html",
+      "event_selector": ".entry-content",
+      "link_selector": "h2 a",
+      "full_page_selector": ".content-area"
+    },
+    {
+      "name": "Skala Campus",
+      "url": "https://www.skala-campus.org/termine/",
+      "type": "html",
+      "event_selector": ".teaser-wrapper.event",
+      "link_selector": "a",
+      "full_page_selector": ".main-content",
+      "pagination": {
+        "type": "url-param",
+        "param_name": "page",
+        "start_index": 1,
+        "max_pages": 10
+      }
+    },
+    {
+      "name": "Fraunhofer IAO",
+      "url": "https://www.iao.fraunhofer.de/de/veranstaltungen.html?q=&dtstart=01.01.2015&dtend=31.12.2030&cp=1&ipp=1000",
+      "type": "html",
+      "event_selector": ".filterpage-results--item",
+      "link_selector": "h3 a",
+      "full_page_selector": ".wp-block-group alignfull .is-style-bubble .has-small-font-size .is-layout-constrained .wp-block-group-is-layout-constrained"
+    }
+  ]
+}
