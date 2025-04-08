@@ -577,11 +577,54 @@ class GPT4MiniProcessor:
             if 'target_audience' in structured_data:
                 del structured_data['target_audience']
             
-            # Use categories directly from the LLM response
-            # If no categories were provided by the LLM, use the CategoryManager as fallback
-            if not structured_data.get('categories'):
-                categories = self.category_manager.categorize_event(structured_data)
-                structured_data["categories"] = categories
+            # Handle categories - ensure we always have at least one category
+            # First, check if the LLM provided categories in the expected format
+            llm_categories = structured_data.get('categories', [])
+            valid_categories = []
+            
+            # Validate LLM-provided categories
+            if llm_categories and isinstance(llm_categories, list):
+                for cat in llm_categories:
+                    # Check if category has the expected format with id and name
+                    if isinstance(cat, dict) and 'id' in cat and 'name' in cat:
+                        # Verify that the id exists in our category list
+                        if any(config_cat['id'] == cat['id'] for config_cat in self.category_manager.categories):
+                            valid_categories.append(cat)
+            
+            # If no valid categories from LLM, use CategoryManager to assign categories
+            if not valid_categories:
+                valid_categories = self.category_manager.categorize_event(structured_data)
+            
+            # If still no categories, pick the most relevant one based on content
+            if not valid_categories:
+                # Find the most relevant category based on content
+                search_text = " ".join([
+                    str(structured_data.get("title", "")),
+                    str(structured_data.get("description", ""))
+                ]).lower()
+                
+                # Default to "digitale_transformation" if we can't find a match
+                best_category = {"id": "digitale_transformation", "name": "Digitale Transformation & Strategie"}
+                
+                # Try to find a better match
+                max_matches = 0
+                for category in self.category_manager.categories:
+                    matches = 0
+                    for keyword in category.get("keywords", []):
+                        if keyword.lower() in search_text:
+                            matches += 1
+                    
+                    if matches > max_matches:
+                        max_matches = matches
+                        best_category = {"id": category["id"], "name": category["name"]}
+                
+                valid_categories = [best_category]
+            
+            # Ensure we only have one category (pick the first one)
+            structured_data["category"] = valid_categories[0]["id"] if valid_categories else "digitale_transformation"
+            
+            # Keep the full categories list for reference
+            structured_data["categories"] = valid_categories
             
             # Add metadata
             structured_data["source"] = content.get("source_name", event_data.get("source_name", "Unknown"))
