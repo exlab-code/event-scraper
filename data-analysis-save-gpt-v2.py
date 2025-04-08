@@ -17,11 +17,23 @@ from datetime import datetime
 from openai import OpenAI
 from collections import Counter
 
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Configuration
-DIRECTUS_URL = "https://calapi.buerofalk.de"
-DIRECTUS_TOKEN = "APpU898yct7V2VyMFfcJse_7WXktDY-o"
-OPENAI_API_KEY = "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"
+DIRECTUS_URL = os.getenv("DIRECTUS_API_URL", "https://calapi.buerofalk.de")
+DIRECTUS_TOKEN = os.getenv("DIRECTUS_API_TOKEN", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 CATEGORIES_CONFIG_FILE = "event_categories_config.json"
+
+# Validate required environment variables
+if not DIRECTUS_TOKEN:
+    raise ValueError("DIRECTUS_API_TOKEN environment variable is required")
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is required")
 
 def load_categories_config(config_file=CATEGORIES_CONFIG_FILE):
     """Load categories configuration from JSON file"""

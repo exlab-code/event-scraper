@@ -1,2 +1,45 @@
+# Data and logs
 data/
 logs/
+.cache/
+
+# Environment variables and sensitive configuration
+.env
+.env.local
+.env.*.local
+config.json
+config/directus.json
+event-moderation-interface/config-secrets.js
+
+# Include example files
+!.env.example
+!config/directus.json.example
+!event-moderation-interface/config-secrets.js.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log

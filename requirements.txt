@@ -3,4 +3,5 @@ beautifulsoup4
 anthropic
 schedule
 python-dateutil
-
+python-dotenv
+openai
