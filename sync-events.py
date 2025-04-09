@@ -338,6 +338,30 @@ def sync_directus_to_nextcloud():
         cost = event.get('cost', '')
         category = event.get('category', '')
         
+        # Category mappings for human-readable names
+        category_mappings = {
+            "ki_nonprofit": "KI für Non-Profits",
+            "digitale_kommunikation": "Digitale Kommunikation & Social Media",
+            "foerderung_finanzierung": "Förderprogramme & Finanzierung",
+            "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
+            "daten_projektmanagement": "Daten & Projektmanagement",
+            "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
+            "digitale_transformation": "Digitale Transformation & Strategie",
+            "tools_anwendungen": "Tools & Anwendungen"
+        }
+        
+        # Convert category IDs to human-readable names
+        human_readable_categories = []
+        if category:
+            # Handle comma-separated categories
+            category_ids = category.split(',')
+            for cat_id in category_ids:
+                cat_id = cat_id.strip()
+                if cat_id in category_mappings:
+                    human_readable_categories.append(category_mappings[cat_id])
+                else:
+                    human_readable_categories.append(cat_id)
+        
         # Create iCalendar event
         cal = Calendar()
         cal.add('prodid', '-//Non-Profit Events Calendar//EN')
@@ -352,8 +376,8 @@ def sync_directus_to_nextcloud():
             full_description += f"Veranstalter: {organizer}\n"
         if cost:
             full_description += f"Preis: {cost}\n"
-        if category:
-            full_description += f"Kategorie: {category}\n"
+        if human_readable_categories:
+            full_description += f"Kategorien: {', '.join(human_readable_categories)}\n"
         if website:
             full_description += f"Website: {website}"
             

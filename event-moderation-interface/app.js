@@ -461,6 +461,7 @@ const ui = {
         // Format date and time
         let dateText = 'Date not available';
         let timeText = '';
+        let endDateText = '';
         
         if (event.start_date) {
             const date = new Date(event.start_date);
@@ -478,8 +479,15 @@ const ui = {
             }
         }
         
+        // Handle end date if available
+        if (event.end_date) {
+            const endDate = new Date(event.end_date);
+            endDateText = `End: ${endDate.toLocaleDateString(undefined, CONFIG.formatting.dateFormat)}`;
+        }
+        
         card.querySelector('.event-date').textContent = dateText;
         card.querySelector('.event-time').textContent = timeText;
+        card.querySelector('.event-end-date').textContent = endDateText;
         card.querySelector('.event-location').textContent = event.location || 'Location not specified';
         
         // Description
@@ -495,15 +503,57 @@ const ui = {
         // Categories
         const categoriesContainer = card.querySelector('.event-categories');
         
+        // Load category mappings from event_categories_config.json
+        const categoryMappings = {
+            "ki_nonprofit": "KI für Non-Profits",
+            "digitale_kommunikation": "Digitale Kommunikation & Social Media",
+            "foerderung_finanzierung": "Förderprogramme & Finanzierung",
+            "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
+            "daten_projektmanagement": "Daten & Projektmanagement",
+            "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
+            "digitale_transformation": "Digitale Transformation & Strategie",
+            "tools_anwendungen": "Tools & Anwendungen"
+        };
+        
         // Try to use existing categories first
-        if (event.categories && Array.isArray(event.categories) && event.categories.length > 0) {
+        if (event.category && typeof event.category === 'string') {
+            // If category is a single string, convert it to an array
+            const categoryIds = event.category.split(',').map(c => c.trim());
+            
+            categoryIds.forEach(categoryId => {
+                const categoryTag = document.createElement('span');
+                categoryTag.className = 'category-tag';
+                
+                // Use human-readable name if available, otherwise use the ID
+                categoryTag.textContent = categoryMappings[categoryId] || categoryId;
+                
+                // Set background color if available
+                if (CONFIG.categoryColors[categoryId]) {
+                    categoryTag.style.backgroundColor = CONFIG.categoryColors[categoryId];
+                    categoryTag.style.color = 'white';
+                }
+                
+                categoriesContainer.appendChild(categoryTag);
+            });
+        } else if (event.categories && Array.isArray(event.categories) && event.categories.length > 0) {
             event.categories.forEach(category => {
                 const categoryTag = document.createElement('span');
                 categoryTag.className = 'category-tag';
-                categoryTag.textContent = category.name || category;
+                
+                // Handle different category formats
+                let categoryId, categoryName;
+                
+                if (typeof category === 'object') {
+                    categoryId = category.id || '';
+                    categoryName = category.name || categoryMappings[categoryId] || categoryId;
+                } else {
+                    categoryId = category;
+                    categoryName = categoryMappings[categoryId] || categoryId;
+                }
+                
+                categoryTag.textContent = categoryName;
                 
                 // Set background color if available
-                const categoryId = category.id || category;
                 if (CONFIG.categoryColors[categoryId]) {
                     categoryTag.style.backgroundColor = CONFIG.categoryColors[categoryId];
                     categoryTag.style.color = 'white';
