@@ -13,12 +13,23 @@ import requests
 import argparse
 import re
 import os
+import logging
 from datetime import datetime
 from openai import OpenAI
 from collections import Counter
 
 import os
 from dotenv import load_dotenv
+
+# Set up logging - only log to file, not console
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("llm_extraction.log")
+    ]
+)
+logger = logging.getLogger("event_extraction")
 
 # Load environment variables from .env file
 load_dotenv()
@@ -27,31 +38,12 @@ load_dotenv()
 DIRECTUS_URL = os.getenv("DIRECTUS_API_URL", "https://calapi.buerofalk.de")
 DIRECTUS_TOKEN = os.getenv("DIRECTUS_API_TOKEN", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-CATEGORIES_CONFIG_FILE = "event_categories_config.json"
 
 # Validate required environment variables
 if not DIRECTUS_TOKEN:
     raise ValueError("DIRECTUS_API_TOKEN environment variable is required")
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY environment variable is required")
-
-def load_categories_config(config_file=CATEGORIES_CONFIG_FILE):
-    """Load categories configuration from JSON file"""
-    try:
-        with open(config_file, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"Error loading categories config: {str(e)}")
-        # Return a minimal default configuration
-        return {
-            "categories": [],
-            "tagging_rules": {
-                "min_keyword_matches": 2,
-                "max_categories_per_event": 3,
-                "relevance_threshold": 0.7,
-                "required_nonprofit_context": True
-            }
-        }
 
 class DirectusClient:
     """Enhanced client for Directus API interactions with feedback support"""
@@ -307,117 +299,26 @@ class DirectusClient:
             "accuracy": correct_count / total_feedback if total_feedback > 0 else 0
         }
 
-class CategoryManager:
-    """Manages event categorization based on configuration"""
-    
-    def __init__(self, config=None):
-        """Initialize with categories configuration"""
-        self.config = config or load_categories_config()
-        self.categories = self.config.get("categories", [])
-        self.rules = self.config.get("tagging_rules", {})
-        
-    def categorize_event(self, event_data):
-        """Assign categories to an event based on its content"""
-        # Combine all text fields for searching
-        search_text = " ".join([
-            str(event_data.get("title", "")),
-            str(event_data.get("description", "")),
-            str(event_data.get("event_type", "")),
-            " ".join(str(topic) for topic in event_data.get("topics", []) if topic),
-            str(event_data.get("target_audience", ""))
-        ]).lower()
-        
-        # Calculate matches for each category
-        category_matches = []
-        for category in self.categories:
-            matches = 0
-            for keyword in category.get("keywords", []):
-                if keyword.lower() in search_text:
-                    matches += 1
-            
-            # Lower the threshold for matching to ensure we get some categories
-            min_matches = self.rules.get("min_keyword_matches", 2)
-            if min_matches > 1:
-                min_matches = 1  # Reduce to 1 to be more lenient
-                
-            if matches >= min_matches:
-                category_matches.append({
-                    "id": category["id"],
-                    "name": category["name"],
-                    "matches": matches,
-                    "score": matches / len(category.get("keywords", [1]))  # Normalize by keyword count
-                })
-        
-        # Sort by score (highest first)
-        category_matches.sort(key=lambda x: x["score"], reverse=True)
-        
-        # Limit to max categories
-        max_categories = self.rules.get("max_categories_per_event", 3)
-        top_categories = category_matches[:max_categories]
-        
-        # Lower the threshold to ensure we get some categories
-        relevance_threshold = self.rules.get("relevance_threshold", 0.7)
-        if relevance_threshold > 0.3:
-            relevance_threshold = 0.3  # Reduce to 0.3 to be more lenient
-            
-        relevant_categories = [c for c in top_categories if c["score"] >= relevance_threshold]
-        
-        # If we still don't have any categories, take the top ones regardless of score
-        if not relevant_categories and top_categories:
-            relevant_categories = top_categories[:2]  # Take up to 2 top categories
-        
-        # Format the result
-        result = []
-        for category in relevant_categories:
-            result.append({
-                "id": category["id"],
-                "name": category["name"]
-            })
-        
-        return result
-    
-    def is_event_relevant(self, event_data, categories=None):
-        """Determine if an event is relevant based on categories and content"""
-        # All events are considered relevant
-        # Categories are only used for filtering in the database, not for determining relevance
-        return True
+# No replacement - removing the CategoryManager class entirely
 
 class GPT4MiniProcessor:
     """Processes event data with GPT-4o Mini with enhanced extraction and feedback loop"""
     
     def __init__(self, api_key, directus_client, feedback_section=""):
         self.client = OpenAI(api_key=api_key)
-        self.category_manager = CategoryManager()
         self.directus = directus_client
         self.feedback_section = feedback_section  # Store the pre-generated feedback section
         
     # Cache for regex patterns to avoid recompiling
-    _date_pattern = re.compile(r'(\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez)\s*(\d{4})', re.IGNORECASE)
-    _time_pattern = re.compile(r'(\d{1,2}):(\d{2})(?:\s*-\s*(\d{1,2}):(\d{2}))?')
     _reg_link_patterns = [
-        re.compile(r'(?:Anmeldung|Registrierung).*?href=["\']([^"\']+)["\']', re.IGNORECASE | re.DOTALL),
-        re.compile(r'(?:Zur Anmeldung|Zur Registrierung)[^\w]*?([http|https][^\s]+)', re.IGNORECASE | re.DOTALL),
-        re.compile(r'(?:Anmeldung|Registrierung)[^\w]*?([http|https][^\s]+)', re.IGNORECASE | re.DOTALL)
+        # Match href attributes in HTML links
+        re.compile(r'(?:Anmeldung|Registrierung).*?href=["\']((https?://)[^\s"\']+)["\']', re.IGNORECASE | re.DOTALL),
+        # Match URLs following registration phrases - ensure they start with http:// or https://
+        re.compile(r'(?:Zur Anmeldung|Zur Registrierung)[^\w]*?(https?://[^\s]+)', re.IGNORECASE | re.DOTALL),
+        # Match URLs following registration words - ensure they start with http:// or https://
+        re.compile(r'(?:Anmeldung|Registrierung)[^\w]*?(https?://[^\s]+)', re.IGNORECASE | re.DOTALL)
     ]
     
-    # Cache for month name mapping
-    _month_map = {
-        'januar': '01', 'jan': '01',
-        'februar': '02', 'feb': '02',
-        'märz': '03', 'mär': '03', 'marz': '03',
-        'april': '04', 'apr': '04',
-        'mai': '05',
-        'juni': '06', 'jun': '06',
-        'juli': '07', 'jul': '07',
-        'august': '08', 'aug': '08',
-        'september': '09', 'sep': '09',
-        'oktober': '10', 'okt': '10',
-        'november': '11', 'nov': '11',
-        'dezember': '12', 'dez': '12'
-    }
-    
-    # Cache for event types
-    _event_types = ["Online-Seminar", "Webinar", "Workshop", "Konferenz", "Tagung", "Forum", "Vortrag", "Schulung"]
     
     def preprocess_event(self, content):
         """Extract key information using regex before GPT processing"""
@@ -430,24 +331,6 @@ class GPT4MiniProcessor:
         # Only combine texts if needed for searching
         combined_text = listing_text + " " + detail_text
         
-        # Extract date using pre-compiled regex
-        date_matches = self._date_pattern.findall(combined_text)
-        if date_matches:
-            day, month_name, year = date_matches[0]
-            month_num = self._month_map.get(month_name.lower(), '01')
-            
-            # Format as YYYY-MM-DD
-            extracted_info["start_date"] = f"{year}-{month_num}-{day.zfill(2)}"
-        
-        # Extract time using pre-compiled regex
-        time_matches = self._time_pattern.findall(combined_text)
-        if time_matches:
-            start_hour, start_min, end_hour, end_min = time_matches[0]
-            extracted_info["start_time"] = f"{start_hour.zfill(2)}:{start_min}"
-            
-            if end_hour and end_min:
-                extracted_info["end_time"] = f"{end_hour.zfill(2)}:{end_min}"
-        
         # Extract registration link using pre-compiled regex
         for pattern in self._reg_link_patterns:
             link_match = pattern.search(combined_text)
@@ -455,14 +338,8 @@ class GPT4MiniProcessor:
                 extracted_info["registration_link"] = link_match.group(1).strip()
                 break
         
-        # Try to extract event type using lowercase comparison for efficiency
-        combined_text_lower = combined_text.lower()
-        for event_type in self._event_types:
-            if event_type.lower() in combined_text_lower:
-                extracted_info["event_type"] = event_type
-                break
-        
         return extracted_info
+    
     
     def process_event(self, event_data):
         """Process a single event with GPT-4o Mini and enhanced extraction"""
@@ -495,12 +372,51 @@ class GPT4MiniProcessor:
             )
             
             # Parse response
-            structured_data = json.loads(response.choices[0].message.content)
+            llm_response = response.choices[0].message.content
             
-            # Override with direct extraction results if available
+            # Log the LLM response for debugging
+            item_id_str = item_id if 'item_id' in locals() else 'unknown'
+            logger.info(f"\n--- LLM RESPONSE for item {item_id_str} ---\n{llm_response}\n--- END LLM RESPONSE ---")
+            
+            # Log specifically the date-related parts if present
+            try:
+                structured_data = json.loads(llm_response)
+                
+                # Log the extracted date information
+                date_log = f"""
+Date extraction for item {item_id_str}:
+Title: {structured_data.get('title', 'Unknown')}
+
+LLM EXTRACTION:
+  start_date: {structured_data.get('start_date', 'Not found')}
+  end_date: {structured_data.get('end_date', 'Not found')}
+  start_time: {structured_data.get('start_time', 'Not found')}
+  end_time: {structured_data.get('end_time', 'Not found')}
+"""
+                logger.info(date_log)
+                
+                # Don't print date extraction to console - only log to file
+            except json.JSONDecodeError:
+                logger.error("Could not parse LLM response as JSON")
+                print("Error: Could not parse LLM response as JSON")
+                structured_data = {}
+            
+            # Only override event_type, and registration_link only if it's a valid URL
             for key, value in extracted_info.items():
-                if value and (not structured_data.get(key) or key in ['start_date', 'start_time', 'end_time', 'registration_link']):
+                # For registration_link, only override if it's a valid URL and LLM didn't provide one
+                if key == 'registration_link':
+                    # Validate that it's a proper URL starting with http:// or https://
+                    if value and re.match(r'^https?://', value):
+                        # Only override if LLM didn't provide a registration link
+                        if not structured_data.get(key):
+                            structured_data[key] = value
+                            logger.info(f"Using regex-extracted registration link: {value}")
+                            # Don't print to console - only log to file
+                # For other fields like event_type, only override if LLM didn't extract them
+                elif value and not structured_data.get(key):
                     structured_data[key] = value
+                    logger.info(f"Using regex-extracted {key}: {value}")
+                    # Don't print to console - only log to file
             
             # Ensure description is limited to 450 characters
             if 'description' in structured_data and structured_data['description']:
@@ -539,6 +455,88 @@ class GPT4MiniProcessor:
                             time_part = f"{hour.zfill(2)}:{minute}:00"
                     
                     structured_data['end_date'] = f"{year}-{month.zfill(2)}-{day.zfill(2)}T{time_part}"
+                    
+            # Check if this is a multi-day, high-cost training event that should be excluded
+            is_multi_day = False
+            is_high_cost = False
+            is_training = False
+            
+            # Check if it's a multi-day event
+            if ('start_date' in structured_data and structured_data['start_date'] and
+                'end_date' in structured_data and structured_data['end_date']):
+                start_date = datetime.fromisoformat(structured_data['start_date'].replace('Z', '+00:00'))
+                end_date = datetime.fromisoformat(structured_data['end_date'].replace('Z', '+00:00'))
+                
+                # If the event spans multiple days (more than 24 hours)
+                if (end_date - start_date).days >= 1:
+                    is_multi_day = True
+                    logger.info(f"Multi-day event detected: {structured_data.get('title', 'Unknown')}")
+            
+            # Check if it's a high-cost event
+            if 'cost' in structured_data and structured_data['cost']:
+                cost_text = structured_data['cost'].lower()
+                
+                # Look for price indicators
+                price_match = re.search(r'(\d+[\.,]?\d*)\s*(?:€|euro|eur)', cost_text)
+                if price_match:
+                    try:
+                        # Extract the price and convert to float
+                        price_str = price_match.group(1).replace(',', '.')
+                        price = float(price_str)
+                        
+                        # Consider events costing more than 500€ as high-cost
+                        if price > 500:
+                            is_high_cost = True
+                            logger.info(f"High-cost event detected: {structured_data.get('title', 'Unknown')} - {price}€")
+                    except ValueError:
+                        # If conversion fails, check for keywords indicating high cost
+                        pass
+                
+                # Check for keywords indicating high cost if no price was found
+                if not is_high_cost and any(term in cost_text for term in 
+                                           ['kostenpflichtig', 'kostenpflichtiges', 'gebührenpflichtig']):
+                    is_high_cost = True
+                    logger.info(f"Potentially high-cost event detected: {structured_data.get('title', 'Unknown')}")
+            
+            # Check if it's a training event
+            training_keywords = [
+                'training', 'schulung', 'seminar', 'workshop', 'kurs', 'weiterbildung', 
+                'fortbildung', 'qualifizierung', 'zertifizierung', 'ausbildung'
+            ]
+            
+            # Check title and description for training keywords
+            event_text = (structured_data.get('title', '') + ' ' + 
+                         structured_data.get('description', '')).lower()
+            
+            if any(keyword in event_text for keyword in training_keywords):
+                is_training = True
+                logger.info(f"Training event detected: {structured_data.get('title', 'Unknown')}")
+            
+            # Mark as excluded if it meets all criteria
+            if is_multi_day and is_high_cost and is_training:
+                structured_data['excluded'] = True
+                # Make sure it's not marked as pending
+                structured_data['status'] = 'excluded'
+                logger.info(f"Event marked as EXCLUDED: {structured_data.get('title', 'Unknown')}")
+                    
+            # If we have a start_date but no end_date, and we have an end_time,
+            # use the start_date as the end_date as well (for same-day events)
+            if ('start_date' in structured_data and structured_data['start_date'] and
+                ('end_date' not in structured_data or not structured_data['end_date']) and
+                'end_time' in structured_data and structured_data['end_time']):
+                
+                # Extract the date part from start_date
+                date_match = re.search(r'(\d{4}-\d{2}-\d{2})', structured_data['start_date'])
+                if date_match:
+                    date_part = date_match.group(1)
+                    
+                    # Use end_time to create end_date
+                    time_match = re.search(r'(\d{1,2}):(\d{2})', structured_data['end_time'])
+                    if time_match:
+                        hour, minute = time_match.groups()
+                        time_part = f"{hour.zfill(2)}:{minute}:00"
+                        
+                        structured_data['end_date'] = f"{date_part}T{time_part}"
             
             # If event_type is present, add it to topics
             if 'event_type' in structured_data and structured_data['event_type']:
@@ -570,15 +568,7 @@ class GPT4MiniProcessor:
                         # If not valid JSON, split by commas
                         topics = [t.strip() for t in topics.split(',')]
                 
-                # Get category name if available to filter it out from tags
-                category_name = None
-                if 'categories' in structured_data and structured_data['categories'] and len(structured_data['categories']) > 0:
-                    if isinstance(structured_data['categories'][0], dict) and 'name' in structured_data['categories'][0]:
-                        category_name = structured_data['categories'][0]['name']
-                
-                # Filter out any tags that match the category name
-                if category_name:
-                    topics = [topic for topic in topics if topic != category_name]
+                # No need to filter out category names anymore
                 
                 # Store topics as tags
                 structured_data["tags"] = topics
@@ -587,54 +577,11 @@ class GPT4MiniProcessor:
             if 'target_audience' in structured_data:
                 del structured_data['target_audience']
             
-            # Handle categories - ensure we always have at least one category
-            # First, check if the LLM provided categories in the expected format
-            llm_categories = structured_data.get('categories', [])
-            valid_categories = []
-            
-            # Validate LLM-provided categories
-            if llm_categories and isinstance(llm_categories, list):
-                for cat in llm_categories:
-                    # Check if category has the expected format with id and name
-                    if isinstance(cat, dict) and 'id' in cat and 'name' in cat:
-                        # Verify that the id exists in our category list
-                        if any(config_cat['id'] == cat['id'] for config_cat in self.category_manager.categories):
-                            valid_categories.append(cat)
-            
-            # If no valid categories from LLM, use CategoryManager to assign categories
-            if not valid_categories:
-                valid_categories = self.category_manager.categorize_event(structured_data)
-            
-            # If still no categories, pick the most relevant one based on content
-            if not valid_categories:
-                # Find the most relevant category based on content
-                search_text = " ".join([
-                    str(structured_data.get("title", "")),
-                    str(structured_data.get("description", ""))
-                ]).lower()
-                
-                # Default to "digitale_transformation" if we can't find a match
-                best_category = {"id": "digitale_transformation", "name": "Digitale Transformation & Strategie"}
-                
-                # Try to find a better match
-                max_matches = 0
-                for category in self.category_manager.categories:
-                    matches = 0
-                    for keyword in category.get("keywords", []):
-                        if keyword.lower() in search_text:
-                            matches += 1
-                    
-                    if matches > max_matches:
-                        max_matches = matches
-                        best_category = {"id": category["id"], "name": category["name"]}
-                
-                valid_categories = [best_category]
-            
-            # Ensure we only have one category (pick the first one)
-            structured_data["category"] = valid_categories[0]["id"] if valid_categories else "digitale_transformation"
-            
-            # Keep the full categories list for reference
-            structured_data["categories"] = valid_categories
+            # Remove legacy category fields if present
+            if 'category' in structured_data:
+                del structured_data['category']
+            if 'categories' in structured_data:
+                del structured_data['categories']
             
             # Add metadata
             structured_data["source"] = content.get("source_name", event_data.get("source_name", "Unknown"))
@@ -670,10 +617,7 @@ class GPT4MiniProcessor:
     
     URL: {url}
     
-    VERFÜGBARE KATEGORIEN:
-    {categories_info}
     
-    {feedback_section}
     
     Extrahiere die folgenden Informationen im JSON Format:
     - title: Der Titel der Veranstaltung
@@ -684,33 +628,60 @@ class GPT4MiniProcessor:
     - end_time: Endzeit falls angegeben
     - location: Physischer Ort oder "Online"
     - organizer: Die Organisation, die die Veranstaltung durchführt
-    - topics: Hauptthemen und Art der Veranstaltung (Array von Strings). Füge die Art der Veranstaltung (Workshop, Webinar, etc.) als eines der Topics hinzu.
-    - tags: Schlagwörter für die Veranstaltung (Array von Strings). Verwende die Topics als Basis und füge weitere relevante Schlagwörter hinzu.
-    - categories: Wähle passende Kategorien aus der Liste der verfügbaren Kategorien (Array von Objekten mit id und name). Wähle maximal 3 Kategorien.
+    - tags: Schlagwörter für die Veranstaltung (Array von Strings). Extrahiere relevante Tags in diesen Kategorien:
+      * Themen-Tags: ALLGEMEINE Hauptthemen der Veranstaltung (z.B. KI, Datenschutz, Social Media)
+      * Format-Tags: Art der Veranstaltung (z.B. Workshop, Webinar, Konferenz)
+      * Zielgruppen-Tags: Für wen ist die Veranstaltung gedacht (z.B. Vereine, Stiftungen)
+      * Kosten-Tags: Füge "Kostenlos" hinzu, wenn die Veranstaltung kostenlos ist
+    - tag_groups: Organisiere die Tags nach Kategorien (Objekt mit Arrays):
+      * topic: Themen-Tags
+      * format: Format-Tags
+      * audience: Zielgruppen-Tags
+      * cost: Kosten-Tags
     - cost: Preisinformationen oder "Kostenlos"
     - registration_link: URL für die Anmeldung falls verfügbar
     - is_relevant: Boolean (true/false) ob die Veranstaltung relevant ist
+    - status: Leer oder "excluded" (je nach Status der Veranstaltung)
+    
+    Wichtig für Tags:
+    - Verwende ALLGEMEINE, WIEDERVERWENDBARE Tags statt zu spezifischer Begriffe
+    - Beschränke dich auf MAXIMAL 5 Tags pro Veranstaltung
+    - Verwende KONSISTENTE TERMINOLOGIE für Konzepte:
+      * Verwende "KI" statt "Künstliche Intelligenz" oder "Artificial Intelligence"
+      * Verwende "DSGVO" statt "Datenschutz-Grundverordnung"
+      * Verwende "NGO" statt "Nichtregierungsorganisation"
+      * Verwende "Online" für alle virtuellen Veranstaltungen zusätzlich zum spezifischen Format (z.B. "Webinar", "Workshop")
+    - Verwende korrekte Groß-/Kleinschreibung (z.B. "KI" statt "ki")
+    - Formatiere Akronyme korrekt (z.B. "NGO", "DSGVO")
+    - Verwende Title Case für mehrere Wörter (z.B. "Machine Learning")
+    - Füge "Kostenlos" als Tag hinzu, wenn die Veranstaltung kostenlos ist
     
     Wichtig für Datumsformate:
     - Nutze YYYY-MM-DD für Datumsangaben (z.B. 2025-04-08)
     - Nutze HH:MM für Zeitangaben (z.B. 08:00)
-    - Achte besonders auf deutsche Datumsformate (z.B. "08. April 2025")
+    - Achte besonders auf deutsche Datumsformate (z.B. "08. April 2025", "08.04.2025", "8.-10. April 2025")
+    - Die Uhrzeiten sind besonders relevant, bitte suche nach ihnen INTENSIV.
+    - Bei Veranstaltungen über mehrere Tage, gib sowohl start_date als auch end_date an
     
     Relevanzkriterien (WICHTIG - STRENG ANWENDEN):
     - Die Veranstaltung MUSS EINDEUTIG für Non-Profit-Organisationen oder den gemeinnützigen Sektor relevant sein
       UND gleichzeitig einen klaren Bezug zu digitaler Transformation haben
     - Beide Aspekte müssen klar erkennbar sein: Non-Profit-Bezug UND Digitalisierungsbezug
-    - Veranstaltungen zu Themen wie KI, Social Media, digitale Kommunikation, digitale Strategie, Datenmanagement
-      sind NUR relevant, wenn sie EXPLIZIT für Non-Profits oder gemeinnützige Organisationen ausgerichtet sind
     - Allgemeine Business-, Technologie- oder Innovationsveranstaltungen ohne expliziten Non-Profit-Bezug
       sind NICHT relevant, selbst wenn sie digitale Themen behandeln
     - Im Zweifelsfall (wenn der Non-Profit-Bezug nicht eindeutig ist): als NICHT relevant markieren
     
+    {feedback_section}
+
+    Ausschlusskriterien für "excluded" Status:
+    - Markiere Veranstaltungen als "excluded" (Feld "status" auf "excluded" setzen), wenn ALLE diese Kriterien erfüllt sind:
+      1. Mehrtägige Veranstaltung (Zeitraum über mehrere Tage)
+      2. Hohe Kosten (mehr als 500€)
+      3. Schulungs- oder Trainingscharakter (z.B. Workshop, Seminar, Kurs, Zertifizierung, Ausbildung)
+    - Diese Veranstaltungen werden automatisch aus dem Moderationsprozess ausgeschlossen
+
     Liefere nur gültiges JSON zurück. Nutze null für unbekannte Felder.
     """
-    
-    # Cache for category information
-    _categories_info_cache = None
     
     def _build_prompt(self, content, extracted_info=None):
         """Build prompt for GPT-4o Mini with extracted information and feedback"""
@@ -733,15 +704,6 @@ class GPT4MiniProcessor:
                 extracted_info_str += f"- {key}: {value}\n"
             extracted_info_str += "\n"
         
-        # Build category information only once and cache it
-        if self._categories_info_cache is None:
-            categories_info = ""
-            for category in self.category_manager.categories:
-                categories_info += f"- id: {category['id']}, name: {category['name']}, description: {category['description']}\n"
-            self._categories_info_cache = categories_info
-        else:
-            categories_info = self._categories_info_cache
-        
         # Use the pre-generated feedback section
         feedback_section = self.feedback_section
         
@@ -751,7 +713,7 @@ class GPT4MiniProcessor:
             listing_text=listing_text,
             detail_text=detail_text,
             url=url,
-            categories_info=categories_info,
+            categories_info="",  # No longer using categories
             feedback_section=feedback_section
         )
         
@@ -762,94 +724,24 @@ def process_events(limit=10, batch_size=3):
     # Initialize clients
     directus = DirectusClient(DIRECTUS_URL, DIRECTUS_TOKEN)
     
-    # OPTIMIZATION 1: Fetch all feedback data ONCE at the beginning
-    print("\n--- FEEDBACK SYSTEM INITIALIZATION ---")
+    print("\n--- LOADING FEEDBACK ANALYSIS ---")
     
-    # Create a cache for API results
-    api_cache = {}
+    # Load the feedback section from the feedback_analyzer.py output
+    try:
+        with open("feedback_prompt_section.txt", "r", encoding="utf-8") as f:
+            feedback_section = f.read()
+        print("Successfully loaded feedback analysis from feedback_prompt_section.txt")
+    except FileNotFoundError:
+        feedback_section = ""
+        print("Warning: feedback_prompt_section.txt not found. Run feedback_analyzer.py first.")
     
-    # Cache feedback examples
-    if 'feedback_examples' not in api_cache:
-        api_cache['feedback_examples'] = directus.get_feedback_examples(limit=5)
-    feedback_examples = api_cache['feedback_examples']
-    
-    # Cache feedback patterns
-    if 'feedback_patterns' not in api_cache:
-        api_cache['feedback_patterns'] = directus.get_feedback_patterns()
-    feedback_patterns = api_cache['feedback_patterns']
-    
-    # Cache feedback stats
-    if 'feedback_stats' not in api_cache:
-        api_cache['feedback_stats'] = directus.get_feedback_stats()
-    feedback_stats = api_cache['feedback_stats']
-    
-    # Log the feedback information
-    print(f"Feedback examples: {len(feedback_examples)} retrieved")
-    if feedback_examples:
-        print("Example titles:")
-        for example in feedback_examples:
-            relevance = "Relevant" if example['is_relevant'] else "Not Relevant"
-            print(f"- \"{example['title']}\" ({relevance})")
-    
-    print(f"\nFeedback patterns: {len(feedback_patterns)} extracted")
-    if feedback_patterns:
-        print("Patterns:")
-        for pattern in feedback_patterns:
-            print(f"- {pattern}")
-    
-    if feedback_stats["total"] >= 10:
-        accuracy = feedback_stats["accuracy"] * 100
-        print(f"\nFeedback statistics: {feedback_stats['total']} events, {accuracy:.1f}% accuracy")
-    else:
-        print(f"\nFeedback statistics: Insufficient data ({feedback_stats['total']} events)")
-    
-    print("--- END FEEDBACK INITIALIZATION ---\n")
-    
-    # OPTIMIZATION 2: Generate the feedback prompt section once
-    feedback_section = ""
-    
-    # Add examples to the prompt if available
-    if feedback_examples:
-        feedback_section = "BEISPIELE AUS FEEDBACK:\n"
-        for example in feedback_examples:
-            relevance = "Relevant" if example['is_relevant'] else "Nicht relevant"
-            feedback_section += f"- \"{example['title']}\": {relevance}\n"
-            if example.get('reason'):
-                feedback_section += f"  Grund: {example['reason']}\n"
-        feedback_section += "\n"
-    
-    # Add patterns to the prompt if available
-    if feedback_patterns:
-        if not feedback_section:
-            feedback_section = "HINWEISE AUS FEEDBACK:\n"
-        else:
-            feedback_section += "HINWEISE AUS FEEDBACK:\n"
-            
-        for pattern in feedback_patterns:
-            feedback_section += f"- {pattern}\n"
-        feedback_section += "\n"
-    
-    # Add stats to the prompt if available and significant
-    if feedback_stats["total"] >= 10:
-        accuracy = feedback_stats["accuracy"] * 100
-        if not feedback_section:
-            feedback_section = f"FEEDBACK STATISTIK: Basierend auf {feedback_stats['total']} Bewertungen liegt die Genauigkeit bei {accuracy:.1f}%.\n\n"
-        else:
-            feedback_section += f"FEEDBACK STATISTIK: Basierend auf {feedback_stats['total']} Bewertungen liegt die Genauigkeit bei {accuracy:.1f}%.\n\n"
-    
-    # Save the feedback section to a log file for reference
-    with open("feedback_prompt_additions.log", "w", encoding="utf-8") as f:
-        f.write(f"Timestamp: {datetime.now().isoformat()}\n\n")
-        f.write("FEEDBACK PROMPT ADDITIONS:\n")
-        f.write(feedback_section if feedback_section else "No feedback data available")
+    print("--- FEEDBACK ANALYSIS LOADED ---\n")
     
     # Initialize processor with pre-generated feedback section
     gpt = GPT4MiniProcessor(OPENAI_API_KEY, directus, feedback_section)
     
-    # OPTIMIZATION 3: Cache unprocessed items
-    if 'unprocessed_items' not in api_cache:
-        api_cache['unprocessed_items'] = directus.get_unprocessed_items(limit)
-    items = api_cache['unprocessed_items']
+    # Get unprocessed items
+    items = directus.get_unprocessed_items(limit)
     
     if not items:
         print("No unprocessed items found")
@@ -881,17 +773,6 @@ def process_events(limit=10, batch_size=3):
                 errors += 1
                 continue
             
-            # Print extracted date and time for verification
-            print(f"Extracted: {structured_data.get('title')} | Date: {structured_data.get('start_date')} | Time: {structured_data.get('start_time')} | Relevant: {structured_data.get('is_relevant', False)}")
-            
-            # Print categories
-            if structured_data.get('categories'):
-                categories_str = ", ".join([cat.get('name', '') for cat in structured_data.get('categories', [])])
-                print(f"Categories: {categories_str}")
-            
-            # Save all events to Directus, but mark them as pending approval
-            structured_data["approved"] = None  # Pending approval
-            
             # Add to batch results
             batch_results.append({
                 'item_id': item_id,
@@ -903,19 +784,35 @@ def process_events(limit=10, batch_size=3):
             item_id = result['item_id']
             structured_data = result['structured_data']
             
+            # If this is an excluded event, update the status
+            if structured_data.get('excluded', False):
+                structured_data['status'] = 'excluded'
+            
+            # Save all events to Directus, but mark them as pending approval
+            structured_data["approved"] = None  # Pending approval
+            
             # Save to events collection
             success, status = directus.save_event(structured_data)
             
+            # Format event information for console output
+            title = structured_data.get('title', 'Unknown')
+            date = structured_data.get('start_date', 'No date')
+            if date and len(date) > 10:  # Truncate ISO date to just YYYY-MM-DD
+                date = date[:10]
+            
+            relevance = "✓ Relevant" if structured_data.get('is_relevant', False) else "✗ Not Relevant"
+            event_status = "EXCLUDED" if structured_data.get('status') == 'excluded' else "Pending"
+            
+            # Print a single, well-formatted line for each event
             if success:
                 processed += 1
-                relevance_status = "Relevant" if structured_data.get('is_relevant', False) else "Not Relevant"
-                print(f"Processed: {structured_data.get('title', 'Unknown')} ({relevance_status}, Pending Approval)")
+                print(f"✓ {title} | {date} | {relevance} | Status: {event_status}")
             elif status == "duplicate":
                 duplicates += 1
-                print(f"Duplicate: {structured_data.get('title', 'Unknown')}")
+                print(f"↺ Duplicate: {title}")
             else:
                 errors += 1
-                print(f"Error saving: {status}")
+                print(f"✗ Error: {title} - {status}")
             
             # Update item status
             processed_content = json.dumps(structured_data, ensure_ascii=False)
@@ -932,28 +829,31 @@ def process_events(limit=10, batch_size=3):
     print(f"Total tokens: {total_tokens}")
     print(f"Estimated cost: ${cost:.4f}")
     
-    # Print feedback stats if available
-    if feedback_stats["total"] > 0:
-        print("\nFeedback Statistics:")
-        print(f"Total feedback: {feedback_stats['total']}")
-        print(f"LLM accuracy: {feedback_stats['accuracy'] * 100:.1f}%")
-    
-    print(f"\nFeedback: Used {len(feedback_examples)} examples and {len(feedback_patterns)} patterns")
-    print(f"Feedback log saved to: feedback_prompt_additions.log")
+    # Print feedback information
+    print("\nFeedback: Using analysis from feedback_analyzer.py")
 
 def main():
     parser = argparse.ArgumentParser(description="Process events with enhanced extraction and feedback loop")
     parser.add_argument("--limit", "-l", type=int, default=10, help="Maximum number of items to process")
     parser.add_argument("--batch", "-b", type=int, default=3, help="Batch size for processing")
-    parser.add_argument("--config", "-c", default=CATEGORIES_CONFIG_FILE, help="Path to categories configuration file")
     parser.add_argument("--flag-mismatches", "-f", action="store_true", help="Flag events where LLM determination doesn't match human feedback")
     parser.add_argument("--only-flag", "-o", action="store_true", help="Only flag mismatches without processing new events")
+    parser.add_argument("--log-file", default="llm_extraction.log", help="Path to log file for LLM extraction results")
     
     args = parser.parse_args()
     
-    # Check if config file exists
-    if not os.path.exists(args.config):
-        print(f"Warning: Categories configuration file '{args.config}' not found. Using default configuration.")
+    # Configure log file if specified
+    if args.log_file != "llm_extraction.log":
+        for handler in logger.handlers:
+            if isinstance(handler, logging.FileHandler):
+                handler.close()
+                logger.removeHandler(handler)
+        
+        file_handler = logging.FileHandler(args.log_file)
+        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+        logger.addHandler(file_handler)
+        
+    logger.info(f"Starting event processing with limit={args.limit}, batch_size={args.batch}")
     
     # Initialize Directus client
     directus = DirectusClient(DIRECTUS_URL, DIRECTUS_TOKEN)

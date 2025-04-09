@@ -16,6 +16,7 @@ const state = {
         pending: 0,
         approved: 0,
         rejected: 0,
+        excluded: 0,
         accuracy: '0%'
     }
 };
@@ -73,10 +74,18 @@ const api = {
             if (state.filters.status !== 'all') {
                 if (state.filters.status === 'pending') {
                     filters.push({ approved: { _null: true } });
+                    filters.push({ 
+                        _or: [
+                            { status: { _null: true } },
+                            { status: { _neq: 'excluded' } }
+                        ]
+                    });
                 } else if (state.filters.status === 'approved') {
                     filters.push({ approved: { _eq: true } });
                 } else if (state.filters.status === 'rejected') {
                     filters.push({ approved: { _eq: false } });
+                } else if (state.filters.status === 'excluded') {
+                    filters.push({ status: { _eq: 'excluded' } });
                 }
             }
             
@@ -279,6 +288,36 @@ const api = {
         return this.updateEvent(eventId, { approved: false });
     },
     
+    async updateCategory(eventId, categoryId) {
+        this.log(`Updating category for event ${eventId} to ${categoryId}`);
+        
+        // Create a categories array with the selected category
+        const categories = [{
+            id: categoryId,
+            name: CONFIG.categoryMappings[categoryId] || categoryId
+        }];
+        
+        // Debug log to see what we're sending
+        console.log("Updating with data:", { 
+            category: categoryId,
+            categories: categories
+        });
+        
+        try {
+            // Update both the category field (string) and categories field (array)
+            const result = await this.updateEvent(eventId, { 
+                category: categoryId,
+                categories: categories
+            });
+            
+            console.log("Update result:", result);
+            return result;
+        } catch (error) {
+            console.error("Error in updateCategory:", error);
+            throw error;
+        }
+    },
+    
     async provideFeedback(eventId, notes = null) {
         const data = {};
         if (notes) {
@@ -334,11 +373,33 @@ const api = {
                         accuracy = `${Math.round((approved / total) * 100)}%`;
                     }
                     
+                    // Fetch excluded events count
+                    let excluded = 0;
+                    try {
+                        // Use a more compatible query format for excluded events
+                        const excludedResponse = await fetch(`${url}?filter[status][_eq]=excluded&aggregate[count]=*`, {
+                            method: 'GET',
+                            headers: this.headers,
+                            mode: 'cors'
+                        });
+                        
+                        if (excludedResponse.ok) {
+                            const excludedData = await excludedResponse.json();
+                            if (excludedData && excludedData.data && excludedData.data.length > 0) {
+                                excluded = excludedData.data[0].count;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error fetching excluded count:', error);
+                        // Continue without failing - excluded count will remain 0
+                    }
+                    
                     // Update state
                     state.stats = {
                         pending,
                         approved,
                         rejected,
+                        excluded,
                         accuracy
                     };
                     
@@ -356,6 +417,7 @@ const api = {
                     pending: 10,
                     approved: 5,
                     rejected: 3,
+                    excluded: 0,
                     accuracy: '85%'
                 };
                 ui.updateStats();
@@ -439,7 +501,11 @@ const ui = {
         const statusBadge = document.createElement('div');
         statusBadge.className = 'status-badge';
         
-        if (event.approved === true) {
+        if (event.status === 'excluded') {
+            statusBadge.textContent = 'EXCLUDED';
+            statusBadge.classList.add('excluded-badge');
+            card.classList.add('excluded');
+        } else if (event.approved === true) {
             statusBadge.textContent = 'APPROVED';
             statusBadge.classList.add('approved-badge');
             card.classList.add('approved');
@@ -655,10 +721,21 @@ const ui = {
                 // Update card class
                 card.classList.add('approved');
                 card.classList.remove('rejected');
+                // Remove excluded class if present
+                if (card.classList.contains('excluded')) {
+                    // Remove excluded class if present
+                if (card.classList.contains('excluded')) {
+                    card.classList.remove('excluded');
+                    // Also update processing_status
+                    eventObj.processing_status = null;
+                }
+                    // Also update processing_status
+                    eventObj.processing_status = null;
+                }
                 
                 // Check if the card should be removed based on current filter
-                if (state.filters.status === 'pending' || state.filters.status === 'rejected') {
-                    // If we're viewing pending or rejected events, remove this card since it's now approved
+                if (state.filters.status === 'pending' || state.filters.status === 'rejected' || state.filters.status === 'excluded') {
+                    // If we're viewing pending, rejected, or excluded events, remove this card since it's now approved
                     card.remove();
                 }
             } catch (error) {
@@ -687,14 +764,80 @@ const ui = {
                 // Update card class
                 card.classList.add('rejected');
                 card.classList.remove('approved');
+                card.classList.remove('excluded');
                 
                 // Check if the card should be removed based on current filter
-                if (state.filters.status === 'pending' || state.filters.status === 'approved') {
-                    // If we're viewing pending or approved events, remove this card since it's now rejected
+                if (state.filters.status === 'pending' || state.filters.status === 'approved' || state.filters.status === 'excluded') {
+                    // If we're viewing pending, approved, or excluded events, remove this card since it's now rejected
                     card.remove();
                 }
             } catch (error) {
                 alert('Error rejecting event. Please try again.');
+            }
+        });
+        
+        // Category dropdown and save button
+        const categoryDropdown = card.querySelector('.category-dropdown');
+        const saveCategoryButton = card.querySelector('.save-category-button');
+        
+        // Set the initial selected category if available
+        if (eventObj.category) {
+            categoryDropdown.value = eventObj.category;
+        }
+        
+        // Save category button
+        saveCategoryButton.addEventListener('click', async () => {
+            const categoryId = categoryDropdown.value;
+            if (!categoryId) {
+                alert('Please select a category before saving.');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                saveCategoryButton.textContent = 'Saving...';
+                saveCategoryButton.disabled = true;
+                
+                // Make the API call to update the category
+                const result = await api.updateCategory(eventId, categoryId);
+                console.log("Category update result:", result);
+                
+                // Update the local event object
+                eventObj.category = categoryId;
+                
+                // Create a new category object for the categories array
+                const categoryObj = {
+                    id: categoryId,
+                    name: CONFIG.categoryMappings[categoryId] || categoryId
+                };
+                
+                // Update the categories array
+                eventObj.categories = [categoryObj];
+                
+                // Update the categories display
+                const categoriesContainer = card.querySelector('.event-categories');
+                categoriesContainer.innerHTML = '';
+                
+                const categoryTag = document.createElement('span');
+                categoryTag.className = 'category-tag';
+                categoryTag.textContent = categoryObj.name;
+                
+                // Set background color if available
+                if (CONFIG.categoryColors[categoryId]) {
+                    categoryTag.style.backgroundColor = CONFIG.categoryColors[categoryId];
+                    categoryTag.style.color = 'white';
+                }
+                
+                categoriesContainer.appendChild(categoryTag);
+                
+                alert('Category updated successfully.');
+            } catch (error) {
+                alert('Error updating category. Please try again. Error: ' + error.message);
+                console.error('Error updating category:', error);
+            } finally {
+                // Reset button state
+                saveCategoryButton.textContent = 'Save Category';
+                saveCategoryButton.disabled = false;
             }
         });
         
@@ -736,18 +879,18 @@ const ui = {
         });
     },
     
-    // Pagination removed - now showing all events in a single list
-    
     updateStats() {
         // Update the stats summary if the elements exist
         const pendingCount = document.getElementById('pending-count');
         const approvedCount = document.getElementById('approved-count');
         const rejectedCount = document.getElementById('rejected-count');
+        const excludedCount = document.getElementById('excluded-count');
         const accuracyDisplay = document.getElementById('accuracy');
         
         if (pendingCount) pendingCount.textContent = state.stats?.pending || '0';
         if (approvedCount) approvedCount.textContent = state.stats?.approved || '0';
         if (rejectedCount) rejectedCount.textContent = state.stats?.rejected || '0';
+        if (excludedCount) excludedCount.textContent = state.stats?.excluded || '0';
         if (accuracyDisplay) accuracyDisplay.textContent = state.stats?.accuracy || '0%';
     },
     
