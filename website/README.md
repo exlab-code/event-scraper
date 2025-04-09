@@ -125,13 +125,34 @@ This will create optimized files in the `public/build` directory.
 
 ### Step 3: Configure Build Settings
 
-Configure the following build settings:
+There are two ways to configure the build settings:
+
+#### Option 1: Using the Cloudflare Pages UI
+
+Configure the following build settings in the Cloudflare Pages UI:
 
 - **Project name**: Choose a name for your project (e.g., "event-scraper-website")
 - **Production branch**: `main` (or your default branch)
 - **Build command**: `cd website && npm install && npm run build`
 - **Build output directory**: `website/public`
 - **Root directory**: (leave empty)
+
+#### Option 2: Using wrangler.toml (Recommended)
+
+A `wrangler.toml` file has been added to the website directory with the following configuration:
+
+```toml
+name = "event-scraper-website"
+compatibility_date = "2025-04-09"
+
+[site]
+bucket = "./public"
+```
+
+This configuration tells Cloudflare Pages to:
+- Use the name "event-scraper-website" for your project
+- Use the latest compatibility features
+- Serve files from the `./public` directory
 
 ### Step 4: Environment Variables
 
@@ -142,9 +163,33 @@ If your website needs to connect to the Directus API, add these environment vari
 
 ### Step 5: Deploy
 
+#### Option 1: Using the Cloudflare Pages UI
+
 1. Click "Save and Deploy"
 2. Wait for the build and deployment to complete
 3. Once deployed, Cloudflare will provide you with a URL (e.g., `https://event-scraper-website.pages.dev`)
+
+#### Option 2: Using Wrangler CLI (Recommended)
+
+You can also deploy directly using Wrangler, Cloudflare's command-line tool:
+
+1. Install Wrangler globally (if not already installed):
+   ```bash
+   npm install -g wrangler
+   ```
+
+2. Log in to your Cloudflare account:
+   ```bash
+   wrangler login
+   ```
+
+3. Navigate to the website directory and deploy:
+   ```bash
+   cd website
+   wrangler pages deploy public
+   ```
+
+This will upload your website to Cloudflare Pages and provide you with a deployment URL.
 
 ### Step 6: Custom Domain (Optional)
 
