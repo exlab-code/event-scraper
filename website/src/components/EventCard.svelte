@@ -1,5 +1,6 @@
 <script>
   import { getCategoryName } from '../categoryMappings';
+  import Tag from './Tag.svelte';
   
   export let event;
   
@@ -35,6 +36,18 @@
     const cutoff = text.substring(0, maxLength).lastIndexOf(' ');
     return text.substring(0, cutoff > 0 ? cutoff : maxLength) + '...';
   }
+  
+  // Find the group ID for a tag
+  function findTagGroup(tag) {
+    if (!event.tag_groups) return null;
+    
+    for (const [groupId, tags] of Object.entries(event.tag_groups)) {
+      if (tags.includes(tag)) {
+        return groupId;
+      }
+    }
+    return null;
+  }
 </script>
 
 <div class="bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 h-full overflow-hidden event-card">
@@ -54,13 +67,23 @@
       
       <!-- Event metadata -->
       <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
-        <!-- Time -->
+        <!-- Time with end time -->
         <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-          <span>{new Date(event.start_date).toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'})}</span>
+          <span>
+            {new Date(event.start_date).toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'})}
+            {#if event.end_date || event.end_time}
+              - 
+              {#if event.end_date}
+                {new Date(event.end_date).toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'})}
+              {:else if event.end_time}
+                {event.end_time}
+              {/if}
+            {/if}
+          </span>
         </div>
         
         <!-- Location or Online -->
@@ -84,10 +107,8 @@
         <!-- Cost (only if available) -->
         {#if event.cost !== undefined && event.cost !== null && event.cost !== ''}
           <div class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="1" x2="12" y2="23"></line>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
+            <!-- Simple Euro symbol using text instead of SVG -->
+            <span class="text-primary-500 font-bold text-lg" style="width: 16px; height: 16px; display: inline-flex; justify-content: center; align-items: center; line-height: 1;">&#xF637;</span>
             <span>
               {#if event.cost === 0 || event.cost === '0' || event.cost === 'kostenlos' || event.cost === 'Kostenlos' || event.cost === 'free' || event.cost === 'Free'}
                 Kostenlos
@@ -113,19 +134,19 @@
         <p class="text-sm text-gray-700 mb-3 line-clamp-2">{truncateText(event.description)}</p>
       {/if}
       
-      <!-- Tags & Categories -->
+      <!-- Tags -->
       <div class="flex flex-wrap gap-2">
-        {#if event.category}
-          <span class="px-2 py-1 bg-primary-100 text-primary-700 text-xs font-medium rounded-full">{getCategoryName(event.category)}</span>
+        {#if event.tags && event.tags.length > 0}
+          {#each event.tags.slice(0, 5) as tag}
+            <Tag {tag} groupId={findTagGroup(tag)} />
+          {/each}
+          {#if event.tags.length > 5}
+            <span class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">+{event.tags.length - 5} more</span>
+          {/if}
         {/if}
         
-        {#if event.tags && event.tags.length > 0}
-          {#each event.tags.slice(0, 3) as tag}
-            <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">{tag}</span>
-          {/each}
-          {#if event.tags.length > 3}
-            <span class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">+{event.tags.length - 3} more</span>
-          {/if}
+        {#if event.category && (!event.tags || !event.tags.length)}
+          <Tag tag={getCategoryName(event.category)} groupId="topic" />
         {/if}
       </div>
     </div>

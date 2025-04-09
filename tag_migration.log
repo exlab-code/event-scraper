@@ -1,0 +1,1076 @@
+2025-04-09 20:26:24,442 - tag_migration - INFO - Starting tag migration
+2025-04-09 20:26:24,711 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 20:26:24,789 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 20:26:24,856 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 20:26:24,856 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 20:26:25,302 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:25,304 - tag_migration - ERROR - Error processing event 311: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:25,463 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:25,464 - tag_migration - ERROR - Error processing event 312: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:25,620 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:25,621 - tag_migration - ERROR - Error processing event 313: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:25,784 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:25,784 - tag_migration - ERROR - Error processing event 314: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:25,964 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:25,965 - tag_migration - ERROR - Error processing event 315: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,131 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:26,131 - tag_migration - ERROR - Error processing event 316: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,348 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:26,349 - tag_migration - ERROR - Error processing event 317: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,507 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:26,508 - tag_migration - ERROR - Error processing event 318: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,668 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:26,669 - tag_migration - ERROR - Error processing event 319: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,836 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:26,837 - tag_migration - ERROR - Error processing event 320: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:26,837 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 20:26:27,006 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,006 - tag_migration - ERROR - Error processing event 321: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:27,170 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,171 - tag_migration - ERROR - Error processing event 322: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:27,377 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,378 - tag_migration - ERROR - Error processing event 323: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:27,527 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,529 - tag_migration - ERROR - Error processing event 324: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:27,692 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,693 - tag_migration - ERROR - Error processing event 325: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:27,938 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:27,938 - tag_migration - ERROR - Error processing event 326: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:28,131 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:28,132 - tag_migration - ERROR - Error processing event 327: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:28,327 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:28,327 - tag_migration - ERROR - Error processing event 328: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:28,518 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:28,519 - tag_migration - ERROR - Error processing event 329: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:28,683 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:28,684 - tag_migration - ERROR - Error processing event 330: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:28,684 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 20:26:28,886 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:28,886 - tag_migration - ERROR - Error processing event 331: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,065 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,066 - tag_migration - ERROR - Error processing event 332: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,218 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,219 - tag_migration - ERROR - Error processing event 333: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,397 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,397 - tag_migration - ERROR - Error processing event 334: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,588 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,589 - tag_migration - ERROR - Error processing event 335: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,747 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,747 - tag_migration - ERROR - Error processing event 336: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:29,953 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:29,954 - tag_migration - ERROR - Error processing event 337: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:30,118 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:30,119 - tag_migration - ERROR - Error processing event 338: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:30,538 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:30,539 - tag_migration - ERROR - Error processing event 339: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:30,820 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:30,821 - tag_migration - ERROR - Error processing event 340: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:30,821 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 20:26:30,983 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:30,983 - tag_migration - ERROR - Error processing event 341: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:31,154 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:31,154 - tag_migration - ERROR - Error processing event 342: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:33,494 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:33,494 - tag_migration - ERROR - Error processing event 343: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:33,659 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:33,659 - tag_migration - ERROR - Error processing event 344: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:33,828 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:33,829 - tag_migration - ERROR - Error processing event 345: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:33,991 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:33,992 - tag_migration - ERROR - Error processing event 346: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:34,142 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:34,142 - tag_migration - ERROR - Error processing event 347: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:34,369 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:34,370 - tag_migration - ERROR - Error processing event 348: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:34,542 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:34,543 - tag_migration - ERROR - Error processing event 349: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:34,721 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:34,721 - tag_migration - ERROR - Error processing event 350: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:34,721 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 20:26:34,875 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:34,875 - tag_migration - ERROR - Error processing event 351: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,075 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,076 - tag_migration - ERROR - Error processing event 352: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,241 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,242 - tag_migration - ERROR - Error processing event 353: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,405 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,405 - tag_migration - ERROR - Error processing event 354: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,586 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,586 - tag_migration - ERROR - Error processing event 355: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,745 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,746 - tag_migration - ERROR - Error processing event 356: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:35,957 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:35,958 - tag_migration - ERROR - Error processing event 357: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:36,226 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:36,226 - tag_migration - ERROR - Error processing event 358: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:36,427 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:36,428 - tag_migration - ERROR - Error processing event 359: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:36,575 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:36,575 - tag_migration - ERROR - Error processing event 360: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:36,576 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-09 20:26:36,745 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:36,745 - tag_migration - ERROR - Error processing event 361: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:36,931 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:36,931 - tag_migration - ERROR - Error processing event 362: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,102 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,102 - tag_migration - ERROR - Error processing event 363: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,273 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,274 - tag_migration - ERROR - Error processing event 364: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,445 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,446 - tag_migration - ERROR - Error processing event 365: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,609 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,610 - tag_migration - ERROR - Error processing event 366: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,798 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,799 - tag_migration - ERROR - Error processing event 367: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:37,974 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:37,975 - tag_migration - ERROR - Error processing event 368: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:38,166 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:38,166 - tag_migration - ERROR - Error processing event 369: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:38,357 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:38,358 - tag_migration - ERROR - Error processing event 370: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:38,358 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-09 20:26:38,534 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:38,535 - tag_migration - ERROR - Error processing event 371: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:38,713 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:38,713 - tag_migration - ERROR - Error processing event 372: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:38,890 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:38,890 - tag_migration - ERROR - Error processing event 373: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,046 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,046 - tag_migration - ERROR - Error processing event 374: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,214 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,214 - tag_migration - ERROR - Error processing event 375: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,403 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,404 - tag_migration - ERROR - Error processing event 376: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,596 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,596 - tag_migration - ERROR - Error processing event 377: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,764 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,764 - tag_migration - ERROR - Error processing event 378: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:39,915 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:39,916 - tag_migration - ERROR - Error processing event 379: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,072 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,072 - tag_migration - ERROR - Error processing event 380: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,072 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-09 20:26:40,235 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,236 - tag_migration - ERROR - Error processing event 381: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,420 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,421 - tag_migration - ERROR - Error processing event 382: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,582 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,583 - tag_migration - ERROR - Error processing event 383: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,734 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,735 - tag_migration - ERROR - Error processing event 384: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:40,900 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:40,900 - tag_migration - ERROR - Error processing event 385: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,053 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:41,053 - tag_migration - ERROR - Error processing event 386: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,355 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:41,355 - tag_migration - ERROR - Error processing event 387: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,519 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:41,519 - tag_migration - ERROR - Error processing event 388: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,669 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:41,669 - tag_migration - ERROR - Error processing event 389: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,864 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:41,865 - tag_migration - ERROR - Error processing event 390: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:41,865 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-09 20:26:42,040 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,041 - tag_migration - ERROR - Error processing event 391: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:42,218 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,219 - tag_migration - ERROR - Error processing event 392: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:42,381 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,382 - tag_migration - ERROR - Error processing event 393: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:42,549 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,549 - tag_migration - ERROR - Error processing event 394: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:42,702 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,702 - tag_migration - ERROR - Error processing event 395: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:42,875 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:42,875 - tag_migration - ERROR - Error processing event 396: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,027 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,028 - tag_migration - ERROR - Error processing event 397: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,177 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,177 - tag_migration - ERROR - Error processing event 398: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,341 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,342 - tag_migration - ERROR - Error processing event 399: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,567 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,567 - tag_migration - ERROR - Error processing event 400: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,567 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-09 20:26:43,732 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,732 - tag_migration - ERROR - Error processing event 401: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:43,911 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:43,911 - tag_migration - ERROR - Error processing event 402: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,100 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,101 - tag_migration - ERROR - Error processing event 403: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,255 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,256 - tag_migration - ERROR - Error processing event 404: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,401 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,402 - tag_migration - ERROR - Error processing event 405: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,614 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,615 - tag_migration - ERROR - Error processing event 406: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,762 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,763 - tag_migration - ERROR - Error processing event 407: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:44,919 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:44,919 - tag_migration - ERROR - Error processing event 408: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,073 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,074 - tag_migration - ERROR - Error processing event 409: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,223 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,224 - tag_migration - ERROR - Error processing event 410: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,224 - tag_migration - INFO - Processing batch 11 (7 events)
+2025-04-09 20:26:45,409 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,410 - tag_migration - ERROR - Error processing event 411: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,568 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,568 - tag_migration - ERROR - Error processing event 412: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,755 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,755 - tag_migration - ERROR - Error processing event 413: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:45,923 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:45,924 - tag_migration - ERROR - Error processing event 414: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:46,073 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:46,073 - tag_migration - ERROR - Error processing event 415: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:46,228 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:46,229 - tag_migration - ERROR - Error processing event 416: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:46,407 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-04-09 20:26:46,408 - tag_migration - ERROR - Error processing event 417: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-04-09 20:26:46,408 - tag_migration - INFO - 
+Migration Summary:
+2025-04-09 20:26:46,408 - tag_migration - INFO - Total events: 107
+2025-04-09 20:26:46,408 - tag_migration - INFO - Updated events: 0
+2025-04-09 20:26:46,408 - tag_migration - INFO - Skipped events: 107
+2025-04-09 20:26:46,408 - tag_migration - INFO - Failed events: 0
+2025-04-09 20:26:46,409 - tag_migration - INFO - Migration complete
+2025-04-09 20:27:20,336 - tag_migration - INFO - Starting tag migration
+2025-04-09 20:27:20,562 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 20:27:20,635 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 20:27:20,710 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 20:27:20,711 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 20:27:22,154 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:22,159 - tag_migration - INFO - [DRY RUN] Would update event 311 with: {"tags": ["Fotografie", "Webinar", "Digitale Kompetenzen", "Online-Seminar", "Vereine", "Kostenlos"], "tag_groups": {"topic": ["Fotografie", "Digitale Kompetenzen"], "format": ["Webinar", "Online-Seminar"], "audience": ["Vereine"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:23,291 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:23,292 - tag_migration - INFO - [DRY RUN] Would update event 312 with: {"tags": ["Leadership", "Non-Profit", "Seminar", "Kostenlos"], "tag_groups": {"topic": ["Leadership", "Non-Profit"], "format": ["Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:25,250 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:25,272 - tag_migration - INFO - [DRY RUN] Would update event 313 with: {"tags": ["Ehrenamt", "Vertragswesen", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Vertragswesen"], "format": ["Online-Seminar"], "audience": ["Ehrenamtlich Engagierte"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:27,932 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:27,934 - tag_migration - INFO - [DRY RUN] Would update event 314 with: {"tags": ["Pflegebed\u00fcrftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstf\u00fcrsorge", "Workshop", "Ehrenamt", "Gesundheit", "Kostenlos"], "tag_groups": {"topic": ["Pflegebed\u00fcrftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstf\u00fcrsorge"], "format": ["Workshop"], "audience": ["Ehrenamt"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:29,067 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:29,128 - tag_migration - INFO - [DRY RUN] Would update event 315 with: {"tags": ["Ehrenamt", "Demokratiebildung", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Demokratiebildung"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:30,553 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:30,554 - tag_migration - INFO - [DRY RUN] Would update event 316 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "K\u00fcnstliche Intelligenz", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation", "K\u00fcnstliche Intelligenz"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:33,099 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:33,100 - tag_migration - INFO - [DRY RUN] Would update event 317 with: {"tags": ["KI", "Digitale Transformation", "Fachvortrag", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Fachvortrag"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:37,287 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:37,288 - tag_migration - INFO - [DRY RUN] Would update event 318 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Dienstleistungsunternehmen", "Serviceorientierte KMU"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Webinar"], "audience": ["Dienstleistungsunternehmen", "Serviceorientierte KMU"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:41,368 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:41,369 - tag_migration - INFO - [DRY RUN] Would update event 319 with: {"tags": ["KI", "Vortrag", "Digitalisierung", "Kostenlos", "Smart Services"], "tag_groups": {"topic": ["KI", "Digitalisierung", "Smart Services"], "format": ["Vortrag"], "audience": ["Kleine und Mittelgro\u00dfe Betriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:42,444 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:42,445 - tag_migration - INFO - [DRY RUN] Would update event 320 with: {"tags": ["KI", "Digitale Dienstleistungen", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Dienstleistungen"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:42,445 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 20:27:43,876 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:43,877 - tag_migration - INFO - [DRY RUN] Would update event 321 with: {"tags": ["IT-Sicherheit", "Webinar", "Notfallmanagement", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Notfallmanagement"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:45,514 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:45,522 - tag_migration - INFO - [DRY RUN] Would update event 322 with: {"tags": ["IT-Sicherheit", "Digitale Wachsamkeit", "Schulung", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Wachsamkeit"], "format": ["Schulung"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:49,854 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:49,856 - tag_migration - INFO - [DRY RUN] Would update event 323 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos", "Backup-L\u00f6sungen", "Phishing", "Multifaktorauthentifizierung"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation", "Backup-L\u00f6sungen", "Phishing", "Multifaktorauthentifizierung"], "format": ["Webinar"], "audience": ["Handwerksbetriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:51,166 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:51,173 - tag_migration - INFO - [DRY RUN] Would update event 324 with: {"tags": ["Digitale Dienstleistungen", "Workshop", "Wettbewerbsf\u00e4higkeit", "Kostenlos"], "tag_groups": {"topic": ["Digitale Dienstleistungen", "Wettbewerbsf\u00e4higkeit"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:52,452 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:52,453 - tag_migration - INFO - [DRY RUN] Would update event 325 with: {"tags": ["Datenschutz", "Workshop", "Datenschutzbeauftragte", "Digitalisierung"], "tag_groups": {"topic": ["Datenschutz", "Digitalisierung"], "format": ["Workshop"], "audience": ["Datenschutzbeauftragte"], "cost": []}}
+2025-04-09 20:27:53,929 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:53,930 - tag_migration - INFO - [DRY RUN] Would update event 326 with: {"tags": ["Datenschutz", "Haftungsrisiken", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenschutz", "Haftungsrisiken"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:55,374 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:55,380 - tag_migration - INFO - [DRY RUN] Would update event 327 with: {"tags": ["IT-Wissen", "Workshop", "Online", "Weiterbildung", "IT-Begriffe"], "tag_groups": {"topic": ["IT-Wissen", "IT-Begriffe"], "format": ["Workshop", "Online"], "audience": ["Allgemein"], "cost": []}}
+2025-04-09 20:27:57,200 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:57,202 - tag_migration - INFO - [DRY RUN] Would update event 328 with: {"tags": ["Datenrecht", "Digitale Transformation", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenrecht", "Digitale Transformation"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:27:59,068 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:27:59,070 - tag_migration - INFO - [DRY RUN] Would update event 329 with: {"tags": ["Digitale Transformation", "Webinar", "Elektronische Signaturen", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Elektronische Signaturen"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:00,599 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:00,600 - tag_migration - INFO - [DRY RUN] Would update event 330 with: {"tags": ["K\u00fcnstliche Intelligenz", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["K\u00fcnstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:00,600 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 20:28:02,088 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:02,089 - tag_migration - INFO - [DRY RUN] Would update event 331 with: {"tags": ["Digitale Transformation", "Workshop", "Barrierefreiheit"], "tag_groups": {"topic": ["Digitale Transformation", "Barrierefreiheit"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:04,502 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:04,503 - tag_migration - INFO - [DRY RUN] Would update event 332 with: {"tags": ["Datenschutz", "K\u00fcnstliche Intelligenz", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "K\u00fcnstliche Intelligenz"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:06,314 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:06,405 - tag_migration - INFO - [DRY RUN] Would update event 333 with: {"tags": ["KI", "Cybersecurity", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["KI", "Cybersecurity"], "format": ["Webinar"], "audience": ["Gemeinn\u00fctzige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:07,774 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:07,774 - tag_migration - INFO - [DRY RUN] Would update event 334 with: {"tags": ["Soziale Nachhaltigkeit", "ITK-Beschaffung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Soziale Nachhaltigkeit", "ITK-Beschaffung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:09,377 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:09,378 - tag_migration - INFO - [DRY RUN] Would update event 335 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:12,959 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:12,963 - tag_migration - INFO - [DRY RUN] Would update event 336 with: {"tags": ["IT-Sicherheit", "Softwarequalit\u00e4t", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Softwarequalit\u00e4t"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:14,338 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:14,338 - tag_migration - INFO - [DRY RUN] Would update event 337 with: {"tags": ["KI", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:16,256 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:16,257 - tag_migration - INFO - [DRY RUN] Would update event 338 with: {"tags": ["Inklusion", "Diversit\u00e4t", "Nachhaltigkeit", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Inklusion", "Diversit\u00e4t", "Nachhaltigkeit"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:18,524 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:18,524 - tag_migration - INFO - [DRY RUN] Would update event 339 with: {"tags": ["IT-Sicherheit", "Workshop", "Informationssicherheitsmanagement", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Sicherheit", "Informationssicherheitsmanagement", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:20,045 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:20,046 - tag_migration - INFO - [DRY RUN] Would update event 340 with: {"tags": ["KI", "Datenschutz", "Webinar", "Non-Profit", "Kostenlos"], "tag_groups": {"topic": ["KI", "Datenschutz"], "format": ["Webinar"], "audience": ["Non-Profit"], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:20,046 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 20:28:21,312 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:21,313 - tag_migration - INFO - [DRY RUN] Would update event 341 with: {"tags": ["Digitale Transformation", "Marketing", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Marketing"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:22,483 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:22,491 - tag_migration - INFO - [DRY RUN] Would update event 342 with: {"tags": ["Datenschutz", "Workshop", "Gesundheitswesen"], "tag_groups": {"topic": ["Datenschutz", "Gesundheitswesen"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:23,664 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:23,664 - tag_migration - INFO - [DRY RUN] Would update event 343 with: {"tags": ["KI", "Compliance", "Datenschutz", "Workshop"], "tag_groups": {"topic": ["KI", "Compliance", "Datenschutz"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:24,939 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:24,940 - tag_migration - INFO - [DRY RUN] Would update event 344 with: {"tags": ["IT-Sicherheit", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:26,371 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:26,374 - tag_migration - INFO - [DRY RUN] Would update event 345 with: {"tags": ["IT-Recht", "Digitalisierung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Recht", "Digitalisierung"], "format": ["Webinar", "Online-Seminar"], "audience": ["Unternehmen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:28,107 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:28,108 - tag_migration - INFO - [DRY RUN] Would update event 346 with: {"tags": ["IT-Sicherheit", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit"], "format": ["Webinar", "Online-Seminar"], "audience": ["Allgemeine Interessierte"], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:31,150 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:31,153 - tag_migration - INFO - [DRY RUN] Would update event 347 with: {"tags": ["Datenschutz", "K\u00fcnstliche Intelligenz", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenschutz", "K\u00fcnstliche Intelligenz"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:32,460 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:32,462 - tag_migration - INFO - [DRY RUN] Would update event 348 with: {"tags": ["Datenschutz", "Workshop", "HR-Management"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop"], "audience": ["HR-Manager", "Personalverantwortliche"], "cost": []}}
+2025-04-09 20:28:34,336 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:34,337 - tag_migration - INFO - [DRY RUN] Would update event 349 with: {"tags": ["IT-Notfallmanagement", "Business Continuity Management", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Notfallmanagement", "Business Continuity Management", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:35,765 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:35,766 - tag_migration - INFO - [DRY RUN] Would update event 350 with: {"tags": ["Digitale Transformation", "IT-Sicherheit", "Workshop"], "tag_groups": {"topic": ["Digitale Transformation", "IT-Sicherheit"], "format": ["Workshop"], "audience": ["Fach- und F\u00fchrungskr\u00e4fte"], "cost": []}}
+2025-04-09 20:28:35,766 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 20:28:36,863 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:36,871 - tag_migration - INFO - [DRY RUN] Would update event 351 with: {"tags": ["Datenschutz", "Digitale Transformation", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop"], "audience": ["Unternehmen", "Organisationen"], "cost": []}}
+2025-04-09 20:28:38,114 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:38,115 - tag_migration - INFO - [DRY RUN] Would update event 352 with: {"tags": ["IT-Sicherheit", "Incident Response Management", "Workshop"], "tag_groups": {"topic": ["IT-Sicherheit", "Incident Response Management"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:28:40,131 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:40,137 - tag_migration - INFO - [DRY RUN] Would update event 353 with: {"tags": ["Sorgfaltspflichten", "Batterieverordnung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Sorgfaltspflichten", "Batterieverordnung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:42,261 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:42,262 - tag_migration - INFO - [DRY RUN] Would update event 354 with: {"tags": ["Vergaberecht", "Workshop", "\u00d6ffentliche Ausschreibungen", "Bieter", "Vertragsmanagement"], "tag_groups": {"topic": ["Vergaberecht", "\u00d6ffentliche Ausschreibungen", "Vertragsmanagement"], "format": ["Workshop"], "audience": ["Bieter", "Potenzielle Auftragnehmer"], "cost": []}}
+2025-04-09 20:28:44,152 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:44,153 - tag_migration - INFO - [DRY RUN] Would update event 355 with: {"tags": ["KI", "Webinar", "Digitalisierung", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitalisierung"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:45,951 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:45,952 - tag_migration - INFO - [DRY RUN] Would update event 356 with: {"tags": ["Datenschutz", "Workshop", "Finanzdienstleister"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop"], "audience": ["Finanzdienstleister"], "cost": []}}
+2025-04-09 20:28:53,704 - tag_migration - INFO - Starting tag migration
+2025-04-09 20:28:53,905 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 20:28:53,987 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 20:28:54,068 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 20:28:54,068 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 20:28:55,540 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:55,556 - tag_migration - INFO - [DRY RUN] Would update event 311 with: {"tags": ["Fotografie", "Webinar", "Digitale Kompetenzen", "Vereine", "Kostenlos"], "tag_groups": {"topic": ["Fotografie", "Digitale Kompetenzen"], "format": ["Webinar"], "audience": ["Vereine"], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:56,932 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:56,934 - tag_migration - INFO - [DRY RUN] Would update event 312 with: {"tags": ["Leadership", "Non-Profit", "Seminar", "Kostenlos"], "tag_groups": {"topic": ["Leadership", "Non-Profit"], "format": ["Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:28:58,711 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:28:58,715 - tag_migration - INFO - [DRY RUN] Would update event 313 with: {"tags": ["Ehrenamt", "Vertragswesen", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Vertragswesen"], "format": ["Online-Seminar"], "audience": ["Ehrenamtlich Engagierte"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:00,693 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:00,694 - tag_migration - INFO - [DRY RUN] Would update event 314 with: {"tags": ["Pflegebedürftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstfürsorge", "Workshop", "Ehrenamt", "Gesundheit", "Kostenlos"], "tag_groups": {"topic": ["Pflegebedürftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstfürsorge"], "format": ["Workshop"], "audience": ["Ehrenamt"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:01,980 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:01,981 - tag_migration - INFO - [DRY RUN] Would update event 315 with: {"tags": ["Ehrenamt", "Demokratiebildung", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Demokratiebildung"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:07,724 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:07,725 - tag_migration - INFO - [DRY RUN] Would update event 316 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Künstliche Intelligenz", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation", "Künstliche Intelligenz"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:08,866 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:08,870 - tag_migration - INFO - [DRY RUN] Would update event 317 with: {"tags": ["KI", "Digitale Transformation", "Fachvortrag", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Fachvortrag"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:10,801 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:10,806 - tag_migration - INFO - [DRY RUN] Would update event 318 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Dienstleistungsunternehmen", "Serviceorientierte KMU"], "tag_groups": {"topic": ["KI", "Digitale Transformation", "Dienstleistungsunternehmen", "Serviceorientierte KMU"], "format": ["Webinar"], "audience": ["Dienstleistungsunternehmen", "Serviceorientierte KMU"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:14,627 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:14,628 - tag_migration - INFO - [DRY RUN] Would update event 319 with: {"tags": ["KI", "Vortrag", "Künstliche Intelligenz", "Digitalisierung", "Kostenlos"], "tag_groups": {"topic": ["KI", "Künstliche Intelligenz", "Digitalisierung"], "format": ["Vortrag"], "audience": ["Kleine und Mittelgroße Betriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:16,026 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:16,027 - tag_migration - INFO - [DRY RUN] Would update event 320 with: {"tags": ["KI", "Workshop", "Digitale Dienstleistungen", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Dienstleistungen"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:16,027 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 20:29:17,617 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:17,618 - tag_migration - INFO - [DRY RUN] Would update event 321 with: {"tags": ["IT-Sicherheit", "Webinar", "Notfallmanagement", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Notfallmanagement"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:19,682 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:19,683 - tag_migration - INFO - [DRY RUN] Would update event 322 with: {"tags": ["IT-Sicherheit", "Digitale Wachsamkeit", "Schulung", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Wachsamkeit"], "format": ["Schulung"], "audience": ["Handwerksbetriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:22,398 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:22,414 - tag_migration - INFO - [DRY RUN] Would update event 323 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos", "Backup-Lösungen", "Phishing", "Multifaktorauthentifizierung"], "tag_groups": {"topic": ["IT-Sicherheit", "Backup-Lösungen", "Phishing", "Multifaktorauthentifizierung", "Digitale Transformation"], "format": ["Webinar"], "audience": ["Handwerksbetriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:24,449 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:24,460 - tag_migration - INFO - [DRY RUN] Would update event 324 with: {"tags": ["Digitale Dienstleistungen", "Wettbewerbsfähigkeit", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["Digitale Dienstleistungen", "Wettbewerbsfähigkeit"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:25,966 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:25,966 - tag_migration - INFO - [DRY RUN] Would update event 325 with: {"tags": ["Datenschutz", "Workshop", "Datenschutzbeauftragte", "Digitale Transformation"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop"], "audience": ["Datenschutzbeauftragte"], "cost": []}}
+2025-04-09 20:29:27,596 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:27,597 - tag_migration - INFO - [DRY RUN] Would update event 326 with: {"tags": ["Datenschutz", "Haftungsrisiken", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenschutz", "Haftungsrisiken"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:29,593 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:29,594 - tag_migration - INFO - [DRY RUN] Would update event 327 with: {"tags": ["IT-Wissen", "Workshop", "Online", "Kostenpflichtig"], "tag_groups": {"topic": ["IT-Wissen"], "format": ["Workshop", "Online"], "audience": ["Allgemein"], "cost": ["Kostenpflichtig"]}}
+2025-04-09 20:29:31,000 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:31,002 - tag_migration - INFO - [DRY RUN] Would update event 328 with: {"tags": ["Datenrecht", "Digitale Transformation", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenrecht", "Digitale Transformation"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:32,615 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:32,616 - tag_migration - INFO - [DRY RUN] Would update event 329 with: {"tags": ["Digitale Transformation", "Webinar", "Elektronische Signaturen", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Elektronische Signaturen"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:33,981 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:33,982 - tag_migration - INFO - [DRY RUN] Would update event 330 with: {"tags": ["Künstliche Intelligenz", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:29:33,982 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 20:29:35,387 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:35,400 - tag_migration - INFO - [DRY RUN] Would update event 331 with: {"tags": ["Digitale Transformation", "Workshop", "Barrierefreiheit"], "tag_groups": {"topic": ["Digitale Transformation", "Barrierefreiheit"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:29:37,318 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:37,325 - tag_migration - INFO - [DRY RUN] Would update event 332 with: {"tags": ["Datenschutz", "Künstliche Intelligenz", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "Künstliche Intelligenz"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:29:38,550 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:38,551 - tag_migration - INFO - [DRY RUN] Would update event 333 with: {"tags": ["KI", "Cybersecurity", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["KI", "Cybersecurity"], "format": ["Webinar"], "audience": ["Gemeinnützige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:40,104 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:40,104 - tag_migration - INFO - [DRY RUN] Would update event 334 with: {"tags": ["Soziale Nachhaltigkeit", "ITK-Beschaffung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Soziale Nachhaltigkeit", "ITK-Beschaffung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:41,129 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:41,133 - tag_migration - INFO - [DRY RUN] Would update event 335 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:42,632 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:42,638 - tag_migration - INFO - [DRY RUN] Would update event 336 with: {"tags": ["IT-Sicherheit", "Softwarequalität", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Softwarequalität"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:44,077 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:44,083 - tag_migration - INFO - [DRY RUN] Would update event 337 with: {"tags": ["KI", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:29:45,645 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:45,646 - tag_migration - INFO - [DRY RUN] Would update event 338 with: {"tags": ["Inklusion", "Diversität", "Nachhaltigkeit", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Inklusion", "Diversität", "Nachhaltigkeit"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:47,951 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:47,952 - tag_migration - INFO - [DRY RUN] Would update event 339 with: {"tags": ["IT-Sicherheit", "Workshop", "Informationssicherheitsmanagement", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Sicherheit", "Informationssicherheitsmanagement", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:29:49,285 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:49,286 - tag_migration - INFO - [DRY RUN] Would update event 340 with: {"tags": ["KI", "Datenschutz", "Online-Seminar", "Non-Profit", "Kostenlos"], "tag_groups": {"topic": ["KI", "Datenschutz"], "format": ["Online-Seminar"], "audience": ["Non-Profit"], "cost": ["Kostenlos"]}}
+2025-04-09 20:29:49,286 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 20:29:50,771 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:29:50,772 - tag_migration - INFO - [DRY RUN] Would update event 341 with: {"tags": ["Digitale Transformation", "Marketing", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Marketing"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:02,313 - tag_migration - INFO - Starting tag migration
+2025-04-09 20:30:02,526 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 20:30:02,619 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 20:30:02,689 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 20:30:02,690 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 20:30:04,287 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:04,291 - tag_migration - INFO - Updating event 311 with: {"tags": ["Fotografie", "Webinar", "Digitale Kompetenzen", "Vereine", "Kostenlos"], "tag_groups": {"topic": ["Fotografie", "Digitale Kompetenzen"], "format": ["Webinar"], "audience": ["Vereine"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:04,382 - tag_migration - INFO - Updated event 311
+2025-04-09 20:30:05,803 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:05,804 - tag_migration - INFO - Updating event 312 with: {"tags": ["Leadership", "Non-Profit", "Seminar", "Kostenlos"], "tag_groups": {"topic": ["Leadership", "Non-Profit"], "format": ["Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:05,941 - tag_migration - INFO - Updated event 312
+2025-04-09 20:30:07,921 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:07,922 - tag_migration - INFO - Updating event 313 with: {"tags": ["Ehrenamt", "Vertragswesen", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Vertragswesen"], "format": ["Online-Seminar"], "audience": ["Ehrenamtlich Engagierte"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:08,075 - tag_migration - INFO - Updated event 313
+2025-04-09 20:30:10,463 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:10,464 - tag_migration - INFO - Updating event 314 with: {"tags": ["Pflegebedürftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstfürsorge", "Workshop", "Ehrenamt", "Gesundheit", "Kostenlos"], "tag_groups": {"topic": ["Pflegebedürftigkeit", "Pflegegrade", "Herausfordernde Situationen", "Strategien zur Selbstfürsorge"], "format": ["Workshop"], "audience": ["Ehrenamt"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:10,549 - tag_migration - INFO - Updated event 314
+2025-04-09 20:30:11,937 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:11,938 - tag_migration - INFO - Updating event 315 with: {"tags": ["Ehrenamt", "Demokratiebildung", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["Ehrenamt", "Demokratiebildung"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:12,025 - tag_migration - INFO - Updated event 315
+2025-04-09 20:30:14,221 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:14,222 - tag_migration - INFO - Updating event 316 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Künstliche Intelligenz", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation", "Künstliche Intelligenz"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:14,368 - tag_migration - INFO - Updated event 316
+2025-04-09 20:30:17,379 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:17,380 - tag_migration - INFO - Updating event 317 with: {"tags": ["KI", "Digitale Transformation", "Fachvortrag", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Fachvortrag"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:17,546 - tag_migration - INFO - Updated event 317
+2025-04-09 20:30:18,970 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:18,997 - tag_migration - INFO - Updating event 318 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Dienstleistungsunternehmen", "Serviceorientierte KMU"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Webinar"], "audience": ["Dienstleistungsunternehmen", "Serviceorientierte KMU"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:19,087 - tag_migration - INFO - Updated event 318
+2025-04-09 20:30:21,422 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:21,423 - tag_migration - INFO - Updating event 319 with: {"tags": ["KI", "Vortrag", "Künstliche Intelligenz", "Digitalisierung", "Kostenlos"], "tag_groups": {"topic": ["KI", "Künstliche Intelligenz", "Digitalisierung"], "format": ["Vortrag"], "audience": ["Kleine und Mittelgroße Betriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:21,516 - tag_migration - INFO - Updated event 319
+2025-04-09 20:30:22,719 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:22,720 - tag_migration - INFO - Updating event 320 with: {"tags": ["KI", "Digitale Dienstleistungen", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitale Dienstleistungen"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:22,806 - tag_migration - INFO - Updated event 320
+2025-04-09 20:30:22,807 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 20:30:24,461 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:24,462 - tag_migration - INFO - Updating event 321 with: {"tags": ["IT-Sicherheit", "Webinar", "Notfallmanagement", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Notfallmanagement"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:24,573 - tag_migration - INFO - Updated event 321
+2025-04-09 20:30:26,099 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:26,100 - tag_migration - INFO - Updating event 322 with: {"tags": ["IT-Sicherheit", "Digitale Wachsamkeit", "Schulung", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Wachsamkeit"], "format": ["Schulung"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:26,182 - tag_migration - INFO - Updated event 322
+2025-04-09 20:30:30,192 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:30,197 - tag_migration - INFO - Updating event 323 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos", "Backup-Lösungen", "Phishing", "Multifaktorauthentifizierung"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation", "Backup-Lösungen", "Phishing", "Multifaktorauthentifizierung"], "format": ["Webinar"], "audience": ["Handwerksbetriebe"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:30,293 - tag_migration - INFO - Updated event 323
+2025-04-09 20:30:31,630 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:31,634 - tag_migration - INFO - Updating event 324 with: {"tags": ["Digitale Dienstleistungen", "Wettbewerbsfähigkeit", "Workshop", "Kostenlos"], "tag_groups": {"topic": ["Digitale Dienstleistungen", "Wettbewerbsfähigkeit"], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:31,715 - tag_migration - INFO - Updated event 324
+2025-04-09 20:30:33,500 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:33,501 - tag_migration - INFO - Updating event 325 with: {"tags": ["Datenschutz", "Workshop", "Datenschutzbeauftragte", "Digitale Transformation"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop"], "audience": ["Datenschutzbeauftragte"], "cost": []}}
+2025-04-09 20:30:33,589 - tag_migration - INFO - Updated event 325
+2025-04-09 20:30:35,060 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:35,061 - tag_migration - INFO - Updating event 326 with: {"tags": ["Datenschutz", "Haftungsrisiken", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenschutz", "Haftungsrisiken"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:35,147 - tag_migration - INFO - Updated event 326
+2025-04-09 20:30:36,868 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:36,871 - tag_migration - INFO - Updating event 327 with: {"tags": ["IT-Wissen", "Workshop", "Online", "Kostenpflichtig"], "tag_groups": {"topic": ["IT-Wissen"], "format": ["Workshop", "Online"], "audience": [], "cost": ["Kostenpflichtig"]}}
+2025-04-09 20:30:36,969 - tag_migration - INFO - Updated event 327
+2025-04-09 20:30:38,480 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:38,497 - tag_migration - INFO - Updating event 328 with: {"tags": ["Datenrecht", "Digitale Transformation", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenrecht", "Digitale Transformation"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:38,605 - tag_migration - INFO - Updated event 328
+2025-04-09 20:30:40,390 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:40,390 - tag_migration - INFO - Updating event 329 with: {"tags": ["Digitale Transformation", "Webinar", "Elektronische Signaturen", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Elektronische Signaturen"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:40,544 - tag_migration - INFO - Updated event 329
+2025-04-09 20:30:42,026 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:42,027 - tag_migration - INFO - Updating event 330 with: {"tags": ["Künstliche Intelligenz", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:30:42,118 - tag_migration - INFO - Updated event 330
+2025-04-09 20:30:42,118 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 20:30:43,210 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:43,211 - tag_migration - INFO - Updating event 331 with: {"tags": ["Digitale Transformation", "Workshop", "Barrierefreiheit"], "tag_groups": {"topic": ["Digitale Transformation", "Barrierefreiheit"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:30:43,312 - tag_migration - INFO - Updated event 331
+2025-04-09 20:30:44,317 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:44,318 - tag_migration - INFO - Updating event 332 with: {"tags": ["Datenschutz", "Künstliche Intelligenz", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "Künstliche Intelligenz"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:30:44,399 - tag_migration - INFO - Updated event 332
+2025-04-09 20:30:45,525 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:45,526 - tag_migration - INFO - Updating event 333 with: {"tags": ["KI", "Cybersecurity", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["KI", "Cybersecurity"], "format": ["Webinar"], "audience": ["Gemeinnützige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:45,601 - tag_migration - INFO - Updated event 333
+2025-04-09 20:30:47,041 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:47,042 - tag_migration - INFO - Updating event 334 with: {"tags": ["Soziale Nachhaltigkeit", "ITK-Beschaffung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Soziale Nachhaltigkeit", "ITK-Beschaffung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:47,145 - tag_migration - INFO - Updated event 334
+2025-04-09 20:30:48,377 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:48,379 - tag_migration - INFO - Updating event 335 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitale Transformation", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:48,459 - tag_migration - INFO - Updated event 335
+2025-04-09 20:30:50,345 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:50,346 - tag_migration - INFO - Updating event 336 with: {"tags": ["IT-Sicherheit", "Softwarequalität", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Softwarequalität"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:50,425 - tag_migration - INFO - Updated event 336
+2025-04-09 20:30:51,634 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:51,642 - tag_migration - INFO - Updating event 337 with: {"tags": ["KI", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:30:51,722 - tag_migration - INFO - Updated event 337
+2025-04-09 20:30:53,257 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:53,265 - tag_migration - INFO - Updating event 338 with: {"tags": ["Inklusion", "Diversität", "Nachhaltigkeit", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Inklusion", "Diversität", "Nachhaltigkeit"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:53,343 - tag_migration - INFO - Updated event 338
+2025-04-09 20:30:56,274 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:56,275 - tag_migration - INFO - Updating event 339 with: {"tags": ["IT-Sicherheit", "Workshop", "Informationssicherheitsmanagement", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Sicherheit", "Informationssicherheitsmanagement", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:30:56,401 - tag_migration - INFO - Updated event 339
+2025-04-09 20:30:58,479 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:30:58,485 - tag_migration - INFO - Updating event 340 with: {"tags": ["KI", "Datenschutz", "Webinar", "Non-Profit", "Kostenlos"], "tag_groups": {"topic": ["KI", "Datenschutz"], "format": ["Webinar"], "audience": ["Non-Profit"], "cost": ["Kostenlos"]}}
+2025-04-09 20:30:58,582 - tag_migration - INFO - Updated event 340
+2025-04-09 20:30:58,583 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 20:31:00,026 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:00,027 - tag_migration - INFO - Updating event 341 with: {"tags": ["Digitale Transformation", "Marketing", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Marketing"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:00,125 - tag_migration - INFO - Updated event 341
+2025-04-09 20:31:01,296 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:01,297 - tag_migration - INFO - Updating event 342 with: {"tags": ["Datenschutz", "Gesundheitswesen", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "Gesundheitswesen"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:01,377 - tag_migration - INFO - Updated event 342
+2025-04-09 20:31:03,391 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:03,392 - tag_migration - INFO - Updating event 343 with: {"tags": ["KI", "Compliance", "Datenschutz", "Workshop"], "tag_groups": {"topic": ["KI", "Compliance", "Datenschutz"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:03,470 - tag_migration - INFO - Updated event 343
+2025-04-09 20:31:05,811 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:05,812 - tag_migration - INFO - Updating event 344 with: {"tags": ["IT-Sicherheit", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:05,893 - tag_migration - INFO - Updated event 344
+2025-04-09 20:31:07,807 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:07,809 - tag_migration - INFO - Updating event 345 with: {"tags": ["IT-Recht", "Digitalisierung", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["IT-Recht", "Digitalisierung"], "format": ["Webinar"], "audience": ["Unternehmen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:07,894 - tag_migration - INFO - Updated event 345
+2025-04-09 20:31:10,035 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:10,037 - tag_migration - INFO - Updating event 346 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitalisierung", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitalisierung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:10,117 - tag_migration - INFO - Updated event 346
+2025-04-09 20:31:12,278 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:12,279 - tag_migration - INFO - Updating event 347 with: {"tags": ["Datenschutz", "KI", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Datenschutz", "KI"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:12,366 - tag_migration - INFO - Updated event 347
+2025-04-09 20:31:13,889 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:13,890 - tag_migration - INFO - Updating event 348 with: {"tags": ["Datenschutz", "Workshop", "HR-Management"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop"], "audience": ["HR-Manager", "Personalverantwortliche"], "cost": []}}
+2025-04-09 20:31:13,977 - tag_migration - INFO - Updated event 348
+2025-04-09 20:31:15,327 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:15,328 - tag_migration - INFO - Updating event 349 with: {"tags": ["IT-Notfallmanagement", "Business Continuity Management", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["IT-Notfallmanagement", "Business Continuity Management", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:15,425 - tag_migration - INFO - Updated event 349
+2025-04-09 20:31:16,702 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:16,703 - tag_migration - INFO - Updating event 350 with: {"tags": ["Digitale Transformation", "IT-Sicherheit", "Workshop"], "tag_groups": {"topic": ["Digitale Transformation", "IT-Sicherheit"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:16,796 - tag_migration - INFO - Updated event 350
+2025-04-09 20:31:16,797 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 20:31:18,760 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:18,762 - tag_migration - INFO - Updating event 351 with: {"tags": ["Datenschutz", "Digitale Transformation", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop"], "audience": ["Unternehmen", "Organisationen"], "cost": []}}
+2025-04-09 20:31:18,841 - tag_migration - INFO - Updated event 351
+2025-04-09 20:31:21,080 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:21,084 - tag_migration - INFO - Updating event 352 with: {"tags": ["IT-Sicherheit", "Incident Response Management", "Workshop"], "tag_groups": {"topic": ["IT-Sicherheit", "Incident Response Management"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:21,164 - tag_migration - INFO - Updated event 352
+2025-04-09 20:31:22,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:22,875 - tag_migration - INFO - Updating event 353 with: {"tags": ["Sorgfaltspflichten", "Batterieverordnung", "Webinar", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Sorgfaltspflichten", "Batterieverordnung"], "format": ["Webinar", "Online-Seminar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:22,953 - tag_migration - INFO - Updated event 353
+2025-04-09 20:31:25,118 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:25,120 - tag_migration - INFO - Updating event 354 with: {"tags": ["Vergaberecht", "Workshop", "Öffentliche Ausschreibungen", "Bieter", "Vertragsmanagement"], "tag_groups": {"topic": ["Vergaberecht", "Öffentliche Ausschreibungen", "Vertragsmanagement"], "format": ["Workshop"], "audience": ["Bieter", "Potenzielle Auftragnehmer"], "cost": []}}
+2025-04-09 20:31:25,219 - tag_migration - INFO - Updated event 354
+2025-04-09 20:31:26,550 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:26,551 - tag_migration - INFO - Updating event 355 with: {"tags": ["KI", "Webinar", "Digitalisierung", "Kostenlos"], "tag_groups": {"topic": ["KI", "Digitalisierung"], "format": ["Webinar"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:26,681 - tag_migration - INFO - Updated event 355
+2025-04-09 20:31:28,044 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:28,045 - tag_migration - INFO - Updating event 356 with: {"tags": ["Datenschutz", "Workshop", "Finanzdienstleister"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop"], "audience": ["Finanzdienstleister"], "cost": []}}
+2025-04-09 20:31:28,131 - tag_migration - INFO - Updated event 356
+2025-04-09 20:31:32,015 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:32,016 - tag_migration - INFO - Updating event 357 with: {"tags": ["Nachhaltigkeit", "Workshop", "C-Level", "Corporate Social Responsibility", "Digitale Transformation"], "tag_groups": {"topic": ["Nachhaltigkeit", "Corporate Social Responsibility", "Digitale Transformation"], "format": ["Workshop"], "audience": ["C-Level"], "cost": []}}
+2025-04-09 20:31:32,099 - tag_migration - INFO - Updated event 357
+2025-04-09 20:31:33,602 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:33,602 - tag_migration - INFO - Updating event 358 with: {"tags": ["Digitale Transformation", "Webinar", "Multiprojektmanagement", "OKR", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Multiprojektmanagement", "OKR"], "format": ["Webinar"], "audience": ["Gemeinnützige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:33,696 - tag_migration - INFO - Updated event 358
+2025-04-09 20:31:37,405 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:37,406 - tag_migration - INFO - Updating event 359 with: {"tags": ["Künstliche Intelligenz", "Workshop", "Digitale Transformation", "Online-Seminar"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop", "Online-Seminar"], "audience": [], "cost": []}}
+2025-04-09 20:31:37,501 - tag_migration - INFO - Updated event 359
+2025-04-09 20:31:38,871 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:38,872 - tag_migration - INFO - Updating event 360 with: {"tags": ["Künstliche Intelligenz", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:38,979 - tag_migration - INFO - Updated event 360
+2025-04-09 20:31:38,980 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-09 20:31:41,022 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:41,023 - tag_migration - INFO - Updating event 361 with: {"tags": ["KI", "Big Data", "Workshop", "Rechtliche Vorgaben", "Datenrecht", "IP-Recht", "Vertragsgestaltung"], "tag_groups": {"topic": ["KI", "Big Data", "Datenrecht", "IP-Recht", "Vertragsgestaltung"], "format": ["Workshop"], "audience": ["Entscheidungsträger", "Mitarbeiter"], "cost": []}}
+2025-04-09 20:31:41,113 - tag_migration - INFO - Updated event 361
+2025-04-09 20:31:41,972 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:41,973 - tag_migration - INFO - Updating event 362 with: {"tags": ["Workshop", "Kostenlos"], "tag_groups": {"topic": [], "format": ["Workshop"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:42,063 - tag_migration - INFO - Updated event 362
+2025-04-09 20:31:44,003 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:44,004 - tag_migration - INFO - Updating event 363 with: {"tags": ["Digitale Transformation", "Cybersecurity", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Cybersecurity"], "format": ["Webinar"], "audience": ["Unternehmen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:44,082 - tag_migration - INFO - Updated event 363
+2025-04-09 20:31:45,584 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:45,585 - tag_migration - INFO - Updating event 364 with: {"tags": ["Digitale Transformation", "Data Spaces", "Webinar", "Kostenlos"], "tag_groups": {"topic": ["Digitale Transformation", "Data Spaces"], "format": ["Webinar"], "audience": ["Gemeinnützige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:45,671 - tag_migration - INFO - Updated event 364
+2025-04-09 20:31:46,857 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:46,858 - tag_migration - INFO - Updating event 365 with: {"tags": ["Datenschutz", "DSFA", "Workshop"], "tag_groups": {"topic": ["Datenschutz", "DSFA"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:46,965 - tag_migration - INFO - Updated event 365
+2025-04-09 20:31:48,094 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:48,095 - tag_migration - INFO - Updating event 366 with: {"tags": ["Vergaberecht", "IT-Beschaffung", "Workshop"], "tag_groups": {"topic": ["Vergaberecht", "IT-Beschaffung"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 20:31:48,188 - tag_migration - INFO - Updated event 366
+2025-04-09 20:31:50,183 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 20:31:50,192 - tag_migration - INFO - Updating event 367 with: {"tags": ["Cyber Security", "Webinar", "Versicherung", "Online-Seminar", "Kostenlos"], "tag_groups": {"topic": ["Cyber Security", "Versicherung"], "format": ["Webinar", "Online-Seminar"], "audience": ["Unternehmen"], "cost": ["Kostenlos"]}}
+2025-04-09 20:31:50,279 - tag_migration - INFO - Updated event 367
+2025-04-09 21:07:16,618 - tag_migration - INFO - Starting tag migration
+2025-04-09 21:07:16,942 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 21:07:17,023 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 21:07:17,106 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 21:07:17,107 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-09 21:07:17,107 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-09 21:07:17,108 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-09 21:07:17,109 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-09 21:07:17,110 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-09 21:07:17,111 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-09 21:07:17,112 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-09 21:07:17,112 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-09 21:07:17,113 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 362 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-09 21:07:17,114 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-09 21:07:20,295 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:20,303 - tag_migration - INFO - Updating event 368 with: {"tags": ["IT-Sicherheit", "Workshop", "Digitale Transformation", "KRITIS", "NIS2", "RCE-Richtlinie", "Kritische Infrastrukturen", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation", "KRITIS", "NIS2", "RCE-Richtlinie"], "format": ["Workshop", "Online"], "audience": ["Kritische Infrastrukturen"], "cost": []}}
+2025-04-09 21:07:20,397 - tag_migration - INFO - Updated event 368
+2025-04-09 21:07:21,663 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:21,671 - tag_migration - INFO - Updating event 369 with: {"tags": ["Digitale Transformation", "Webinar", "eIDAS 2.0", "Kostenlos", "Online"], "tag_groups": {"topic": ["Digitale Transformation", "eIDAS 2.0"], "format": ["Webinar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:21,767 - tag_migration - INFO - Updated event 369
+2025-04-09 21:07:23,261 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:23,261 - tag_migration - INFO - Updating event 370 with: {"tags": ["KI", "Workshop", "KI-Agenten", "Digitale Transformation", "Gemeinnützige Organisationen", "Online"], "tag_groups": {"topic": ["KI", "KI-Agenten", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": ["Gemeinnützige Organisationen"], "cost": []}}
+2025-04-09 21:07:23,345 - tag_migration - INFO - Updated event 370
+2025-04-09 21:07:23,345 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-09 21:07:24,724 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:24,724 - tag_migration - INFO - Updating event 371 with: {"tags": ["Ethical Hacking", "Pentesting", "Workshop", "IT-Sicherheit", "Digitalisierung", "Online"], "tag_groups": {"topic": ["Ethical Hacking", "Pentesting", "IT-Sicherheit", "Digitalisierung"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:24,815 - tag_migration - INFO - Updated event 371
+2025-04-09 21:07:25,937 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:25,938 - tag_migration - INFO - Updating event 372 with: {"tags": ["IT-Sicherheit", "Workshop", "Informationssicherheit", "Non-Profit-Sektor", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "Informationssicherheit", "Non-Profit-Sektor"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:26,026 - tag_migration - INFO - Updated event 372
+2025-04-09 21:07:28,105 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:28,119 - tag_migration - INFO - Updating event 373 with: {"tags": ["IT-Sicherheit", "Webinar", "Digitalisierung", "Non-Profit", "ISO/IEC 27001", "ISO/IEC 27002", "BSI IT-Grundschutz", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitalisierung", "Non-Profit", "ISO/IEC 27001", "ISO/IEC 27002", "BSI IT-Grundschutz"], "format": ["Webinar", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:28,214 - tag_migration - INFO - Updated event 373
+2025-04-09 21:07:29,948 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:29,949 - tag_migration - INFO - Updating event 374 with: {"tags": ["Fachkräfteeinwanderung", "Webinar", "Recht", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Fachkräfteeinwanderung", "Recht"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": ["Arbeitgeber"], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:30,032 - tag_migration - INFO - Updated event 374
+2025-04-09 21:07:32,044 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:32,045 - tag_migration - INFO - Updating event 375 with: {"tags": ["KI", "Workshop", "Künstliche Intelligenz", "Digitale Transformation", "Business Cases", "Ideation", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Künstliche Intelligenz", "Digitale Transformation", "Business Cases", "Ideation"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:32,130 - tag_migration - INFO - Updated event 375
+2025-04-09 21:07:33,570 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:33,578 - tag_migration - INFO - Updating event 376 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": ["Unternehmen"], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:33,670 - tag_migration - INFO - Updated event 376
+2025-04-09 21:07:34,894 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:34,905 - tag_migration - INFO - Updating event 377 with: {"tags": ["Datenschutz", "Workshop", "Digitale Transformation", "Gemeinnütziger Sektor", "Online"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation", "Gemeinnütziger Sektor"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:34,986 - tag_migration - INFO - Updated event 377
+2025-04-09 21:07:36,508 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:36,520 - tag_migration - INFO - Updating event 378 with: {"tags": ["Künstliche Intelligenz", "Robotic Process Automation", "Workshop", "Digitale Transformation", "Online"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Robotic Process Automation", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:36,600 - tag_migration - INFO - Updated event 378
+2025-04-09 21:07:37,941 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:37,942 - tag_migration - INFO - Updating event 379 with: {"tags": ["KI", "Webinar", "Digitale Kompetenzen", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Digitale Kompetenzen"], "format": ["Webinar", "Online"], "audience": ["Frauen"], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:38,026 - tag_migration - INFO - Updated event 379
+2025-04-09 21:07:41,492 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:41,493 - tag_migration - INFO - Updating event 380 with: {"tags": ["Datenschutz", "Künstliche Intelligenz", "Workshop", "Online"], "tag_groups": {"topic": ["Datenschutz", "Künstliche Intelligenz"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:41,578 - tag_migration - INFO - Updated event 380
+2025-04-09 21:07:41,578 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-09 21:07:42,798 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:42,818 - tag_migration - INFO - Updating event 381 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:42,898 - tag_migration - INFO - Updated event 381
+2025-04-09 21:07:44,130 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:44,131 - tag_migration - INFO - Updating event 382 with: {"tags": ["Künstliche Intelligenz", "Datenschutz", "Workshop", "Digital Marketing", "Online"], "tag_groups": {"topic": ["Künstliche Intelligenz", "Datenschutz", "Digital Marketing"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:44,217 - tag_migration - INFO - Updated event 382
+2025-04-09 21:07:45,687 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:45,689 - tag_migration - INFO - Updating event 383 with: {"tags": ["IT-Sicherheit", "Kryptographie", "Workshop", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "Kryptographie"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:45,787 - tag_migration - INFO - Updated event 383
+2025-04-09 21:07:47,089 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:47,092 - tag_migration - INFO - Updating event 384 with: {"tags": ["Datenschutz", "Workshop", "Non-Profit-Organisationen", "Digitale Transformation", "Online"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": []}}
+2025-04-09 21:07:47,181 - tag_migration - INFO - Updated event 384
+2025-04-09 21:07:49,474 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:49,477 - tag_migration - INFO - Updating event 385 with: {"tags": ["Recht", "Arbeitszeiterfassung", "Webinar", "Online-Seminar", "Non-Profit", "Kostenlos", "Online"], "tag_groups": {"topic": ["Recht", "Arbeitszeiterfassung"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": ["Non-Profit"], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:49,578 - tag_migration - INFO - Updated event 385
+2025-04-09 21:07:51,517 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:51,518 - tag_migration - INFO - Updating event 386 with: {"tags": ["KI", "KI-Tools", "Produktivität", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "KI-Tools", "Produktivität"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:51,601 - tag_migration - INFO - Updated event 386
+2025-04-09 21:07:54,843 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:54,844 - tag_migration - INFO - Updating event 387 with: {"tags": ["Energieeffizienz", "Data Science", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Energieeffizienz", "Data Science"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:54,948 - tag_migration - INFO - Updated event 387
+2025-04-09 21:07:56,450 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:56,451 - tag_migration - INFO - Updating event 388 with: {"tags": ["IT-Investitionen", "Workshop", "Digitale Transformation", "Online-Seminar", "Online"], "tag_groups": {"topic": ["IT-Investitionen", "Digitale Transformation"], "format": ["Workshop", "Online-Seminar", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:07:56,532 - tag_migration - INFO - Updated event 388
+2025-04-09 21:07:58,139 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:58,144 - tag_migration - INFO - Updating event 389 with: {"tags": ["Digitale Transformation", "Kundenzentrierung", "Webinar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Digitale Transformation", "Kundenzentrierung"], "format": ["Webinar", "Online"], "audience": ["Gemeinnützige Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 21:07:58,296 - tag_migration - INFO - Updated event 389
+2025-04-09 21:07:59,356 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:07:59,357 - tag_migration - INFO - Updating event 390 with: {"tags": ["Cybersecurity", "Workshop", "Vereine", "Kostenlos", "Online"], "tag_groups": {"topic": ["Cybersecurity"], "format": ["Workshop", "Online"], "audience": ["Vereine"], "cost": []}}
+2025-04-09 21:07:59,441 - tag_migration - INFO - Updated event 390
+2025-04-09 21:07:59,442 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-09 21:08:01,231 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:01,236 - tag_migration - INFO - Updating event 391 with: {"tags": ["Digitale Transformation", "KI", "Workshop", "Non-Profit-Organisationen"], "tag_groups": {"topic": ["Digitale Transformation", "KI"], "format": ["Workshop"], "audience": ["Non-Profit-Organisationen"], "cost": []}}
+2025-04-09 21:08:01,404 - tag_migration - INFO - Updated event 391
+2025-04-09 21:08:02,761 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:02,762 - tag_migration - INFO - Updating event 392 with: {"tags": ["KI", "Workshop", "IT-Sicherheit", "Non-Profits", "Online"], "tag_groups": {"topic": ["KI", "IT-Sicherheit"], "format": ["Workshop", "Online"], "audience": ["Non-Profits"], "cost": []}}
+2025-04-09 21:08:02,841 - tag_migration - INFO - Updated event 392
+2025-04-09 21:08:04,841 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:04,842 - tag_migration - INFO - Updating event 393 with: {"tags": ["Entgelttransparenz", "Gender Pay Gap", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Entgelttransparenz", "Gender Pay Gap"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:04,948 - tag_migration - INFO - Updated event 393
+2025-04-09 21:08:06,474 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:06,475 - tag_migration - INFO - Updating event 394 with: {"tags": ["Nachhaltigkeit", "Berichterstattung", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Nachhaltigkeit", "Berichterstattung"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": ["Nachhaltigkeitsverantwortliche", "HR-Professionals"], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:06,652 - tag_migration - INFO - Updated event 394
+2025-04-09 21:08:08,090 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:08,091 - tag_migration - INFO - Updating event 395 with: {"tags": ["Recht & Regulierung", "Webinar", "Digitale Transformation", "Non-Profit-Organisationen", "Kostenlos", "Online"], "tag_groups": {"topic": ["Recht & Regulierung", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:08,190 - tag_migration - INFO - Updated event 395
+2025-04-09 21:08:09,925 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:09,926 - tag_migration - INFO - Updating event 396 with: {"tags": ["Nachhaltigkeit", "Webinar", "Digitale Transformation", "Online-Seminar", "Non-Profit-Organisationen", "Kostenlos", "Online"], "tag_groups": {"topic": ["Nachhaltigkeit", "Digitale Transformation"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:10,005 - tag_migration - INFO - Updated event 396
+2025-04-09 21:08:11,473 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:11,535 - tag_migration - INFO - Updating event 397 with: {"tags": ["Datenschutz", "Workshop", "Weiterbildung", "Fachkräfte", "Online"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop", "Online"], "audience": ["Fachkräfte"], "cost": []}}
+2025-04-09 21:08:11,627 - tag_migration - INFO - Updated event 397
+2025-04-09 21:08:13,375 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:13,376 - tag_migration - INFO - Updating event 398 with: {"tags": ["KI", "Workshop", "KI-Analytik", "Digitale Transformation", "Fachkräfte", "Online"], "tag_groups": {"topic": ["KI", "KI-Analytik", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": ["Fachkräfte"], "cost": []}}
+2025-04-09 21:08:13,456 - tag_migration - INFO - Updated event 398
+2025-04-09 21:08:14,402 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:14,404 - tag_migration - INFO - Updating event 399 with: {"tags": ["Cyber-Sicherheit", "Risikomanagement", "Workshop"], "tag_groups": {"topic": ["Cyber-Sicherheit", "Risikomanagement"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 21:08:14,487 - tag_migration - INFO - Updated event 399
+2025-04-09 21:08:16,169 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:16,170 - tag_migration - INFO - Updating event 400 with: {"tags": ["Digitale Transformation", "B2B-Marketing", "Webinar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Digitale Transformation", "B2B-Marketing"], "format": ["Webinar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:16,266 - tag_migration - INFO - Updated event 400
+2025-04-09 21:08:16,266 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-09 21:08:17,432 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:17,433 - tag_migration - INFO - Updating event 401 with: {"tags": ["Datenschutz", "Workshop", "Non-Profit-Organisationen", "Online"], "tag_groups": {"topic": ["Datenschutz"], "format": ["Workshop", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": []}}
+2025-04-09 21:08:17,517 - tag_migration - INFO - Updated event 401
+2025-04-09 21:08:19,624 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:19,624 - tag_migration - INFO - Updating event 402 with: {"tags": ["IT-Notfallmanagement", "Business Continuity Management", "Workshop", "IT-Sicherheit", "Non-Profit", "Online"], "tag_groups": {"topic": ["IT-Notfallmanagement", "Business Continuity Management", "IT-Sicherheit"], "format": ["Workshop", "Online"], "audience": ["Non-Profit"], "cost": []}}
+2025-04-09 21:08:19,727 - tag_migration - INFO - Updated event 402
+2025-04-09 21:08:21,055 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:21,059 - tag_migration - INFO - Updating event 403 with: {"tags": ["Software-Qualität", "Webinar", "Kostenlos", "Digitale Transformation", "Online"], "tag_groups": {"topic": ["Software-Qualität", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:21,138 - tag_migration - INFO - Updated event 403
+2025-04-09 21:08:22,863 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:22,871 - tag_migration - INFO - Updating event 404 with: {"tags": ["Nachhaltigkeit", "Webinar", "Digitale Transformation", "Kostenlos", "Online"], "tag_groups": {"topic": ["Nachhaltigkeit", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:22,969 - tag_migration - INFO - Updated event 404
+2025-04-09 21:08:25,019 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:25,020 - tag_migration - INFO - Updating event 405 with: {"tags": ["Nachhaltigkeit", "Führung", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Nachhaltigkeit", "Führung"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:25,106 - tag_migration - INFO - Updated event 405
+2025-04-09 21:08:26,175 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:26,176 - tag_migration - INFO - Updating event 406 with: {"tags": ["KI", "Personalwesen", "Datenschutz", "Workshop", "Digitale Transformation"], "tag_groups": {"topic": ["KI", "Personalwesen", "Datenschutz", "Digitale Transformation"], "format": ["Workshop"], "audience": [], "cost": []}}
+2025-04-09 21:08:26,261 - tag_migration - INFO - Updated event 406
+2025-04-09 21:08:27,992 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:27,992 - tag_migration - INFO - Updating event 407 with: {"tags": ["Nachhaltigkeit", "Green IT", "Online", "Zertifikatslehrgang"], "tag_groups": {"topic": ["Nachhaltigkeit", "Green IT"], "format": ["Online", "Zertifikatslehrgang"], "audience": [], "cost": []}}
+2025-04-09 21:08:28,077 - tag_migration - INFO - Updated event 407
+2025-04-09 21:08:31,846 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:31,848 - tag_migration - INFO - Updating event 408 with: {"tags": ["Datenschutz", "Workshop", "Digitale Transformation", "Non-Profit-Organisationen", "DSGVO", "BDSG", "Online"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation", "DSGVO", "BDSG"], "format": ["Workshop", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": []}}
+2025-04-09 21:08:31,930 - tag_migration - INFO - Updated event 408
+2025-04-09 21:08:33,453 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:33,454 - tag_migration - INFO - Updating event 409 with: {"tags": ["IT-Sicherheit", "Workshop", "Digitale Transformation", "Öffentlicher Sektor", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "Digitale Transformation", "Öffentlicher Sektor"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:08:33,535 - tag_migration - INFO - Updated event 409
+2025-04-09 21:08:34,667 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:34,668 - tag_migration - INFO - Updating event 410 with: {"tags": ["KI", "Workshop", "Digitale Transformation", "Künstliche Intelligenz", "Non-Profit", "Online"], "tag_groups": {"topic": ["KI", "Künstliche Intelligenz", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": ["Non-Profit"], "cost": []}}
+2025-04-09 21:08:34,756 - tag_migration - INFO - Updated event 410
+2025-04-09 21:08:34,756 - tag_migration - INFO - Processing batch 11 (7 events)
+2025-04-09 21:08:36,373 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:36,374 - tag_migration - INFO - Updating event 411 with: {"tags": ["Nachhaltigkeit", "Rechtliche Risiken", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["Nachhaltigkeit", "Rechtliche Risiken"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": [], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:36,455 - tag_migration - INFO - Updated event 411
+2025-04-09 21:08:37,731 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:37,732 - tag_migration - INFO - Updating event 412 with: {"tags": ["KI", "Workshop", "Digitale Transformation", "Künstliche Intelligenz", "Microsoft 365", "Online"], "tag_groups": {"topic": ["KI", "Digitale Transformation", "Künstliche Intelligenz"], "format": ["Workshop", "Online"], "audience": ["Microsoft 365 Nutzer"], "cost": []}}
+2025-04-09 21:08:37,844 - tag_migration - INFO - Updated event 412
+2025-04-09 21:08:38,999 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:39,003 - tag_migration - INFO - Updating event 413 with: {"tags": ["KI", "Webinar", "Digitale Transformation", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Digitale Transformation"], "format": ["Webinar", "Online"], "audience": ["Führungskräfte", "Marketingexperten"], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:39,154 - tag_migration - INFO - Updated event 413
+2025-04-09 21:08:40,506 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:40,507 - tag_migration - INFO - Updating event 414 with: {"tags": ["IT-Sicherheit", "DORA", "Workshop", "Digitale Transformation", "Online"], "tag_groups": {"topic": ["IT-Sicherheit", "DORA", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-09 21:08:40,584 - tag_migration - INFO - Updated event 414
+2025-04-09 21:08:42,298 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:42,300 - tag_migration - INFO - Updating event 415 with: {"tags": ["Vergaberecht", "Öffentliche Ausschreibungen", "Workshop", "IT", "Gemeinnütziger Sektor", "Online"], "tag_groups": {"topic": ["Vergaberecht", "Öffentliche Ausschreibungen", "IT"], "format": ["Workshop", "Online"], "audience": ["Gemeinnütziger Sektor"], "cost": []}}
+2025-04-09 21:08:42,382 - tag_migration - INFO - Updated event 415
+2025-04-09 21:08:43,561 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:43,575 - tag_migration - INFO - Updating event 416 with: {"tags": ["DORA-Compliance", "Workshop", "IKT-Dienstleister", "Online"], "tag_groups": {"topic": ["DORA-Compliance"], "format": ["Workshop", "Online"], "audience": ["IKT-Dienstleister"], "cost": []}}
+2025-04-09 21:08:43,653 - tag_migration - INFO - Updated event 416
+2025-04-09 21:08:45,497 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:08:45,502 - tag_migration - INFO - Updating event 417 with: {"tags": ["KI", "Nachhaltigkeit", "Künstliche Intelligenz", "Webinar", "Online-Seminar", "Kostenlos", "Online"], "tag_groups": {"topic": ["KI", "Nachhaltigkeit", "Künstliche Intelligenz"], "format": ["Webinar", "Online-Seminar", "Online"], "audience": ["Experten", "Interessierte"], "cost": ["Kostenlos"]}}
+2025-04-09 21:08:45,599 - tag_migration - INFO - Updated event 417
+2025-04-09 21:08:45,599 - tag_migration - INFO - 
+Migration Summary:
+2025-04-09 21:08:45,600 - tag_migration - INFO - Total events: 107
+2025-04-09 21:08:45,600 - tag_migration - INFO - Updated events: 50
+2025-04-09 21:08:45,600 - tag_migration - INFO - Skipped events: 57
+2025-04-09 21:08:45,600 - tag_migration - INFO - Failed events: 0
+2025-04-09 21:08:45,600 - tag_migration - INFO - Migration complete
+2025-04-09 21:13:52,675 - tag_migration - INFO - Starting tag migration
+2025-04-09 21:13:52,899 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 21:13:52,976 - tag_migration - INFO - Retrieved 7 events (page 2)
+2025-04-09 21:13:53,053 - tag_migration - INFO - Retrieved a total of 107 events
+2025-04-09 21:13:53,053 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-09 21:13:53,053 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-09 21:13:53,054 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-09 21:13:53,055 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-09 21:13:53,055 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-09 21:13:53,055 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-09 21:13:53,055 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-09 21:13:53,055 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-09 21:13:53,056 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-09 21:13:53,057 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 21:13:53,057 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-09 21:13:53,058 - tag_migration - INFO - Event 362 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-09 21:13:53,059 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 384 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-09 21:13:53,060 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Processing batch 11 (7 events)
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-09 21:13:53,061 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-09 21:13:53,062 - tag_migration - INFO - 
+Migration Summary:
+2025-04-09 21:13:53,062 - tag_migration - INFO - Total events: 107
+2025-04-09 21:13:53,062 - tag_migration - INFO - Updated events: 0
+2025-04-09 21:13:53,062 - tag_migration - INFO - Skipped events: 107
+2025-04-09 21:13:53,062 - tag_migration - INFO - Failed events: 0
+2025-04-09 21:13:53,062 - tag_migration - INFO - Migration complete
+2025-04-09 21:20:01,980 - tag_migration - INFO - Starting tag migration
+2025-04-09 21:20:02,252 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-09 21:20:02,325 - tag_migration - INFO - Retrieved 6 events (page 2)
+2025-04-09 21:20:02,397 - tag_migration - INFO - Retrieved a total of 106 events
+2025-04-09 21:20:02,397 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-09 21:20:02,397 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-09 21:20:02,397 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-09 21:20:02,397 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-09 21:20:02,397 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-09 21:20:02,397 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-09 21:20:02,398 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-09 21:20:02,399 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-09 21:20:02,400 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-09 21:20:02,401 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-09 21:20:02,401 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-09 21:20:02,402 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-09 21:20:03,825 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 21:20:03,831 - tag_migration - INFO - Updating event 384 with: {"tags": ["Datenschutz", "Workshop", "Non-Profit-Organisationen", "Digitale Transformation", "Online"], "tag_groups": {"topic": ["Datenschutz", "Digitale Transformation"], "format": ["Workshop", "Online"], "audience": ["Non-Profit-Organisationen"], "cost": []}}
+2025-04-09 21:20:03,917 - tag_migration - INFO - Updated event 384
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-09 21:20:03,917 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-09 21:20:03,918 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Processing batch 11 (6 events)
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-09 21:20:03,919 - tag_migration - INFO - 
+Migration Summary:
+2025-04-09 21:20:03,920 - tag_migration - INFO - Total events: 106
+2025-04-09 21:20:03,920 - tag_migration - INFO - Updated events: 1
+2025-04-09 21:20:03,920 - tag_migration - INFO - Skipped events: 105
+2025-04-09 21:20:03,920 - tag_migration - INFO - Failed events: 0
+2025-04-09 21:20:03,920 - tag_migration - INFO - Migration complete

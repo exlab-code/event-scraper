@@ -26,7 +26,7 @@
 
 <div class="bg-white rounded-lg shadow p-5">
   <h2 class="text-lg font-semibold text-gray-800 mb-2">Kalender abonnieren</h2>
-  <p class="text-gray-600 mb-4">Füge diese Veranstaltungen zu deinem persönlichen Kalender hinzu:</p>
+  <p class="text-gray-600 mb-4 text-sm">Füge diese Veranstaltungen zu deinem persönlichen Kalender hinzu:</p>
   
   <div class="flex flex-col gap-3">
     {#if $calendarUrls.nextcloud}
@@ -44,7 +44,7 @@
       </button>
     {/if}
     
-    {#if $calendarUrls.ical}
+    <!-- {#if $calendarUrls.ical}
       <a 
         href={$calendarUrls.ical} 
         download="nonprofit-events.ics"
@@ -58,6 +58,6 @@
         </svg>
         .ics herunterladen
       </a>
-    {/if}
+    {/if} -->
   </div>
 </div>

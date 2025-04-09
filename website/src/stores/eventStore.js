@@ -111,31 +111,40 @@ export const filteredEvents = derived(
       const eventDate = new Date(event.start_date);
       if (eventDate < now) return false;
       
-      // Filter by category if specified
-      if ($filters.category && event.category !== $filters.category) {
-        return false;
-      }
-      
-      // Filter by tags if any are selected
+      // Filter by tags if any are selected (AND logic)
       if ($filters.tags && $filters.tags.length > 0) {
-        // If event has no tags or none of the selected tags match
-        if (!event.tags || !event.tags.some(tag => $filters.tags.includes(tag))) {
+        // If event has no tags, it doesn't match
+        if (!event.tags || !Array.isArray(event.tags)) {
           return false;
+        }
+        
+        // Convert to lowercase for case-insensitive matching
+        const eventTagsLower = event.tags.map(tag => tag.toLowerCase());
+        
+        // Check if ALL selected tags are present (AND logic)
+        for (const filterTag of $filters.tags) {
+          const filterTagLower = filterTag.toLowerCase();
+          if (!eventTagsLower.includes(filterTagLower)) {
+            return false; // This tag is missing, so exclude the event
+          }
         }
       }
       
       // Filter by online only if specified
       if ($filters.onlineOnly) {
-        // Check if event is online based on location field
-        // If location is empty or contains keywords indicating online, consider it online
-        const isOnline = !event.location || 
+        // First check if the event has the "Online" tag
+        const hasOnlineTag = event.tags && Array.isArray(event.tags) && 
+                            event.tags.some(tag => tag === "Online");
+        
+        // If not, fall back to checking the location field
+        const isOnlineLocation = !event.location || 
                         event.location.toLowerCase().includes('online') ||
                         event.location.toLowerCase().includes('virtuell') ||
                         event.location.toLowerCase().includes('webinar') ||
                         event.location.toLowerCase().includes('zoom') ||
                         event.location.toLowerCase().includes('teams');
                         
-        if (!isOnline) {
+        if (!hasOnlineTag && !isOnlineLocation) {
           return false;
         }
       }
@@ -223,7 +232,19 @@ export async function loadCalendarUrls() {
 
 // Update filters and reload events
 export function updateFilters(newFilters) {
-  filters.update(f => ({ ...f, ...newFilters }));
+  // Remove category from newFilters if it exists (we're not using it anymore)
+  if (newFilters.hasOwnProperty('category')) {
+    delete newFilters.category;
+  }
+  
+  filters.update(f => {
+    // If we're updating tags, remove the category filter
+    if (newFilters.hasOwnProperty('tags')) {
+      return { ...f, ...newFilters, category: '' };
+    }
+    return { ...f, ...newFilters };
+  });
+  
   loadEvents();
 }
 

@@ -24,6 +24,10 @@
                     <span class="stat-label">Rejected</span>
                 </div>
                 <div class="stat-card">
+                    <span class="stat-value" id="excluded-count">0</span>
+                    <span class="stat-label">Excluded</span>
+                </div>
+                <div class="stat-card">
                     <span class="stat-value" id="accuracy">0%</span>
                     <span class="stat-label">LLM Accuracy</span>
                 </div>
@@ -37,6 +41,7 @@
                     <option value="pending" selected>Pending</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
+                    <option value="excluded">Excluded</option>
                     <option value="all">All</option>
                 </select>
             </div>
@@ -104,6 +109,24 @@
                     <div class="detail-row">
                         <span class="detail-label">Categories:</span>
                         <div class="event-categories"></div>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Change Category:</span>
+                        <div class="category-selector">
+                            <select class="category-dropdown">
+                                <option value="">-- Select Category --</option>
+                                <option value="datenschutz_sicherheit">Datenschutz & Sicherheit</option>
+                                <option value="ki_nonprofit">KI für Non-Profits</option>
+                                <option value="digitale_kommunikation">Digitale Kommunikation & Social Media</option>
+                                <option value="foerderung_finanzierung">Förderprogramme & Finanzierung</option>
+                                <option value="ehrenamt_engagement">Ehrenamt & Engagemententwicklung</option>
+                                <option value="daten_projektmanagement">Daten & Projektmanagement</option>
+                                <option value="weiterbildung_qualifizierung">Weiterbildung & Qualifizierung</option>
+                                <option value="digitale_transformation">Digitale Transformation & Strategie</option>
+                                <option value="tools_anwendungen">Tools & Anwendungen</option>
+                            </select>
+                            <button class="save-category-button">Save Category</button>
+                        </div>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Source:</span>

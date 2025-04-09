@@ -28,4 +28,79 @@
   padding-bottom: 1rem;
 }
 
-/* You can add more custom styles for other components below */
+/* Tag styling */
+.tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight:500;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Tag group styles */
+.tag-topic {
+  border-color: #3498db;
+}
+
+.tag-format {
+  border-color: #2ecc71;
+}
+
+.tag-audience {
+  border-color: #e74c3c;
+}
+
+.tag-cost {
+  border-color: #f1c40f;
+}
+
+/* Selected state */
+.tag.selected {
+  color: white;
+  background-color: #ccc;
+}
+
+.tag-topic.selected {
+  background-color: #3498db;
+}
+
+.tag-format.selected {
+  background-color: #2ecc71;
+}
+
+.tag-audience.selected {
+  background-color: #e74c3c;
+}
+
+.tag-cost.selected {
+  background-color: #f1c40f;
+}
+
+/* Tag group containers */
+.tag-group {
+  margin-bottom: 1rem;
+}
+
+.tag-group-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+/* Selectable tags */
+.tag.selectable {
+  cursor: pointer;
+}
+
+.tag.selectable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

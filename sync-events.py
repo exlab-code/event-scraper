@@ -547,7 +547,8 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="Sync events between Directus and Nextcloud")
     parser.add_argument("--clean", action="store_true", help="Clean Nextcloud calendar by removing all non-Directus events")
-    parser.add_argument("--sync-once", action="store_true", help="Run sync once and exit")
+    parser.add_argument("--sync-once", action="store_true", help="Run sync once and exit (default behavior now)")
+    parser.add_argument("--schedule", action="store_true", help="Enable hourly scheduling (disabled by default)")
     args = parser.parse_args()
     
     logger.info("Starting Directus-Nextcloud two-way sync service")
@@ -559,12 +560,12 @@ def main():
     # Initial sync
     sync_events()
     
-    # Exit if sync-once is specified
-    if args.sync_once:
-        logger.info("Sync completed. Exiting as requested.")
+    # By default, run once and exit (no scheduling)
+    if not args.schedule:
+        logger.info("Sync completed. Exiting as scheduled hourly sync is disabled by default.")
         return
     
-    # Set up scheduled sync
+    # Only set up scheduled sync if explicitly requested
     schedule.every(1).hours.do(sync_events)
     
     logger.info("Sync scheduled to run hourly. Press Ctrl+C to exit.")

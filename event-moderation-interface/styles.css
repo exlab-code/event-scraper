@@ -186,6 +186,10 @@ button:disabled {
     background-color: var(--warning-color);
 }
 
+.excluded-badge {
+    background-color: #95a5a6; /* Gray color for excluded events */
+}
+
 /* Event Card Styles */
 .event-card {
     border: 1px solid var(--border-color);
@@ -257,6 +261,30 @@ button:disabled {
     font-size: 12px;
 }
 
+.category-selector {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.category-dropdown {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.save-category-button {
+    background-color: var(--primary-color);
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+.save-category-button:hover {
+    background-color: #2980b9;
+}
+
 .event-footer {
     padding: 15px;
     border-top: 1px solid var(--border-color);
@@ -317,6 +345,14 @@ button:disabled {
 
 .reject-button:hover {
     background-color: #c0392b;
+}
+
+.exclude-button {
+    background-color: #95a5a6;
+}
+
+.exclude-button:hover {
+    background-color: #7f8c8d;
 }
 
 .correct-button {

@@ -35,6 +35,7 @@ const CONFIG = {
     
     // Category colors (for category tags)
     categoryColors: {
+        'datenschutz_sicherheit': '#8e44ad', // Purple for security
         'ki_nonprofit': '#3498db',
         'digitale_kommunikation': '#2ecc71',
         'foerderung_finanzierung': '#e74c3c',
@@ -47,6 +48,7 @@ const CONFIG = {
     
     // Category mappings (from ID to human-readable name)
     categoryMappings: {
+        'datenschutz_sicherheit': 'Datenschutz & Sicherheit',
         'ki_nonprofit': 'KI für Non-Profits',
         'digitale_kommunikation': 'Digitale Kommunikation & Social Media',
         'foerderung_finanzierung': 'Förderprogramme & Finanzierung',
@@ -65,5 +67,13 @@ const CONFIG = {
         status: 'pending',
         relevance: 'all',
         feedback: 'all'
+    },
+    
+    // Status badge colors
+    statusColors: {
+        'pending': '#f39c12',  // Orange
+        'approved': '#2ecc71', // Green
+        'rejected': '#e74c3c', // Red
+        'excluded': '#95a5a6'  // Gray
     }
 };

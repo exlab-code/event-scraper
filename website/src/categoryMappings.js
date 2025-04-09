@@ -4,6 +4,7 @@
  */
 
 export const categoryMappings = {
+  "datenschutz_sicherheit": "Datenschutz & Sicherheit",
   "ki_nonprofit": "KI für Non-Profits",
   "digitale_kommunikation": "Digitale Kommunikation & Social Media",
   "foerderung_finanzierung": "Förderprogramme & Finanzierung",

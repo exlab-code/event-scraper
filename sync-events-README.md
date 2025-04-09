@@ -82,23 +82,29 @@ python sync-events.py [options]
 ### Command-line Options
 
 - `--clean`: Clean the Nextcloud calendar by removing all events that don't exist in Directus
-- `--sync-once`: Run the sync once and exit (don't continue running in the background)
+- `--sync-once`: Run the sync once and exit (this is now the default behavior)
+- `--schedule`: Enable hourly scheduling (disabled by default)
 
 ### Examples
 
-**Standard usage (continuous sync):**
+**Standard usage (run once and exit):**
 ```bash
 python sync-events.py
 ```
 
-**Clean the calendar and exit:**
+**Enable continuous hourly sync:**
 ```bash
-python sync-events.py --clean --sync-once
+python sync-events.py --schedule
 ```
 
-**Clean the calendar and continue syncing:**
+**Clean the calendar and exit:**
 ```bash
 python sync-events.py --clean
+```
+
+**Clean the calendar and enable continuous sync:**
+```bash
+python sync-events.py --clean --schedule
 ```
 
 The script will:
@@ -106,7 +112,7 @@ The script will:
 2. Add any new events from Nextcloud to Directus (as unapproved by default)
 3. Connect to Directus and fetch all approved events
 4. Add approved events to Nextcloud and remove any that are no longer approved
-5. Continue running in the background, syncing hourly in both directions (unless `--sync-once` is specified)
+5. Exit after completion (unless `--schedule` is specified, in which case it will continue running in the background, syncing hourly)
 
 To run the script as a service, you can use systemd (Linux), launchd (macOS), or Task Scheduler (Windows).
 
@@ -136,6 +142,11 @@ Logs are written to `logs/sync.log` and also output to the console. The log incl
 
 The script has been updated with the following improvements:
 
+### April 2025 Updates
+- **Changed default behavior**: The script now runs once and exits by default
+- **Added `--schedule` flag**: To enable the previous behavior of continuous hourly syncing
+- **Improved documentation**: Updated README with new command-line options and examples
+
 ### Security Enhancements
 - Removed hardcoded credentials from the script
 - Added support for loading credentials from a `.env` file
@@ -145,7 +156,8 @@ The script has been updated with the following improvements:
 ### New Features
 - Added command-line arguments for better control:
   - `--clean`: Removes all events from Nextcloud that don't exist in Directus
-  - `--sync-once`: Runs the sync once and exits (no need for Ctrl+C)
+  - `--sync-once`: Runs the sync once and exits (now the default behavior)
+  - `--schedule`: Enables hourly scheduling (the previous default behavior)
 - Implemented graceful shutdown with proper error handling
 - Added detailed logging for better troubleshooting
 
@@ -153,3 +165,37 @@ The script has been updated with the following improvements:
 - Fixed bug in iCalendar event parsing
 - Enhanced event deduplication logic
 - Improved handling of events that no longer exist in Directus
+
+## Stopping the Sync Service
+
+If you have the sync service running in the background or as a cron job, you can stop it using the following methods:
+
+### If Running as a Background Process
+
+If you started the sync script using `./run-event-system.sh sync` or `./run-event-system.sh all`, you can stop it with:
+
+```bash
+./run-event-system.sh stop
+```
+
+### If Running as a Cron Job
+
+If you set up cron jobs using `./run-event-system.sh setup-cron`, you can remove them with:
+
+```bash
+./run-event-system.sh remove-cron
+```
+
+### Checking What's Running
+
+To check if the sync script is running as a background process:
+
+```bash
+./run-event-system.sh status
+```
+
+To check if it's running as a cron job:
+
+```bash
+crontab -l | grep "sync-events.py"
+```

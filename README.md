@@ -112,9 +112,9 @@ python data-analysis-save-gpt-v2.py [options]
 Options:
 - `--limit`, `-l` - Maximum number of items to process (default: 10)
 - `--batch`, `-b` - Batch size for processing (default: 3)
-- `--config`, `-c` - Path to categories configuration file (default: event_categories_config.json)
 - `--flag-mismatches`, `-f` - Flag events where LLM determination doesn't match human feedback
 - `--only-flag`, `-o` - Only flag mismatches without processing new events
+- `--log-file` - Path to log file for LLM extraction results (default: llm_extraction.log)
 
 ### Sync Events (sync-events.py)
 
@@ -124,7 +124,8 @@ python sync-events.py [options]
 
 Options:
 - `--clean` - Clean Nextcloud calendar by removing all non-Directus events
-- `--sync-once` - Run sync once and exit (don't continue running in the background)
+- `--sync-once` - Run sync once and exit (this is now the default behavior)
+- `--schedule` - Enable hourly scheduling (disabled by default)
 
 ### Moderation Interface Server (event-moderation-interface/serve.py)
 
@@ -151,6 +152,39 @@ The proxy runs on port 9090 by default and will automatically try the next avail
 - `event-moderation-interface/` - Web interface for event moderation
 - `website/` - Svelte-based website for displaying events
 - `run-event-system.sh` - Helper script to run all components
+
+## Recent Updates (April 2025)
+
+### Migrated from Categories to Tags-Based System
+
+The event categorization system has been completely redesigned:
+- Removed the legacy category-based system in favor of a more flexible tag-based approach
+- Updated the LLM prompt to generate normalized, consistent tags
+- Implemented tag grouping (topic, format, audience, cost)
+- Added tag frequency filtering to show only commonly used tags
+- Improved the UI with consistent styling for tags and time filters
+- Enhanced the event cards to display end times alongside start times
+- Fixed currency display to use proper Euro symbol (€)
+
+These changes provide a more intuitive and flexible way to organize and filter events.
+
+### Improved Date Extraction in LLM Analysis
+
+The date extraction in the LLM analysis script has been improved:
+- Removed regex-based date extraction to rely solely on the LLM's extraction capabilities
+- Fixed registration link extraction to only match valid URLs
+- Added comprehensive logging for better debugging
+- Improved override logic to prioritize LLM-extracted dates
+
+### Modified Sync Script Behavior
+
+The sync-events.py script behavior has been changed:
+- Now runs once and exits by default (no continuous scheduling)
+- Added `--schedule` flag to explicitly enable hourly scheduling if needed
+- Updated documentation in sync-events-README.md with new options and examples
+- Added instructions for stopping the sync service if it's running in the background
+
+See [Sync Events Documentation](sync-events-README.md) for more details on these changes.
 
 ## License
 

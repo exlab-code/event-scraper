@@ -1,38 +1,116 @@
 <script>
   import { onMount } from 'svelte';
-  import { categories, tags, filters, updateFilters } from '../stores/eventStore';
+  import { events, categories, tags, filters, updateFilters } from '../stores/eventStore';
   import { topTags } from '../stores/eventStore';
   import { getCategoryName } from '../categoryMappings';
+  import Tag from './Tag.svelte';
 
-  let selectedCategory = '';
   let selectedTags = [];
   let onlineOnly = false;
   let selectedTimeHorizon = 'all'; // Default to 'all'
   let isFilterOpen = true; // For mobile toggle
+  let tagFrequency = {};
+  let groupedTags = {
+    "topic": [],
+    "format": [],
+    "audience": [],
+    "cost": []
+  };
+  
+  // Initialize tag frequency and grouped tags on mount
+  onMount(() => {
+    calculateTagFrequency($events);
+    groupedTags = getGroupedTags($events);
+  });
   
   // Time horizon options
   const timeHorizons = [
     { value: 'all', label: 'Alle Termine' },
-    // { value: 'upcoming', label: 'Demnächst' },
     { value: 'today', label: 'Heute' },
     { value: 'thisWeek', label: 'Diese Woche' },
-    // { value: 'nextWeek', label: 'Nächste Woche' },
     { value: 'thisMonth', label: 'Diesen Monat' },
     { value: 'nextMonth', label: 'Nächsten Monat' },
     { value: 'next3Months', label: 'Nächste 3 Monate' }
   ];
 
+  // Tag group names
+  const tagGroupNames = {
+    "topic": "Thema",
+    "format": "Format",
+    "audience": "Zielgruppe",
+    "cost": "Kosten"
+  };
+
   // Subscribe to the filters store to get current filter values
   filters.subscribe(f => {
-    selectedCategory = f.category || '';
     selectedTags = f.tags ? [...f.tags] : [];
     onlineOnly = f.onlineOnly || false;
     selectedTimeHorizon = f.timeHorizon || 'all';
   });
 
-  function selectCategory(cat) {
-    selectedCategory = cat;
-    applyFilters();
+  // Set minimum tag frequency
+  const minTagFrequency = 3; // Only show tags that appear in at least 3 events
+  
+  // Update tag frequency and grouped tags when events change
+  $: if ($events && $events.length > 0) {
+    tagFrequency = calculateTagFrequency($events);
+    groupedTags = getGroupedTags($events);
+  }
+  
+  function calculateTagFrequency(events) {
+    const frequency = {};
+    
+    events.forEach(event => {
+      if (event.tags && Array.isArray(event.tags)) {
+        event.tags.forEach(tag => {
+          frequency[tag] = (frequency[tag] || 0) + 1;
+        });
+      }
+    });
+    
+    return frequency;
+  }
+  
+  function getGroupedTags(events) {
+    const groups = {
+      "topic": new Set(),
+      "format": new Set(),
+      "audience": new Set(),
+      "cost": new Set()
+    };
+    
+    // Collect tags from events
+    events.forEach(event => {
+      if (event.tag_groups) {
+        Object.entries(event.tag_groups).forEach(([groupId, tags]) => {
+          if (groups[groupId]) {
+            tags.forEach(tag => {
+              // Only add tags that meet the frequency threshold
+              if (tagFrequency[tag] >= minTagFrequency) {
+                groups[groupId].add(tag);
+              }
+            });
+          }
+        });
+      }
+    });
+    
+    // Convert Sets to sorted Arrays
+    Object.keys(groups).forEach(groupId => {
+      groups[groupId] = Array.from(groups[groupId]).sort();
+    });
+    
+    return groups;
+  }
+
+  // Find the group ID for a tag
+  function findTagGroup(tag) {
+    for (const [groupId, tags] of Object.entries(groupedTags)) {
+      if (tags.includes(tag)) {
+        return groupId;
+      }
+    }
+    return null;
   }
 
   function toggleTag(tag) {
@@ -56,7 +134,6 @@
 
   function applyFilters() {
     updateFilters({
-      category: selectedCategory,
       tags: selectedTags,
       onlineOnly: onlineOnly,
       timeHorizon: selectedTimeHorizon
@@ -64,7 +141,6 @@
   }
 
   function clearFilters() {
-    selectedCategory = '';
     selectedTags = [];
     onlineOnly = false;
     selectedTimeHorizon = 'all';
@@ -79,37 +155,43 @@
 <div class="bg-white rounded-lg shadow p-4 mb-6">
   <div class="flex justify-between items-center mb-4 pb-2">
     <h2 class="text-lg font-semibold text-gray-800">Filter</h2>
-  
   </div>
   
   <div class={isFilterOpen ? 'block' : 'hidden md:block'}>
-    <!-- Category filter as dropdown -->
-    <div class="mb-4">
-      <h3 class="text-sm font-medium text-gray-700 mb-2">Kategorie</h3>
-      <div class="relative">
-        <select 
-          class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 appearance-none bg-white"
-          bind:value={selectedCategory}
-          on:change={applyFilters}
-        >
-          <option value="">Alle Kategorien</option>
-          {#each $categories as cat}
-            <option value={cat}>{getCategoryName(cat)}</option>
-          {/each}
-        </select>
+    <!-- Tag filters by group -->
+    {#each Object.entries(groupedTags) as [groupId, tags]}
+      {#if tags.length > 0}
+        <div class="tag-group mb-4">
+          <h3 class="tag-group-title">{tagGroupNames[groupId] || groupId}</h3>
+          <div class="flex flex-wrap gap-1">
+            {#each tags as tag}
+              <Tag 
+                {tag} 
+                {groupId}
+                selectable={true}
+                selected={selectedTags.includes(tag)}
+                count={tagFrequency[tag]}
+                onClick={() => toggleTag(tag)}
+              />
+            {/each}
+          </div>
+        </div>
+      {/if}
+    {/each}
+    
+    <!-- {#if selectedTags.length > 0}
+      <div class="mt-2 mb-4 text-sm text-gray-500">
+        Zeige Events mit ALLEN ausgewählten Tags (AND-Logik)
       </div>
-    </div>
+    {/if} -->
 
     <!-- Time Horizon Selection -->
-    <div class="mb-4">
-      <h3 class="text-sm font-medium text-gray-700 mb-2">Zeitraum</h3>
-      <div class="flex flex-wrap gap-2">
+    <div class="tag-group mb-4">
+      <h3 class="tag-group-title">Zeitraum</h3>
+      <div class="flex flex-wrap gap-1">
         {#each timeHorizons as horizon}
           <button
-            class="px-3 py-1 rounded-md text-sm border transition-colors
-                   {selectedTimeHorizon === horizon.value ? 
-                     'bg-primary-600 text-white border-primary-600' : 
-                     'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}"
+            class="tag {selectedTimeHorizon === horizon.value ? 'selected' : ''} selectable"
             on:click={() => selectTimeHorizon(horizon.value)}
           >
             {horizon.label}
@@ -119,7 +201,7 @@
     </div>
 
     <!-- Online Only Filter -->
-    <div class="mb-4">
+    <!-- <div class="mb-4">
       <label class="inline-flex items-center cursor-pointer">
         <input 
           type="checkbox" 
@@ -129,44 +211,19 @@
         />
         <span class="ml-2 text-sm text-gray-700">Nur Online-Veranstaltungen</span>
       </label>
-    </div>
-
-    <!-- Tags Filter as pills -->
-    {#if $topTags.length > 0}
-  <div class="mb-4">
-    <h3 class="text-sm font-medium text-gray-700 mb-2">Tags</h3>
-    <div class="flex flex-wrap gap-2">
-      {#each $topTags as tag}
-        <button
-          class="px-3 py-1 rounded-full text-sm border transition-colors
-                {selectedTags.includes(tag) ? 'bg-primary-600 text-white' : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-50'}"
-          on:click={() => toggleTag(tag)}
-        >{tag}</button>
-      {/each}
-    </div>
-  </div>
-{/if}
+    </div> -->
 
     <!-- Filter Actions -->
-    <div class="flex gap-2 flex-wrap">
+    <div class="flex gap-1 flex-wrap">
       <button 
         type="button" 
-        class="flex justify-center items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-        on:click={applyFilters}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
-        </svg>
-        Filter anwenden
-      </button>
-      <button 
-        type="button" 
-        class="flex justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        class="flex justify-center items-center px-4 py-2 border border-gray-300 text-sm rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         on:click={clearFilters}
+        disabled={selectedTags.length === 0 && !onlineOnly && selectedTimeHorizon === 'all'}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
+        </svg> -->
           Zurücksetzen
       </button>
     </div>

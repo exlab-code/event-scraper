@@ -1,6 +1,18 @@
 {
   "categories": [
     {
+      "id": "datenschutz_sicherheit",
+      "name": "Datenschutz & Sicherheit",
+      "description": "Datenschutz, Datensicherheit und IT-Sicherheit für Non-Profits",
+      "keywords": [
+        "datenschutz", "data protection", "dsgvo", "gdpr", "datensicherheit", "data security",
+        "it-sicherheit", "it security", "cybersecurity", "cyber security", "privacy",
+        "informationssicherheit", "information security", "risikomanagement", "risk management",
+        "compliance", "verschlüsselung", "encryption", "passwort", "password", "zwei-faktor-authentifizierung",
+        "two-factor authentication", "2fa", "backup", "datensicherung", "phishing", "hacking"
+      ]
+    },
+    {
       "id": "ki_nonprofit",
       "name": "KI für Non-Profits",
       "description": "Künstliche Intelligenz im Kontext gemeinnütziger Organisationen",
