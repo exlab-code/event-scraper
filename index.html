@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
+  <!-- Dynamic base URL for GitHub Pages -->
+  <script>
+    // Dynamically set the base URL based on the current location
+    document.write('<base href="' + document.location.pathname + '" />');
+  </script>
+  
   <title>Non-Profit Digitalization Events</title>
 
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <!-- Make sure this path is correct -->
-  <link rel="stylesheet" href="build/bundle.css">
-  <link rel="stylesheet" href="bundle.css">
+  <link rel="stylesheet" href="./bundle.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +37,7 @@
   </script>
   <!-- End Single Page Apps for GitHub Pages -->
 
-  <script defer src="build/bundle.js"></script>
+  <script defer src="./build/bundle.js"></script>
 </head>
 
 <body>
