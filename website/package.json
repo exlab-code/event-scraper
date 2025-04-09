@@ -33,6 +33,7 @@
   "build": "rollup -c",
   "dev": "rollup -c -w",
   "start": "sirv public --no-clear --single",
-  "serve": "node dev-server.js"
+  "serve": "node dev-server.js",
+  "deploy": "wrangler pages deploy public --project-name event-scraper-website"
 }
 }
