@@ -338,17 +338,27 @@ def sync_directus_to_nextcloud():
         cost = event.get('cost', '')
         category = event.get('category', '')
         
-        # Category mappings for human-readable names
-        category_mappings = {
-            "ki_nonprofit": "KI für Non-Profits",
-            "digitale_kommunikation": "Digitale Kommunikation & Social Media",
-            "foerderung_finanzierung": "Förderprogramme & Finanzierung",
-            "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
-            "daten_projektmanagement": "Daten & Projektmanagement",
-            "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
-            "digitale_transformation": "Digitale Transformation & Strategie",
-            "tools_anwendungen": "Tools & Anwendungen"
-        }
+        # Load category mappings from event_categories_config.json
+        category_mappings = {}
+        try:
+            with open('event_categories_config.json', 'r', encoding='utf-8') as f:
+                categories_config = json.load(f)
+                for category in categories_config.get('categories', []):
+                    if 'id' in category and 'name' in category:
+                        category_mappings[category['id']] = category['name']
+        except Exception as e:
+            logger.error(f"Error loading category mappings: {str(e)}")
+            # Fallback to default mappings if file can't be loaded
+            category_mappings = {
+                "ki_nonprofit": "KI für Non-Profits",
+                "digitale_kommunikation": "Digitale Kommunikation & Social Media",
+                "foerderung_finanzierung": "Förderprogramme & Finanzierung",
+                "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
+                "daten_projektmanagement": "Daten & Projektmanagement",
+                "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
+                "digitale_transformation": "Digitale Transformation & Strategie",
+                "tools_anwendungen": "Tools & Anwendungen"
+            }
         
         # Convert category IDs to human-readable names
         human_readable_categories = []

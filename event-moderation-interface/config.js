@@ -1,15 +1,18 @@
 // Configuration for the Event Moderation Interface
+// This file should not contain sensitive information directly
+// Values are loaded from config-secrets.js which is not tracked in git
 
+// Default configuration (will be overridden by config-secrets.js if available)
 const CONFIG = {
     // Directus API configuration
     api: {
         // Direct API access
-        baseUrl: 'https://calapi.buerofalk.de',
+        baseUrl: 'https://your-directus-api-url',
         
         // Proxy server (only for local development)
         // baseUrl: 'http://localhost:9090',
         
-        token: 'APpU898yct7V2VyMFfcJse_7WXktDY-o',
+        token: 'your-api-token-here',
         eventsCollection: 'events',
         itemsPerPage: 10,
         debug: true,  // Enable debug mode to log API requests and responses
@@ -40,6 +43,18 @@ const CONFIG = {
         'weiterbildung_qualifizierung': '#1abc9c',
         'digitale_transformation': '#34495e',
         'tools_anwendungen': '#e67e22'
+    },
+    
+    // Category mappings (from ID to human-readable name)
+    categoryMappings: {
+        'ki_nonprofit': 'KI für Non-Profits',
+        'digitale_kommunikation': 'Digitale Kommunikation & Social Media',
+        'foerderung_finanzierung': 'Förderprogramme & Finanzierung',
+        'ehrenamt_engagement': 'Ehrenamt & Engagemententwicklung',
+        'daten_projektmanagement': 'Daten & Projektmanagement',
+        'weiterbildung_qualifizierung': 'Weiterbildung & Qualifizierung',
+        'digitale_transformation': 'Digitale Transformation & Strategie',
+        'tools_anwendungen': 'Tools & Anwendungen'
     },
     
     // Refresh interval for stats (in milliseconds)

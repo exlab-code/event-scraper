@@ -503,17 +503,8 @@ const ui = {
         // Categories
         const categoriesContainer = card.querySelector('.event-categories');
         
-        // Load category mappings from event_categories_config.json
-        const categoryMappings = {
-            "ki_nonprofit": "KI für Non-Profits",
-            "digitale_kommunikation": "Digitale Kommunikation & Social Media",
-            "foerderung_finanzierung": "Förderprogramme & Finanzierung",
-            "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
-            "daten_projektmanagement": "Daten & Projektmanagement",
-            "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
-            "digitale_transformation": "Digitale Transformation & Strategie",
-            "tools_anwendungen": "Tools & Anwendungen"
-        };
+        // Load category mappings from CONFIG
+        const categoryMappings = CONFIG.categoryMappings || {};
         
         // Try to use existing categories first
         if (event.category && typeof event.category === 'string') {
