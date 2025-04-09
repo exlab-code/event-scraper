@@ -8,10 +8,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # Add permissions for GitHub Pages deployment
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # Fetch all history for proper deployment
+          fetch-depth: 0
         
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -30,8 +36,21 @@ jobs:
           cd website
           npm run build
           
+      - name: Ensure .nojekyll file exists
+        run: |
+          touch website/public/.nojekyll
+          
+      - name: Setup Git Identity
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: website/public
           branch: gh-pages
+          # Add token for authentication
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Clean up existing files
+          clean: true
