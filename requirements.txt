@@ -5,3 +5,5 @@ schedule
 python-dateutil
 python-dotenv
 openai
+caldav
+icalendar

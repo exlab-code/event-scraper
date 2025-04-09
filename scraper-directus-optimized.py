@@ -9,6 +9,7 @@ This version includes optimizations for performance:
 - URL and content caching to avoid redundant requests
 - Reduced disk I/O by not saving HTML files by default
 - More efficient text normalization
+- Environment variable support for secure API credentials
 """
 import requests
 from bs4 import BeautifulSoup
@@ -24,6 +25,10 @@ import argparse
 from pathlib import Path
 import pickle
 from functools import lru_cache
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up logging
 def setup_logging(log_level=logging.INFO, log_dir="logs"):
@@ -2034,10 +2039,12 @@ def main():
     # Create default Directus config if it doesn't exist
     if not args.no_directus and not os.path.exists(args.directus_config):
         logger.info(f"Directus configuration file not found, creating default at {args.directus_config}")
+        
+        # Get values from environment variables or use defaults
         default_directus_config = {
-            "url": "https://calapi.buerofalk.de",
-            "token": "APpU898yct7V2VyMFfcJse_7WXktDY-o",
-            "collection": "scraped_data"
+            "url": os.getenv("DIRECTUS_API_URL", "https://your-directus-api-url"),
+            "token": os.getenv("DIRECTUS_API_TOKEN", "your-api-token-here"),
+            "collection": os.getenv("DIRECTUS_COLLECTION", "scraped_data")
         }
         
         # Ensure directus config directory exists

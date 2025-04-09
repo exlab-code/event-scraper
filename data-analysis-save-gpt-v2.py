@@ -570,6 +570,16 @@ class GPT4MiniProcessor:
                         # If not valid JSON, split by commas
                         topics = [t.strip() for t in topics.split(',')]
                 
+                # Get category name if available to filter it out from tags
+                category_name = None
+                if 'categories' in structured_data and structured_data['categories'] and len(structured_data['categories']) > 0:
+                    if isinstance(structured_data['categories'][0], dict) and 'name' in structured_data['categories'][0]:
+                        category_name = structured_data['categories'][0]['name']
+                
+                # Filter out any tags that match the category name
+                if category_name:
+                    topics = [topic for topic in topics if topic != category_name]
+                
                 # Store topics as tags
                 structured_data["tags"] = topics
             

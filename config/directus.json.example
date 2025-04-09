@@ -1,5 +1,0 @@
-{
-  "url": "https://your-directus-api-url",
-  "token": "your-api-token-here",
-  "collection": "your-collection-name"
-}

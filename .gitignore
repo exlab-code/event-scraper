@@ -9,11 +9,13 @@ logs/
 .env.*.local
 config.json
 config/directus.json
+config/nextcloud.json
 event-moderation-interface/config-secrets.js
 
 # Include example files
 !.env.example
 !config/directus.json.example
+!config/nextcloud.json.example
 !event-moderation-interface/config-secrets.js.example
 
 # Python

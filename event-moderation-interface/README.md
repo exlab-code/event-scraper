@@ -21,11 +21,12 @@ A web-based interface for moderating events and providing feedback on LLM releva
    - `app.js`
    - `serve.py` (for local testing)
 
-2. Update the configuration in `config.js` if needed:
-   - API URL and token
-   - Collection name
-   - Category colors
-   - Refresh interval
+2. Set up the configuration:
+   - The default configuration is in `config.js` (this file should be committed to Git)
+   - Create a `config-secrets.js` file for sensitive information:
+     - Copy `config-secrets.js.example` to `config-secrets.js`
+     - Update the API URL and token in `config-secrets.js`
+     - This file should NOT be committed to Git (it's in .gitignore)
 
 3. Run the local server:
    ```

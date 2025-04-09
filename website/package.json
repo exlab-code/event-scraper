@@ -1,0 +1,38 @@
+{
+  "name": "nonprofit-events-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear --single --host 0.0.0.0 --port 5000"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "autoprefixer": "^10.4.21",
+    "http-proxy-middleware": "^3.0.3",
+    "postcss": "^8.5.3",
+    "postcss-load-config": "^4.0.1",
+    "rollup": "^2.58.0",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "svelte": "^3.44.0",
+    "svelte-preprocess": "^4.10.7",
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "sirv-cli": "^2.0.0"
+  },
+  "scripts": {
+  "build": "rollup -c",
+  "dev": "rollup -c -w",
+  "start": "sirv public --no-clear --single",
+  "serve": "node dev-server.js"
+}
+}

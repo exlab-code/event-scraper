@@ -1,0 +1,31 @@
+/* Custom CSS for the website */
+
+/* EventCard component styles */
+.event-card {
+  /* Add your custom styles here */
+}
+
+.event-card .date-indicator {
+  /* Styles for the date indicator */
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.event-card .main-content {
+  /* Styles for the main content */
+}
+
+.event-card .action-bar {
+  /* Styles for the action bar */
+  /* Example: Align buttons at the bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* You can add more custom styles for other components below */

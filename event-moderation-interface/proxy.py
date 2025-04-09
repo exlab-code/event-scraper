@@ -20,11 +20,15 @@ import json
 import os
 import sys
 from urllib.parse import urlparse, parse_qs
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configuration
 PROXY_PORT = 9090  # Using a less common port to avoid conflicts
-TARGET_API = "https://calapi.buerofalk.de"
-API_TOKEN = "APpU898yct7V2VyMFfcJse_7WXktDY-o"  # This should match the token in config.js
+TARGET_API = os.getenv("DIRECTUS_API_URL", "https://your-directus-api-url")
+API_TOKEN = os.getenv("DIRECTUS_API_TOKEN", "your-api-token-here")  # This should match the token in config-secrets.js
 
 class CORSProxyHandler(http.server.BaseHTTPRequestHandler):
     """Custom request handler that proxies requests to the Directus API"""
