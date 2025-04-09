@@ -64,6 +64,84 @@ Detailed documentation for each component of the system:
    python sync-events.py
    ```
 
+## Command Line Arguments
+
+### Master Script (run-event-system.sh)
+
+The master script provides a convenient way to run all components:
+
+```bash
+./run-event-system.sh {command}
+```
+
+Available commands:
+- `scrape` - Run the scraper once
+- `analyze` - Run the LLM analysis once
+- `sync` - Start the sync service (continuous)
+- `sync-once` - Run the sync service once and exit
+- `clean` - Clean the Nextcloud calendar
+- `all` - Run scraper and analysis, then start sync service in background
+- `stop` - Stop all background services
+- `status` - Check the status of all services
+- `setup-cron` - Set up cron jobs for automation
+- `remove-cron` - Remove cron jobs
+
+### Scraper (scraper-directus-optimized.py)
+
+```bash
+python scraper-directus-optimized.py [options]
+```
+
+Options:
+- `--config`, `-c` - Path to configuration file (default: config/sources.json)
+- `--directus-config`, `-d` - Path to Directus configuration file (default: config/directus.json)
+- `--output`, `-o` - Output directory for scraped data (default: data)
+- `--max-events`, `-m` - Maximum events to scrape per source (-1 for all)
+- `--verbose`, `-v` - Enable verbose logging
+- `--no-directus` - Disable Directus database integration
+- `--save-html` - Save HTML files to disk
+- `--cache-dir` - Directory to store cache files (default: .cache)
+- `--clear-cache` - Clear URL cache before running
+
+### LLM Analysis (data-analysis-save-gpt-v2.py)
+
+```bash
+python data-analysis-save-gpt-v2.py [options]
+```
+
+Options:
+- `--limit`, `-l` - Maximum number of items to process (default: 10)
+- `--batch`, `-b` - Batch size for processing (default: 3)
+- `--config`, `-c` - Path to categories configuration file (default: event_categories_config.json)
+- `--flag-mismatches`, `-f` - Flag events where LLM determination doesn't match human feedback
+- `--only-flag`, `-o` - Only flag mismatches without processing new events
+
+### Sync Events (sync-events.py)
+
+```bash
+python sync-events.py [options]
+```
+
+Options:
+- `--clean` - Clean Nextcloud calendar by removing all non-Directus events
+- `--sync-once` - Run sync once and exit (don't continue running in the background)
+
+### Moderation Interface Server (event-moderation-interface/serve.py)
+
+```bash
+python event-moderation-interface/serve.py
+```
+
+The server runs on port 9000 by default and will automatically try the next available port if 9000 is in use.
+
+### CORS Proxy (event-moderation-interface/proxy.py)
+
+```bash
+python event-moderation-interface/proxy.py
+```
+
+The proxy runs on port 9090 by default and will automatically try the next available port if 9090 is in use.
+
 ## Project Structure
 
 - `scraper-directus-optimized.py` - Main scraper script
