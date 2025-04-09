@@ -1,5 +1,8 @@
 name = "event-scraper-website"
 compatibility_date = "2025-04-09"
 
+# This is required for Pages deployments
+pages_build_output_dir = "public"
+
 [site]
 bucket = "./public"
