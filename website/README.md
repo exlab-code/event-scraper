@@ -125,19 +125,41 @@ This will create optimized files in the `public/build` directory.
 
 ### Step 3: Configure Build Settings
 
-There are two ways to configure the build settings:
+There are several ways to configure the build settings:
 
-#### Option 1: Using the Cloudflare Pages UI
+#### Option 1: Using the Cloudflare Pages UI with Root Directory
 
 Configure the following build settings in the Cloudflare Pages UI:
 
 - **Project name**: Choose a name for your project (e.g., "event-scraper-website")
 - **Production branch**: `main` (or your default branch)
-- **Build command**: `cd website && npm install && npm run build`
-- **Build output directory**: `website/public`
-- **Root directory**: (leave empty)
+- **Build command**: `npm install && npm run build`
+- **Build output directory**: `public`
+- **Root directory**: `website` (important to only build the frontend)
 
-#### Option 2: Using wrangler.toml (Recommended)
+This configuration ensures that Cloudflare Pages only builds the frontend website and ignores the Python scraping components.
+
+#### Option 2: Using cloudflare-pages.json (Recommended)
+
+A `cloudflare-pages.json` file has been added to the website directory with the following configuration:
+
+```json
+{
+  "build": {
+    "command": "npm install && npm run build",
+    "output_directory": "public",
+    "root_directory": "."
+  }
+}
+```
+
+When deploying, specify the path to this configuration file:
+
+```bash
+wrangler pages deploy public --config website/cloudflare-pages.json
+```
+
+#### Option 3: Using wrangler.toml
 
 A `wrangler.toml` file has been added to the website directory with the following configuration:
 
@@ -183,13 +205,25 @@ You can also deploy directly using Wrangler, Cloudflare's command-line tool:
    wrangler login
    ```
 
-3. Navigate to the website directory and deploy:
+3. Deploy using one of these methods:
+
+   a. From the website directory:
    ```bash
    cd website
    wrangler pages deploy public
    ```
 
-This will upload your website to Cloudflare Pages and provide you with a deployment URL.
+   b. From the project root with the cloudflare-pages.json configuration:
+   ```bash
+   wrangler pages deploy website/public --project-name event-scraper-website
+   ```
+
+   c. From the project root with the root directory specified:
+   ```bash
+   wrangler pages deploy --project-name event-scraper-website --build-output-directory public --root website
+   ```
+
+Any of these methods will upload your website to Cloudflare Pages and provide you with a deployment URL.
 
 ### Step 6: Custom Domain (Optional)
 

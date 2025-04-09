@@ -1,0 +1,7 @@
+{
+  "build": {
+    "command": "npm install && npm run build",
+    "output_directory": "public",
+    "root_directory": "."
+  }
+}
