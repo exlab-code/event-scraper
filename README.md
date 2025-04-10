@@ -14,12 +14,15 @@ This project is a complete event management system that:
 
 ## Documentation
 
-Detailed documentation for each component of the system:
+Detailed documentation for each component of the system is available in the `docs` directory:
 
-- [Quick Start Guide](HOWTO.md) - Complete guide to setting up and using the system
-- [Sync Events Documentation](sync-events-README.md) - Details on the Directus-Nextcloud sync
-- [Event Moderation Interface](event-moderation-interface/README.md) - Guide to the moderation web interface
-- [Website CSS Customization](website/public/custom-css-readme.md) - How to customize the website appearance
+- [Installation Guide](docs/installation.md) - Complete guide to setting up and using the system
+- [Scraper Documentation](docs/scraper.md) - Details on the event scraper component
+- [Analyzer Documentation](docs/analyzer.md) - Information about the LLM analysis component
+- [Sync Documentation](docs/sync.md) - Details on the Directus-Nextcloud sync
+- [Moderation Interface](docs/moderation.md) - Guide to the moderation web interface
+- [Website Documentation](docs/website.md) - Information about the website component
+- [CSS Customization](docs/customization.md) - How to customize the website appearance
 
 ## System Requirements
 
@@ -52,26 +55,26 @@ Detailed documentation for each component of the system:
 4. **Run the system components**:
    ```bash
    # Run the scraper
-   python scraper-directus-optimized.py
+   python event_scraper.py
    
    # Run the LLM analysis
-   python data-analysis-save-gpt-v2.py
+   python event_analyzer.py
    
    # Start the moderation interface
    cd event-moderation-interface && python serve.py
    
    # Sync to Nextcloud
-   python sync-events.py
+   python calendar_sync.py
    ```
 
 ## Command Line Arguments
 
-### Master Script (run-event-system.sh)
+### Master Script (run_system.sh)
 
 The master script provides a convenient way to run all components:
 
 ```bash
-./run-event-system.sh {command}
+./run_system.sh {command}
 ```
 
 Available commands:
@@ -86,10 +89,10 @@ Available commands:
 - `setup-cron` - Set up cron jobs for automation
 - `remove-cron` - Remove cron jobs
 
-### Scraper (scraper-directus-optimized.py)
+### Scraper (event_scraper.py)
 
 ```bash
-python scraper-directus-optimized.py [options]
+python event_scraper.py [options]
 ```
 
 Options:
@@ -103,10 +106,10 @@ Options:
 - `--cache-dir` - Directory to store cache files (default: .cache)
 - `--clear-cache` - Clear URL cache before running
 
-### LLM Analysis (data-analysis-save-gpt-v2.py)
+### LLM Analysis (event_analyzer.py)
 
 ```bash
-python data-analysis-save-gpt-v2.py [options]
+python event_analyzer.py [options]
 ```
 
 Options:
@@ -116,10 +119,10 @@ Options:
 - `--only-flag`, `-o` - Only flag mismatches without processing new events
 - `--log-file` - Path to log file for LLM extraction results (default: llm_extraction.log)
 
-### Sync Events (sync-events.py)
+### Sync Events (calendar_sync.py)
 
 ```bash
-python sync-events.py [options]
+python calendar_sync.py [options]
 ```
 
 Options:
@@ -145,13 +148,18 @@ The proxy runs on port 9090 by default and will automatically try the next avail
 
 ## Project Structure
 
-- `scraper-directus-optimized.py` - Main scraper script
-- `data-analysis-save-gpt-v2.py` - LLM analysis script
-- `sync-events.py` - Nextcloud calendar sync script
+- `event_scraper.py` - Main scraper script (formerly scraper-directus-optimized.py)
+- `event_analyzer.py` - LLM analysis script (formerly data-analysis-save-gpt-v2.py)
+- `calendar_sync.py` - Nextcloud calendar sync script (formerly sync-events.py)
+- `run_system.sh` - Master script to run all components (formerly run-event-system.sh)
+- `run_scraper.sh` / `run_scraper.bat` - Helper scripts to run the scraper
 - `config/` - Configuration files for scrapers and sources
+- `docs/` - Comprehensive documentation for all components
 - `event-moderation-interface/` - Web interface for event moderation
 - `website/` - Svelte-based website for displaying events
-- `run-event-system.sh` - Helper script to run all components
+- `archives/` - Archive of historical data
+- `deprecated/` - Deprecated code and scripts
+- `scripts/` - Additional utility scripts
 
 ## Recent Updates (April 2025)
 
@@ -178,13 +186,21 @@ The date extraction in the LLM analysis script has been improved:
 
 ### Modified Sync Script Behavior
 
-The sync-events.py script behavior has been changed:
+The calendar_sync.py script behavior has been changed:
 - Now runs once and exits by default (no continuous scheduling)
 - Added `--schedule` flag to explicitly enable hourly scheduling if needed
-- Updated documentation in sync-events-README.md with new options and examples
+- Updated documentation in docs/sync.md with new options and examples
 - Added instructions for stopping the sync service if it's running in the background
 
-See [Sync Events Documentation](sync-events-README.md) for more details on these changes.
+See [Sync Documentation](docs/sync.md) for more details on these changes.
+
+### Project Reorganization
+
+The project has been reorganized for better clarity and maintainability:
+- Renamed scripts to follow consistent naming conventions
+- Consolidated documentation into a central `docs` directory
+- Archived obsolete files and deprecated code
+- Updated file references in documentation and scripts
 
 ## License
 

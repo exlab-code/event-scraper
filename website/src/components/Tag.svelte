@@ -22,6 +22,6 @@
 >
   {tag}
   {#if count !== null && count > 1}
-    <span class="tag-count ml-2 opacity-70"> — {count}</span>
+    <span class="tag-count ml-2 opacity-70">&nbsp;{count}</span>
   {/if}
 </button>

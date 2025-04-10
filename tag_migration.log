@@ -1074,3 +1074,1195 @@ Migration Summary:
 2025-04-09 21:20:03,920 - tag_migration - INFO - Skipped events: 105
 2025-04-09 21:20:03,920 - tag_migration - INFO - Failed events: 0
 2025-04-09 21:20:03,920 - tag_migration - INFO - Migration complete
+2025-04-10 10:41:02,112 - tag_migration - INFO - Starting tag migration
+2025-04-10 10:41:02,346 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-10 10:41:02,493 - tag_migration - INFO - Retrieved 100 events (page 2)
+2025-04-10 10:41:02,609 - tag_migration - INFO - Retrieved 58 events (page 3)
+2025-04-10 10:41:02,678 - tag_migration - INFO - Retrieved a total of 258 events
+2025-04-10 10:41:02,679 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-10 10:41:02,679 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-10 10:41:02,680 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-10 10:41:02,681 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-10 10:41:02,682 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 384 already has tag_groups, skipping
+2025-04-10 10:41:02,683 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-10 10:41:02,684 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Processing batch 11 (10 events)
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 420 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 421 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 422 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Event 425 already has tag_groups, skipping
+2025-04-10 10:41:02,685 - tag_migration - INFO - Processing batch 12 (10 events)
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 426 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 427 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 428 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 429 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 430 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 431 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 434 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 435 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 436 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 437 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Processing batch 13 (10 events)
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 438 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 439 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 440 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 441 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 442 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 443 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 444 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 445 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 446 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 447 already has tag_groups, skipping
+2025-04-10 10:41:02,686 - tag_migration - INFO - Processing batch 14 (10 events)
+2025-04-10 10:41:02,686 - tag_migration - INFO - Event 448 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 449 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 450 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 451 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 452 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 453 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 454 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 455 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 456 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 457 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Processing batch 15 (10 events)
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 458 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 459 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 460 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 461 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 462 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 463 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 464 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 465 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 466 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 467 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Processing batch 16 (10 events)
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 468 already has tag_groups, skipping
+2025-04-10 10:41:02,687 - tag_migration - INFO - Event 469 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 470 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 471 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 472 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 473 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 474 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 475 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 476 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 477 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Processing batch 17 (10 events)
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 478 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 479 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 480 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 481 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 482 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 483 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 484 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 485 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 486 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 487 already has tag_groups, skipping
+2025-04-10 10:41:02,688 - tag_migration - INFO - Processing batch 18 (10 events)
+2025-04-10 10:41:02,688 - tag_migration - INFO - Event 488 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 489 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 490 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 491 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 492 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 493 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 494 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 495 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 496 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 497 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Processing batch 19 (10 events)
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 498 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 499 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 500 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 501 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 502 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 503 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 504 already has tag_groups, skipping
+2025-04-10 10:41:02,689 - tag_migration - INFO - Event 505 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 506 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 507 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Processing batch 20 (10 events)
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 508 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 509 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 510 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 511 already has tag_groups, skipping
+2025-04-10 10:41:02,690 - tag_migration - INFO - Event 512 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 513 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 514 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 515 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 516 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 517 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Processing batch 21 (10 events)
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 518 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 519 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 520 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 521 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 522 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 523 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 524 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 525 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 526 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 527 already has tag_groups, skipping
+2025-04-10 10:41:02,691 - tag_migration - INFO - Processing batch 22 (10 events)
+2025-04-10 10:41:02,691 - tag_migration - INFO - Event 528 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 529 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 530 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 531 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 532 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 533 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 534 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 535 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 536 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 537 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Processing batch 23 (10 events)
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 538 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 539 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 540 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 541 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 542 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 543 already has tag_groups, skipping
+2025-04-10 10:41:02,692 - tag_migration - INFO - Event 544 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 545 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 546 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 547 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Processing batch 24 (10 events)
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 548 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 549 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 550 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 551 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 552 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 553 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 554 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 555 already has tag_groups, skipping
+2025-04-10 10:41:02,693 - tag_migration - INFO - Event 556 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 557 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Processing batch 25 (10 events)
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 558 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 559 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 560 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 561 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 562 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 563 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 564 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 565 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 566 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 567 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Processing batch 26 (8 events)
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 568 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 569 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 570 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 571 already has tag_groups, skipping
+2025-04-10 10:41:02,694 - tag_migration - INFO - Event 572 already has tag_groups, skipping
+2025-04-10 10:41:02,695 - tag_migration - INFO - Event 573 already has tag_groups, skipping
+2025-04-10 10:41:02,695 - tag_migration - INFO - Event 574 already has tag_groups, skipping
+2025-04-10 10:41:02,695 - tag_migration - INFO - Event 575 already has tag_groups, skipping
+2025-04-10 10:41:02,695 - tag_migration - INFO - 
+Migration Summary:
+2025-04-10 10:41:02,695 - tag_migration - INFO - Total events: 258
+2025-04-10 10:41:02,695 - tag_migration - INFO - Updated events: 0
+2025-04-10 10:41:02,695 - tag_migration - INFO - Skipped events: 258
+2025-04-10 10:41:02,695 - tag_migration - INFO - Failed events: 0
+2025-04-10 10:41:02,695 - tag_migration - INFO - Migration complete
+2025-04-10 10:42:24,876 - tag_migration - INFO - Starting tag migration
+2025-04-10 10:42:25,158 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-10 10:42:25,328 - tag_migration - INFO - Retrieved 100 events (page 2)
+2025-04-10 10:42:25,455 - tag_migration - INFO - Retrieved 58 events (page 3)
+2025-04-10 10:42:25,524 - tag_migration - INFO - Retrieved a total of 258 events
+2025-04-10 10:42:25,525 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-10 10:42:25,525 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-10 10:42:25,526 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-10 10:42:25,527 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-10 10:42:25,528 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 384 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-10 10:42:25,529 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-10 10:42:25,530 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Processing batch 11 (10 events)
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 420 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 421 already has tag_groups, skipping
+2025-04-10 10:42:25,531 - tag_migration - INFO - Event 422 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 425 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Processing batch 12 (10 events)
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 426 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 427 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 428 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 429 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 430 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 431 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 434 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 435 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 436 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 437 already has tag_groups, skipping
+2025-04-10 10:42:25,532 - tag_migration - INFO - Processing batch 13 (10 events)
+2025-04-10 10:42:25,532 - tag_migration - INFO - Event 438 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 439 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 440 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 441 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 442 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 443 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 444 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 445 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 446 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 447 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Processing batch 14 (10 events)
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 448 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 449 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 450 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 451 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 452 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 453 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 454 already has tag_groups, skipping
+2025-04-10 10:42:25,533 - tag_migration - INFO - Event 455 already has tag_groups, skipping
+2025-04-10 10:42:25,534 - tag_migration - INFO - Event 456 already has tag_groups, skipping
+2025-04-10 10:42:25,534 - tag_migration - INFO - Event 457 already has tag_groups, skipping
+2025-04-10 10:42:25,534 - tag_migration - INFO - Processing batch 15 (10 events)
+2025-04-10 10:42:25,534 - tag_migration - INFO - Event 458 already has tag_groups, skipping
+2025-04-10 10:42:25,534 - tag_migration - INFO - Event 459 already has tag_groups, skipping
+2025-04-10 10:42:25,534 - tag_migration - INFO - Event 460 already has tag_groups, skipping
+2025-04-10 10:42:27,752 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-10 10:42:27,758 - tag_migration - INFO - Updating event 461 with: {"tags": ["KI", "Workshop", "Agenten", "Effizienzsteigerung", "Online"], "tag_groups": {"topic": ["KI", "Agenten", "Effizienzsteigerung"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-10 10:42:27,853 - tag_migration - INFO - Updated event 461
+2025-04-10 10:42:28,837 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-10 10:42:28,849 - tag_migration - INFO - Updating event 462 with: {"tags": ["KI", "Prompt Engineering", "Workshop", "Online"], "tag_groups": {"topic": ["KI", "Prompt Engineering"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-10 10:42:28,928 - tag_migration - INFO - Updated event 462
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 463 already has tag_groups, skipping
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 464 already has tag_groups, skipping
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 465 already has tag_groups, skipping
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 466 already has tag_groups, skipping
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 467 already has tag_groups, skipping
+2025-04-10 10:42:28,928 - tag_migration - INFO - Processing batch 16 (10 events)
+2025-04-10 10:42:28,928 - tag_migration - INFO - Event 468 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 469 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 470 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 471 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 472 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 473 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 474 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 475 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 476 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 477 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Processing batch 17 (10 events)
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 478 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 479 already has tag_groups, skipping
+2025-04-10 10:42:28,929 - tag_migration - INFO - Event 480 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 481 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 482 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 483 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 484 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 485 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 486 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 487 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Processing batch 18 (10 events)
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 488 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 489 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 490 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 491 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 492 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 493 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 494 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 495 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 496 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 497 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Processing batch 19 (10 events)
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 498 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 499 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 500 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 501 already has tag_groups, skipping
+2025-04-10 10:42:28,930 - tag_migration - INFO - Event 502 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 503 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 504 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 505 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 506 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 507 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Processing batch 20 (10 events)
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 508 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 509 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 510 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 511 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 512 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 513 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 514 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 515 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 516 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Event 517 already has tag_groups, skipping
+2025-04-10 10:42:28,931 - tag_migration - INFO - Processing batch 21 (10 events)
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 518 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 519 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 520 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 521 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 522 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 523 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 524 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 525 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 526 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 527 already has tag_groups, skipping
+2025-04-10 10:42:28,932 - tag_migration - INFO - Processing batch 22 (10 events)
+2025-04-10 10:42:28,932 - tag_migration - INFO - Event 528 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 529 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 530 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 531 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 532 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 533 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 534 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 535 already has tag_groups, skipping
+2025-04-10 10:42:28,933 - tag_migration - INFO - Event 536 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 537 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Processing batch 23 (10 events)
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 538 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 539 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 540 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 541 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 542 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 543 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 544 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 545 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 546 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 547 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Processing batch 24 (10 events)
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 548 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 549 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 550 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 551 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 552 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 553 already has tag_groups, skipping
+2025-04-10 10:42:28,934 - tag_migration - INFO - Event 554 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 555 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 556 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 557 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Processing batch 25 (10 events)
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 558 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 559 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 560 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 561 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 562 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 563 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 564 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 565 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 566 already has tag_groups, skipping
+2025-04-10 10:42:28,935 - tag_migration - INFO - Event 567 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Processing batch 26 (8 events)
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 568 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 569 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 570 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 571 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 572 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 573 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 574 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - Event 575 already has tag_groups, skipping
+2025-04-10 10:42:28,936 - tag_migration - INFO - 
+Migration Summary:
+2025-04-10 10:42:28,937 - tag_migration - INFO - Total events: 258
+2025-04-10 10:42:28,937 - tag_migration - INFO - Updated events: 2
+2025-04-10 10:42:28,937 - tag_migration - INFO - Skipped events: 256
+2025-04-10 10:42:28,937 - tag_migration - INFO - Failed events: 0
+2025-04-10 10:42:28,937 - tag_migration - INFO - Migration complete
+2025-04-10 10:44:38,374 - tag_migration - INFO - Starting tag migration
+2025-04-10 10:44:38,565 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-10 10:44:38,718 - tag_migration - INFO - Retrieved 100 events (page 2)
+2025-04-10 10:44:38,834 - tag_migration - INFO - Retrieved 58 events (page 3)
+2025-04-10 10:44:38,903 - tag_migration - INFO - Retrieved a total of 258 events
+2025-04-10 10:44:38,904 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-10 10:44:38,904 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-10 10:44:38,905 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-10 10:44:38,906 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-10 10:44:38,907 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 384 already has tag_groups, skipping
+2025-04-10 10:44:38,908 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-10 10:44:38,909 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Processing batch 11 (10 events)
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-10 10:44:38,910 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 420 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 421 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 422 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 425 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Processing batch 12 (10 events)
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 426 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 427 already has tag_groups, skipping
+2025-04-10 10:44:38,911 - tag_migration - INFO - Event 428 already has tag_groups, skipping
+2025-04-10 10:44:43,628 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-10 10:44:43,632 - tag_migration - INFO - Updating event 429 with: {"tags": ["KI", "ChatGPT", "Workshop", "Business Cases", "Generative Sprachmodelle", "Online"], "tag_groups": {"topic": ["KI", "ChatGPT", "Business Cases", "Generative Sprachmodelle"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-10 10:44:43,720 - tag_migration - INFO - Updated event 429
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 430 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 431 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 434 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 435 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 436 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 437 already has tag_groups, skipping
+2025-04-10 10:44:43,721 - tag_migration - INFO - Processing batch 13 (10 events)
+2025-04-10 10:44:43,721 - tag_migration - INFO - Event 438 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 439 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 440 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 441 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 442 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 443 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 444 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 445 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 446 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 447 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Processing batch 14 (10 events)
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 448 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 449 already has tag_groups, skipping
+2025-04-10 10:44:43,722 - tag_migration - INFO - Event 450 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 451 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 452 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 453 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 454 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 455 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 456 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 457 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Processing batch 15 (10 events)
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 458 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 459 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 460 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 461 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 462 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 463 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 464 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 465 already has tag_groups, skipping
+2025-04-10 10:44:43,723 - tag_migration - INFO - Event 466 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 467 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Processing batch 16 (10 events)
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 468 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 469 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 470 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 471 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 472 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 473 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 474 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 475 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 476 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 477 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Processing batch 17 (10 events)
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 478 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 479 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 480 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 481 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 482 already has tag_groups, skipping
+2025-04-10 10:44:43,724 - tag_migration - INFO - Event 483 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 484 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 485 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 486 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 487 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Processing batch 18 (10 events)
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 488 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 489 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 490 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 491 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 492 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 493 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 494 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 495 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 496 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 497 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Processing batch 19 (10 events)
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 498 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 499 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 500 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 501 already has tag_groups, skipping
+2025-04-10 10:44:43,725 - tag_migration - INFO - Event 502 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 503 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 504 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 505 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 506 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 507 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Processing batch 20 (10 events)
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 508 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 509 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 510 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 511 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 512 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 513 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 514 already has tag_groups, skipping
+2025-04-10 10:44:43,726 - tag_migration - INFO - Event 515 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 516 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 517 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Processing batch 21 (10 events)
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 518 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 519 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 520 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 521 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 522 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 523 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 524 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 525 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 526 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 527 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Processing batch 22 (10 events)
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 528 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 529 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 530 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 531 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 532 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 533 already has tag_groups, skipping
+2025-04-10 10:44:43,727 - tag_migration - INFO - Event 534 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 535 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 536 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 537 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Processing batch 23 (10 events)
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 538 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 539 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 540 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 541 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 542 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 543 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 544 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 545 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 546 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 547 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Processing batch 24 (10 events)
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 548 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 549 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 550 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 551 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 552 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 553 already has tag_groups, skipping
+2025-04-10 10:44:43,728 - tag_migration - INFO - Event 554 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 555 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 556 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 557 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Processing batch 25 (10 events)
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 558 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 559 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 560 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 561 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 562 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 563 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 564 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 565 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 566 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 567 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Processing batch 26 (8 events)
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 568 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 569 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 570 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 571 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 572 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 573 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 574 already has tag_groups, skipping
+2025-04-10 10:44:43,729 - tag_migration - INFO - Event 575 already has tag_groups, skipping
+2025-04-10 10:44:43,730 - tag_migration - INFO - 
+Migration Summary:
+2025-04-10 10:44:43,730 - tag_migration - INFO - Total events: 258
+2025-04-10 10:44:43,730 - tag_migration - INFO - Updated events: 1
+2025-04-10 10:44:43,730 - tag_migration - INFO - Skipped events: 257
+2025-04-10 10:44:43,730 - tag_migration - INFO - Failed events: 0
+2025-04-10 10:44:43,730 - tag_migration - INFO - Migration complete
+2025-04-10 10:45:02,386 - tag_migration - INFO - Starting tag migration
+2025-04-10 10:45:02,593 - tag_migration - INFO - Retrieved 100 events (page 1)
+2025-04-10 10:45:02,727 - tag_migration - INFO - Retrieved 100 events (page 2)
+2025-04-10 10:45:02,840 - tag_migration - INFO - Retrieved 58 events (page 3)
+2025-04-10 10:45:02,908 - tag_migration - INFO - Retrieved a total of 258 events
+2025-04-10 10:45:02,909 - tag_migration - INFO - Processing batch 1 (10 events)
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 311 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 312 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 313 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 314 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 315 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 316 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 317 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 318 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 319 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Event 320 already has tag_groups, skipping
+2025-04-10 10:45:02,909 - tag_migration - INFO - Processing batch 2 (10 events)
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 321 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 322 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 323 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 324 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 325 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 326 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 327 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 328 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 329 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Event 330 already has tag_groups, skipping
+2025-04-10 10:45:02,910 - tag_migration - INFO - Processing batch 3 (10 events)
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 331 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 332 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 333 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 334 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 335 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 336 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 337 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 338 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 339 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Event 340 already has tag_groups, skipping
+2025-04-10 10:45:02,911 - tag_migration - INFO - Processing batch 4 (10 events)
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 341 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 342 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 343 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 344 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 345 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 346 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 347 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 348 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 349 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Event 350 already has tag_groups, skipping
+2025-04-10 10:45:02,912 - tag_migration - INFO - Processing batch 5 (10 events)
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 351 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 352 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 353 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 354 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 355 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 356 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 357 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 358 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 359 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 360 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Processing batch 6 (10 events)
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 361 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 363 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 364 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 365 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 366 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 367 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 368 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 369 already has tag_groups, skipping
+2025-04-10 10:45:02,913 - tag_migration - INFO - Event 370 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 371 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Processing batch 7 (10 events)
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 372 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 373 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 374 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 375 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 376 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 377 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 378 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 379 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 380 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 381 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Processing batch 8 (10 events)
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 382 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 383 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 384 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 385 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 386 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 387 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 388 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 389 already has tag_groups, skipping
+2025-04-10 10:45:02,914 - tag_migration - INFO - Event 390 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 391 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Processing batch 9 (10 events)
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 392 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 393 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 394 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 395 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 396 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 397 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 398 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 399 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 400 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 401 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Processing batch 10 (10 events)
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 402 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 403 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 404 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 405 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 406 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 407 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 408 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 409 already has tag_groups, skipping
+2025-04-10 10:45:02,915 - tag_migration - INFO - Event 410 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 411 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Processing batch 11 (10 events)
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 412 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 413 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 414 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 415 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 416 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 417 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 420 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 421 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 422 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 425 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Processing batch 12 (10 events)
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 426 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 427 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 428 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 429 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 430 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 431 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 434 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 435 already has tag_groups, skipping
+2025-04-10 10:45:02,916 - tag_migration - INFO - Event 436 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 437 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Processing batch 13 (10 events)
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 438 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 439 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 440 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 441 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 442 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 443 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 444 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 445 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 446 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 447 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Processing batch 14 (10 events)
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 448 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 449 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 450 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 451 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 452 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 453 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 454 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 455 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 456 already has tag_groups, skipping
+2025-04-10 10:45:02,917 - tag_migration - INFO - Event 457 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Processing batch 15 (10 events)
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 458 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 459 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 460 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 461 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 462 already has tag_groups, skipping
+2025-04-10 10:45:02,918 - tag_migration - INFO - Event 463 already has tag_groups, skipping
+2025-04-10 10:45:04,816 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-10 10:45:04,823 - tag_migration - INFO - Updating event 464 with: {"tags": ["KI", "ChatGPT", "Workshop", "Business Cases", "Generative Sprachmodelle", "Online"], "tag_groups": {"topic": ["KI", "ChatGPT", "Business Cases", "Generative Sprachmodelle"], "format": ["Workshop", "Online"], "audience": [], "cost": []}}
+2025-04-10 10:45:04,910 - tag_migration - INFO - Updated event 464
+2025-04-10 10:45:04,910 - tag_migration - INFO - Event 465 already has tag_groups, skipping
+2025-04-10 10:45:04,910 - tag_migration - INFO - Event 466 already has tag_groups, skipping
+2025-04-10 10:45:04,910 - tag_migration - INFO - Event 467 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Processing batch 16 (10 events)
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 468 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 469 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 470 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 471 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 472 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 473 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 474 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 475 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 476 already has tag_groups, skipping
+2025-04-10 10:45:04,911 - tag_migration - INFO - Event 477 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Processing batch 17 (10 events)
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 478 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 479 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 480 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 481 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 482 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 483 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 484 already has tag_groups, skipping
+2025-04-10 10:45:04,912 - tag_migration - INFO - Event 485 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 486 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 487 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Processing batch 18 (10 events)
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 488 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 489 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 490 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 491 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 492 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 493 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 494 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 495 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 496 already has tag_groups, skipping
+2025-04-10 10:45:04,913 - tag_migration - INFO - Event 497 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Processing batch 19 (10 events)
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 498 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 499 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 500 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 501 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 502 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 503 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 504 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 505 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 506 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 507 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Processing batch 20 (10 events)
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 508 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 509 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 510 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 511 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 512 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 513 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 514 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 515 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 516 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 517 already has tag_groups, skipping
+2025-04-10 10:45:04,914 - tag_migration - INFO - Processing batch 21 (10 events)
+2025-04-10 10:45:04,914 - tag_migration - INFO - Event 518 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 519 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 520 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 521 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 522 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 523 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 524 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 525 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 526 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 527 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Processing batch 22 (10 events)
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 528 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 529 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 530 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 531 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 532 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 533 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 534 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 535 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 536 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Event 537 already has tag_groups, skipping
+2025-04-10 10:45:04,915 - tag_migration - INFO - Processing batch 23 (10 events)
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 538 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 539 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 540 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 541 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 542 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 543 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 544 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 545 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 546 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 547 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Processing batch 24 (10 events)
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 548 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 549 already has tag_groups, skipping
+2025-04-10 10:45:04,916 - tag_migration - INFO - Event 550 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 551 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 552 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 553 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 554 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 555 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 556 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 557 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Processing batch 25 (10 events)
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 558 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 559 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 560 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 561 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 562 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 563 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 564 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 565 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 566 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 567 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Processing batch 26 (8 events)
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 568 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 569 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 570 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 571 already has tag_groups, skipping
+2025-04-10 10:45:04,917 - tag_migration - INFO - Event 572 already has tag_groups, skipping
+2025-04-10 10:45:04,918 - tag_migration - INFO - Event 573 already has tag_groups, skipping
+2025-04-10 10:45:04,918 - tag_migration - INFO - Event 574 already has tag_groups, skipping
+2025-04-10 10:45:04,918 - tag_migration - INFO - Event 575 already has tag_groups, skipping
+2025-04-10 10:45:04,918 - tag_migration - INFO - 
+Migration Summary:
+2025-04-10 10:45:04,918 - tag_migration - INFO - Total events: 258
+2025-04-10 10:45:04,918 - tag_migration - INFO - Updated events: 1
+2025-04-10 10:45:04,918 - tag_migration - INFO - Skipped events: 257
+2025-04-10 10:45:04,918 - tag_migration - INFO - Failed events: 0
+2025-04-10 10:45:04,919 - tag_migration - INFO - Migration complete

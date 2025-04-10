@@ -323,11 +323,32 @@ def sync_directus_to_nextcloud():
         
         # Parse dates
         try:
+            # Check if start_date exists and is not None
+            if 'start_date' not in event or event['start_date'] is None:
+                logger.error(f"Event {title} has no start_date, skipping")
+                continue
+                
             start_date = dateutil.parser.parse(event['start_date'])
-            end_date = dateutil.parser.parse(event.get('end_date', event['start_date']))
-            if end_date is None:
+            
+            # For end_date, use start_date as fallback if end_date is None or missing
+            end_date_value = event.get('end_date')
+            if end_date_value is None:
                 # Default to 1 hour event if no end date
                 end_date = start_date + timedelta(hours=1)
+                logger.info(f"Event {title} has no end_date, defaulting to 1 hour duration")
+            else:
+                try:
+                    end_date = dateutil.parser.parse(end_date_value)
+                except (TypeError, ValueError) as e:
+                    # If end_date parsing fails, default to 1 hour event
+                    logger.warning(f"Could not parse end_date for event {title}: {str(e)}, defaulting to 1 hour duration")
+                    end_date = start_date + timedelta(hours=1)
+                    
+            # Ensure end_date is not None
+            if end_date is None:
+                end_date = start_date + timedelta(hours=1)
+                logger.warning(f"End date is still None for event {title}, defaulting to 1 hour duration")
+                
         except (TypeError, ValueError) as e:
             logger.error(f"Error parsing dates for event {title}: {str(e)}, skipping")
             continue
@@ -336,41 +357,47 @@ def sync_directus_to_nextcloud():
         organizer = event.get('organizer', '')
         website = event.get('website', '')
         cost = event.get('cost', '')
-        category = event.get('category', '')
+        tags = event.get('tags', [])
+        tag_groups = event.get('tag_groups', {})
         
-        # Load category mappings from event_categories_config.json
-        category_mappings = {}
-        try:
-            with open('event_categories_config.json', 'r', encoding='utf-8') as f:
-                categories_config = json.load(f)
-                for category in categories_config.get('categories', []):
-                    if 'id' in category and 'name' in category:
-                        category_mappings[category['id']] = category['name']
-        except Exception as e:
-            logger.error(f"Error loading category mappings: {str(e)}")
-            # Fallback to default mappings if file can't be loaded
-            category_mappings = {
-                "ki_nonprofit": "KI für Non-Profits",
-                "digitale_kommunikation": "Digitale Kommunikation & Social Media",
-                "foerderung_finanzierung": "Förderprogramme & Finanzierung",
-                "ehrenamt_engagement": "Ehrenamt & Engagemententwicklung",
-                "daten_projektmanagement": "Daten & Projektmanagement",
-                "weiterbildung_qualifizierung": "Weiterbildung & Qualifizierung",
-                "digitale_transformation": "Digitale Transformation & Strategie",
-                "tools_anwendungen": "Tools & Anwendungen"
-            }
+        # Extract tags from the event
+        event_tags = []
         
-        # Convert category IDs to human-readable names
-        human_readable_categories = []
-        if category:
-            # Handle comma-separated categories
-            category_ids = category.split(',')
-            for cat_id in category_ids:
-                cat_id = cat_id.strip()
-                if cat_id in category_mappings:
-                    human_readable_categories.append(category_mappings[cat_id])
-                else:
-                    human_readable_categories.append(cat_id)
+        # Handle tags field (array of strings)
+        if tags:
+            if isinstance(tags, list):
+                # Filter out None values and convert all items to strings
+                event_tags.extend([str(tag) for tag in tags if tag is not None])
+            elif isinstance(tags, str):
+                # Handle comma-separated tags
+                event_tags.extend([tag.strip() for tag in tags.split(',')])
+        
+        # Handle tag_groups field (object with arrays)
+        if tag_groups:
+            if isinstance(tag_groups, dict):
+                # Extract tags from each group
+                for group_name, group_tags in tag_groups.items():
+                    if isinstance(group_tags, list):
+                        # Filter out None values and convert all items to strings
+                        event_tags.extend([str(tag) for tag in group_tags if tag is not None])
+            elif isinstance(tag_groups, str):
+                # It might be a JSON string
+                try:
+                    parsed_groups = json.loads(tag_groups)
+                    if isinstance(parsed_groups, dict):
+                        for group_name, group_tags in parsed_groups.items():
+                            if isinstance(group_tags, list):
+                                # Filter out None values and convert all items to strings
+                                event_tags.extend([str(tag) for tag in group_tags if tag is not None])
+                except json.JSONDecodeError:
+                    logger.warning(f"Could not parse tag_groups as JSON: {tag_groups}")
+        
+        # Remove duplicates and ensure all tags are strings
+        event_tags = [str(tag) for tag in set(event_tags) if tag is not None]
+        
+        # Log the extracted tags
+        if event_tags:
+            logger.info(f"Extracted tags for event {title}: {', '.join(event_tags)}")
         
         # Create iCalendar event
         cal = Calendar()
@@ -380,16 +407,16 @@ def sync_directus_to_nextcloud():
         ical_event = Event()
         ical_event.add('summary', title)
         
-        # Create a detailed description with all event info
+        # Create a detailed description with all event info in German
         full_description = f"{description}\n\n"
         if organizer:
             full_description += f"Veranstalter: {organizer}\n"
         if cost:
             full_description += f"Preis: {cost}\n"
-        if human_readable_categories:
-            full_description += f"Kategorien: {', '.join(human_readable_categories)}\n"
+        if event_tags:
+            full_description += f"Tags: {', '.join(event_tags)}\n"
         if website:
-            full_description += f"Website: {website}"
+            full_description += f"Webseite: {website}"
             
         ical_event.add('description', full_description)
         ical_event.add('dtstart', start_date)

@@ -108,7 +108,6 @@
         {#if event.cost !== undefined && event.cost !== null && event.cost !== ''}
           <div class="flex items-center gap-2">
             <!-- Simple Euro symbol using text instead of SVG -->
-            <span class="text-primary-500 font-bold text-lg" style="width: 16px; height: 16px; display: inline-flex; justify-content: center; align-items: center; line-height: 1;">&#xF637;</span>
             <span>
               {#if event.cost === 0 || event.cost === '0' || event.cost === 'kostenlos' || event.cost === 'Kostenlos' || event.cost === 'free' || event.cost === 'Free'}
                 Kostenlos

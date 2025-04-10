@@ -1,6 +1,10 @@
-// Directus API configuration with CORS-friendly endpoint
-const DIRECTUS_URL = "https://calapi.buerofalk.de";
+// Directus API configuration
 const DIRECTUS_TOKEN = "APpU898yct7V2VyMFfcJse_7WXktDY-o";
+
+// Use the server's proxy endpoints instead of direct API access
+// This avoids CORS issues by using the Nginx proxy
+const API_BASE_URL = "/api"; // Uses the /api/ location in Nginx config
+const ITEMS_BASE_URL = "/items"; // Uses the /items/ location in Nginx config
 
 /**
  * Fetch all approved events from Directus
@@ -32,8 +36,11 @@ export async function getEvents(filters = {}) {
       sort: "start_date"
     });
     
-    // Make the API request
-    const response = await fetch(`${DIRECTUS_URL}/items/events?${params}`, {
+    // Use the Nginx proxy endpoint for items
+    const apiUrl = `${ITEMS_BASE_URL}/events?${params}`;
+    
+    // Make the API request with authorization header
+    const response = await fetch(apiUrl, {
       headers: {
         Authorization: `Bearer ${DIRECTUS_TOKEN}`
       }
@@ -65,8 +72,27 @@ export async function getEvents(filters = {}) {
  */
 export async function getCategories() {
   try {
-    // First get all approved events
-    const events = await getEvents();
+    // Use the Nginx proxy endpoint for items
+    const filterParams = new URLSearchParams({
+      filter: JSON.stringify({approved:{_eq:true}}),
+      sort: "start_date"
+    });
+    
+    const apiUrl = `${ITEMS_BASE_URL}/events?${filterParams}`;
+    
+    // Make the API request with authorization header
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${DIRECTUS_TOKEN}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const events = data.data;
     
     // Extract unique categories
     const uniqueCategories = [...new Set(
@@ -88,8 +114,27 @@ export async function getCategories() {
  */
 export async function getTags() {
   try {
-    // First get all approved events
-    const events = await getEvents();
+    // Use the Nginx proxy endpoint for items
+    const filterParams = new URLSearchParams({
+      filter: JSON.stringify({approved:{_eq:true}}),
+      sort: "start_date"
+    });
+    
+    const apiUrl = `${ITEMS_BASE_URL}/events?${filterParams}`;
+    
+    // Make the API request with authorization header
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${DIRECTUS_TOKEN}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const events = data.data;
     
     // Extract all tags and flatten the array
     const allTags = events
@@ -111,7 +156,7 @@ export async function getTags() {
  * @returns {Promise<Object>} - Object with calendar URLs
  */
 export async function getCalendarUrls() {
-  // For now, return hardcoded URLs for the Nextcloud calendar and local iCal download
+  // Return hardcoded URLs for the Nextcloud calendar and local iCal download
   return {
     nextcloud: "https://cloud.buerofalk.de/remote.php/dav/public-calendars/AnaLz2YHKjM6EF7k?export",
     ical: "/calendar.ics"

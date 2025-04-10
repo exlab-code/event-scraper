@@ -319,6 +319,55 @@ class GPT4MiniProcessor:
         re.compile(r'(?:Anmeldung|Registrierung)[^\w]*?(https?://[^\s]+)', re.IGNORECASE | re.DOTALL)
     ]
     
+    # Date and time extraction patterns
+    _date_patterns = [
+        # ISO format: YYYY-MM-DD
+        re.compile(r'(\d{4})-(\d{1,2})-(\d{1,2})'),
+        # German format with dots: DD.MM.YYYY or D.M.YYYY or DD.MM.YY
+        re.compile(r'(\d{1,2})\.(\d{1,2})\.(\d{2,4})'),
+        # German format with month name: DD. Month YYYY or D. Month YYYY
+        re.compile(r'(\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{2,4})', re.IGNORECASE),
+        # German format with abbreviated month: DD. Mon YYYY or D. Mon YYYY
+        re.compile(r'(\d{1,2})\.\s*(Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez)\.?\s*(\d{2,4})', re.IGNORECASE),
+        # Date ranges with dash: DD.-DD. Month YYYY
+        re.compile(r'(\d{1,2})\.[-–](\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{2,4})', re.IGNORECASE),
+        # Date ranges with "bis": vom DD. bis DD. Month YYYY
+        re.compile(r'vom\s+(\d{1,2})\.\s+bis\s+(\d{1,2})\.\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s+(\d{2,4})', re.IGNORECASE),
+        # Date with weekday: Weekday, DD. Month YYYY
+        re.compile(r'(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Mo|Di|Mi|Do|Fr|Sa|So),?\s+(\d{1,2})\.\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s+(\d{2,4})', re.IGNORECASE)
+    ]
+    
+    _time_patterns = [
+        # Standard time format: HH:MM or H:MM
+        re.compile(r'(\d{1,2}):(\d{2})(?:\s*Uhr)?'),
+        # German time format with dots: HH.MM or H.MM
+        re.compile(r'(\d{1,2})\.(\d{2})(?:\s*Uhr)?'),
+        # Time with just hours: HH Uhr or H Uhr
+        re.compile(r'(\d{1,2})\s+Uhr'),
+        # Time ranges with dash: HH:MM-HH:MM or HH-HH Uhr
+        re.compile(r'(\d{1,2}):?(\d{2})?\s*[-–]\s*(\d{1,2}):?(\d{2})?\s*(?:Uhr)?'),
+        # Time ranges with "bis": von HH:MM bis HH:MM Uhr
+        re.compile(r'von\s+(\d{1,2}):?(\d{2})?\s+bis\s+(\d{1,2}):?(\d{2})?\s+(?:Uhr)?', re.IGNORECASE),
+        # Time with context: Beginn: HH:MM Uhr
+        re.compile(r'(?:Beginn|Start|Anfang|Einlass):\s*(\d{1,2}):?(\d{2})?\s*(?:Uhr)?', re.IGNORECASE)
+    ]
+    
+    # Month name to number mapping
+    _month_map = {
+        'januar': '01', 'jan': '01',
+        'februar': '02', 'feb': '02',
+        'märz': '03', 'mär': '03', 'maerz': '03',
+        'april': '04', 'apr': '04',
+        'mai': '05',
+        'juni': '06', 'jun': '06',
+        'juli': '07', 'jul': '07',
+        'august': '08', 'aug': '08',
+        'september': '09', 'sep': '09',
+        'oktober': '10', 'okt': '10',
+        'november': '11', 'nov': '11',
+        'dezember': '12', 'dez': '12'
+    }
+    
     
     def preprocess_event(self, content):
         """Extract key information using regex before GPT processing"""
@@ -360,11 +409,19 @@ class GPT4MiniProcessor:
         prompt = self._build_prompt(content, extracted_info)
         
         try:
+            # Get item ID for logging
+            item_id_str = event_data.get('id', 'unknown')
+            
+            # Log the prompt being sent to the LLM
+            system_prompt = "Extract structured information from German event descriptions with focus on dates, times, and links. Be VERY strict about relevance criteria - only mark events as relevant if they EXPLICITLY mention both non-profit/gemeinnützig context AND digital transformation."
+            
+            logger.info(f"\n--- LLM INPUT for item {item_id_str} ---\nSYSTEM PROMPT:\n{system_prompt}\n\nUSER PROMPT:\n{prompt}\n--- END LLM INPUT ---")
+            
             # Call GPT-4o Mini
             response = self.client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "Extract structured information from German event descriptions with focus on dates, times, and links. Be VERY strict about relevance criteria - only mark events as relevant if they EXPLICITLY mention both non-profit/gemeinnützig context AND digital transformation."},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
                 ],
                 response_format={"type": "json_object"},
@@ -375,7 +432,6 @@ class GPT4MiniProcessor:
             llm_response = response.choices[0].message.content
             
             # Log the LLM response for debugging
-            item_id_str = item_id if 'item_id' in locals() else 'unknown'
             logger.info(f"\n--- LLM RESPONSE for item {item_id_str} ---\n{llm_response}\n--- END LLM RESPONSE ---")
             
             # Log specifically the date-related parts if present
@@ -650,18 +706,42 @@ LLM EXTRACTION:
       * Verwende "KI" statt "Künstliche Intelligenz" oder "Artificial Intelligence"
       * Verwende "DSGVO" statt "Datenschutz-Grundverordnung"
       * Verwende "NGO" statt "Nichtregierungsorganisation"
-      * Verwende "Online" für alle virtuellen Veranstaltungen zusätzlich zum spezifischen Format (z.B. "Webinar", "Workshop")
+    - WICHTIG: Füge IMMER den Tag "Online" hinzu, wenn die Veranstaltung virtuell stattfindet
+      * Dies gilt für alle Webinare, virtuelle Konferenzen, Online-Workshops, etc.
+      * Der "Online" Tag muss ZUSÄTZLICH zum spezifischen Format-Tag (z.B. "Webinar", "Workshop") hinzugefügt werden
     - Verwende korrekte Groß-/Kleinschreibung (z.B. "KI" statt "ki")
     - Formatiere Akronyme korrekt (z.B. "NGO", "DSGVO")
     - Verwende Title Case für mehrere Wörter (z.B. "Machine Learning")
     - Füge "Kostenlos" als Tag hinzu, wenn die Veranstaltung kostenlos ist
     
     Wichtig für Datumsformate:
-    - Nutze YYYY-MM-DD für Datumsangaben (z.B. 2025-04-08)
-    - Nutze HH:MM für Zeitangaben (z.B. 08:00)
-    - Achte besonders auf deutsche Datumsformate (z.B. "08. April 2025", "08.04.2025", "8.-10. April 2025")
-    - Die Uhrzeiten sind besonders relevant, bitte suche nach ihnen INTENSIV.
-    - Bei Veranstaltungen über mehrere Tage, gib sowohl start_date als auch end_date an
+    - Nutze YYYY-MM-DD für Datumsangaben und HH:MM für Zeitangaben
+    - SUCHE INTENSIV nach Datums- und Zeitangaben in allen möglichen deutschen Formaten:
+      * Numerische Formate: "08.04.2025", "8.4.25", "08/04/2025"
+      * Mit Monatsnamen: "8. April 2025", "8.Apr.2025"
+      * Mit Wochentagen: "Montag, 8. April", "Mo, 08.04."
+      * Zeiträume: "8.-10. April", "vom 8. bis 10. April", "30.04.-02.05."
+      * Unvollständige Angaben: "8. April" (ohne Jahr), "April 2025" (nur Monat)
+      * Uhrzeiten: "14:00", "14 Uhr", "14.00 Uhr", "14-16 Uhr", "von 14 bis 16 Uhr"
+      * Kontextangaben: "Einlass 18:30, Beginn 19 Uhr", "vormittags", "abends"
+
+    - Standardwerte für ungenaue Zeitangaben:
+      * "Vormittag" → 10:00, "Mittag" → 12:00, "Nachmittag" → 14:00, "Abend" → 19:00
+      * "Ganztägig" → start_time: 09:00, end_time: 17:00
+
+    - Prioritätsregeln:
+      * Bei mehreren Zeitangaben: Priorisiere "Beginn", "Start" über "Einlass", "Türöffnung"
+      * Bei widersprüchlichen Daten: Wähle das Datum näher an Zeitangaben
+      * Bei fehlenden Jahren: Verwende aktuelles Jahr, wenn Datum in der Zukunft liegt
+      * Bei Datumsformaten wie 01.02.2025: Interpretiere als Tag.Monat.Jahr (europäisch)
+
+    - Beispiele:
+      * "Workshop am Montag, 8. April 2025, 14-16 Uhr"
+        → start_date: "2025-04-08", start_time: "14:00", end_date: "2025-04-08", end_time: "16:00"
+      * "Konferenz vom 8. bis 10. April 2025, täglich 9-17 Uhr"
+        → start_date: "2025-04-08", start_time: "09:00", end_date: "2025-04-10", end_time: "17:00"
+      * "Vortrag am 8.4., Einlass 18:30 Uhr, Beginn 19 Uhr"
+        → start_date: "2025-04-08", start_time: "19:00" (nicht Einlasszeit)
     
     Relevanzkriterien (WICHTIG - STRENG ANWENDEN):
     - Die Veranstaltung MUSS EINDEUTIG für Non-Profit-Organisationen oder den gemeinnützigen Sektor relevant sein
@@ -683,6 +763,127 @@ LLM EXTRACTION:
     Liefere nur gültiges JSON zurück. Nutze null für unbekannte Felder.
     """
     
+    def _extract_date_time_info(self, text):
+        """Extract date and time information from text using regex patterns"""
+        extracted_info = {}
+        current_year = datetime.now().year
+        
+        # Extract dates
+        start_date = None
+        end_date = None
+        
+        # Try to find dates with ISO format first (YYYY-MM-DD)
+        for match in self._date_patterns[0].finditer(text):
+            year, month, day = match.groups()
+            date_str = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+            if not start_date:
+                start_date = date_str
+            elif not end_date:
+                # If we already have a start date, this is an end date
+                end_date = date_str
+        
+        # If no ISO dates found, try German format with dots (DD.MM.YYYY)
+        if not start_date:
+            for match in self._date_patterns[1].finditer(text):
+                day, month, year = match.groups()
+                # Handle 2-digit years
+                if len(year) == 2:
+                    year = f"20{year}"
+                date_str = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+                if not start_date:
+                    start_date = date_str
+                elif not end_date:
+                    end_date = date_str
+        
+        # If still no dates, try German format with month names
+        if not start_date:
+            for match in self._date_patterns[2].finditer(text):
+                day, month_name, year = match.groups()
+                month_num = self._month_map.get(month_name.lower(), "01")
+                # Handle 2-digit years or missing years
+                if not year:
+                    year = str(current_year)
+                elif len(year) == 2:
+                    year = f"20{year}"
+                date_str = f"{year}-{month_num}-{day.zfill(2)}"
+                if not start_date:
+                    start_date = date_str
+                elif not end_date:
+                    end_date = date_str
+        
+        # Try abbreviated month names
+        if not start_date:
+            for match in self._date_patterns[3].finditer(text):
+                day, month_abbr, year = match.groups()
+                month_num = self._month_map.get(month_abbr.lower(), "01")
+                # Handle 2-digit years or missing years
+                if not year:
+                    year = str(current_year)
+                elif len(year) == 2:
+                    year = f"20{year}"
+                date_str = f"{year}-{month_num}-{day.zfill(2)}"
+                if not start_date:
+                    start_date = date_str
+                elif not end_date:
+                    end_date = date_str
+        
+        # Extract times
+        start_time = None
+        end_time = None
+        
+        # Standard time format (HH:MM)
+        for match in self._time_patterns[0].finditer(text):
+            hour, minute = match.groups()
+            time_str = f"{hour.zfill(2)}:{minute}"
+            if not start_time:
+                start_time = time_str
+            elif not end_time:
+                end_time = time_str
+        
+        # German time format with dots (HH.MM)
+        if not start_time:
+            for match in self._time_patterns[1].finditer(text):
+                hour, minute = match.groups()
+                time_str = f"{hour.zfill(2)}:{minute}"
+                if not start_time:
+                    start_time = time_str
+                elif not end_time:
+                    end_time = time_str
+        
+        # Time with just hours (HH Uhr)
+        if not start_time:
+            for match in self._time_patterns[2].finditer(text):
+                hour = match.group(1)
+                time_str = f"{hour.zfill(2)}:00"
+                if not start_time:
+                    start_time = time_str
+                elif not end_time:
+                    end_time = time_str
+        
+        # Time with context (Beginn: HH:MM)
+        if not start_time:
+            for match in self._time_patterns[5].finditer(text):
+                hour = match.group(1)
+                minute = match.group(2) or "00"
+                time_str = f"{hour.zfill(2)}:{minute}"
+                start_time = time_str
+        
+        # Add extracted information to result
+        if start_date:
+            extracted_info["start_date"] = start_date
+        if end_date:
+            extracted_info["end_date"] = end_date
+        if start_time:
+            extracted_info["start_time"] = start_time
+        if end_time:
+            extracted_info["end_time"] = end_time
+        
+        # Log what we found
+        if extracted_info:
+            logger.info(f"Pre-extracted date/time info: {extracted_info}")
+        
+        return extracted_info
+    
     def _build_prompt(self, content, extracted_info=None):
         """Build prompt for GPT-4o Mini with extracted information and feedback"""
         # Get text content efficiently
@@ -690,11 +891,19 @@ LLM EXTRACTION:
         detail_text = content.get("detail_text", "") or ""
         url = content.get("url", "")
         
-        # More aggressive trimming for long texts to reduce tokens
-        if len(listing_text) > 1500:
-            listing_text = listing_text[:1500] + "..."
-        if len(detail_text) > 2000:
-            detail_text = detail_text[:2000] + "..."
+        # Extract date/time information before truncation
+        date_time_info = self._extract_date_time_info(listing_text + " " + detail_text)
+        if date_time_info and not extracted_info:
+            extracted_info = date_time_info
+        elif date_time_info and extracted_info:
+            extracted_info.update(date_time_info)
+        
+        # Less aggressive trimming for texts to preserve more content
+        # Increase limits to retain more information while still managing token usage
+        if len(listing_text) > 3000:
+            listing_text = listing_text[:3000] + "..."
+        if len(detail_text) > 4000:
+            detail_text = detail_text[:4000] + "..."
         
         # Add pre-extracted information if available
         extracted_info_str = ""
