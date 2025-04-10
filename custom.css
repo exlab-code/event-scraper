@@ -32,7 +32,7 @@
 .tag {
   padding: 0.2rem 0.6rem;
   border-radius: 9999px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight:500;
   border: 1px solid #ccc;
   background-color: white;
@@ -45,6 +45,10 @@
 }
 
 /* Tag group styles */
+.tag-count {
+  font-family: monospace;
+}
+
 .tag-topic {
   border-color: #3498db;
 }
