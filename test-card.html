@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Card Mobile Test</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="bundle.css">
+  <link rel="stylesheet" href="custom.css">
+  <style>
+    body {
+      padding: 20px;
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .test-controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-controls button {
+      padding: 8px 16px;
+      background-color: #3178ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .test-controls button:hover {
+      background-color: #2361ff;
+    }
+    /* Sample Tailwind classes needed for the card */
+    .bg-white { background-color: white; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    .transform { transform-origin: center; }
+    .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+    .transition-all { transition-property: all; }
+    .duration-200 { transition-duration: 200ms; }
+    .h-full { height: 100%; }
+    .overflow-hidden { overflow: hidden; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .text-center { text-align: center; }
+    .w-12 { width: 3rem; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .text-white { color: white; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .font-bold { font-weight: 700; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .rounded-full { border-radius: 9999px; }
+    .p-4 { padding: 1rem; }
+    .w-full { width: 100%; }
+    .flex-grow { flex-grow: 1; }
+    .text-lg { font-size: 1.125rem; }
+    .font-semibold { font-weight: 600; }
+    .text-gray-800 { color: #1f2937; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .line-clamp-2 { 
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-4 { gap: 1rem; }
+    .text-gray-600 { color: #4b5563; }
+    .mb-3 { margin-bottom: 0.75rem; }
+    .gap-2 { gap: 0.5rem; }
+    .h-4 { height: 1rem; }
+    .w-4 { width: 1rem; }
+    .text-primary-500 { color: #3178ff; }
+    .text-primary-600 { color: #2361ff; }
+    .font-medium { font-weight: 500; }
+    .text-gray-700 { color: #374151; }
+    .gap-2 { gap: 0.5rem; }
+    .border-l { border-left-width: 1px; }
+    .border-gray-100 { border-color: #f3f4f6; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .justify-end { justify-content: flex-end; }
+    .w-32 { width: 8rem; }
+    .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; }
+    .hover\:bg-gray-50:hover { background-color: #f9fafb; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .bg-primary-600 { background-color: #2361ff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="test-controls">
+      <h2>Event Card Mobile Test</h2>
+      <p>Resize your browser window to test the mobile layout (less than 768px width).</p>
+      <div>
+        <button id="toggleWidth">Toggle Mobile/Desktop Width</button>
+      </div>
+    </div>
+    
+    <!-- Sample Event Card -->
+    <div class="bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 h-full overflow-hidden event-card">
+      <div class="flex h-full">
+        <!-- Date indicator on the left side -->
+        <div class="bg-primary-600 text-white px-3 flex flex-col items-center text-center w-12 flex-shrink-0 date-indicator">
+          <div class="text-2xl font-bold">15</div>
+          <div class="text-sm">Apr</div>
+          <div class="text-xs mt-1 px-2 py-1 bg-white/20 rounded-full">+ 2 days</div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="p-4 w-full flex-grow main-content">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">Sample Event Title: AI and Machine Learning Conference</h3>
+          
+          <!-- Event metadata -->
+          <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
+            <!-- Time with end time -->
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>
+                10:00 - 16:00
+              </span>
+            </div>
+            
+            <!-- Location -->
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Berlin, Germany</span>
+            </div>
+            
+            <!-- Cost -->
+            <div class="flex items-center gap-2">
+              <span>Free</span>
+            </div>
+            
+            <!-- Organizer -->
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Tech Events Berlin</span>
+            </div>
+          </div>
+          
+          <!-- Description -->
+          <p class="text-sm text-gray-700 mb-3 line-clamp-2">Join us for a comprehensive exploration of the latest advancements in artificial intelligence and machine learning. This conference brings together industry experts, researchers, and practitioners to discuss cutting-edge technologies, applications, and future trends in AI.</p>
+          
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2">
+            <span class="tag tag-topic">AI</span>
+            <span class="tag tag-topic">Machine Learning</span>
+            <span class="tag tag-format">Conference</span>
+            <span class="tag tag-audience">Developers</span>
+            <span class="tag tag-cost">Free</span>
+          </div>
+        </div>
+        
+        <!-- Right action bar -->
+        <div class="border-l border-gray-100 px-4 py-4 flex flex-col justify-end text-sm w-32 action-bar">
+          <!-- Download ICS button -->
+          <button class="w-full py-1 transition-colors hover:bg-gray-50 text-primary-600 flex items-center gap-2 mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            .ics
+          </button>
+          
+          <!-- Website link -->
+          <a href="#" class="w-full py-1 transition-colors hover:bg-gray-50 text-primary-600 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Website
+          </a>
+          
+          <!-- Registration link -->
+          <a href="#" class="w-full py-1 transition-colors hover:bg-gray-50 text-primary-600 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            Anmeldung
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between mobile and desktop widths for testing
+    document.getElementById('toggleWidth').addEventListener('click', function() {
+      const container = document.querySelector('.container');
+      if (container.style.maxWidth === '400px') {
+        container.style.maxWidth = '800px';
+        this.textContent = 'Switch to Mobile Width';
+      } else {
+        container.style.maxWidth = '400px';
+        this.textContent = 'Switch to Desktop Width';
+      }
+    });
+  </script>
+</body>
+</html>
