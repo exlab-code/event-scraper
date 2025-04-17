@@ -16,7 +16,7 @@ if not exist venv (
 
 :: Run the scraper
 echo Running the scraper...
-python scraper-directus-optimized.py %*
+python event_scraper.py %*
 
 :: Deactivate virtual environment
 call deactivate

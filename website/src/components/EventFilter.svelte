@@ -4,11 +4,12 @@
   import { topTags } from '../stores/eventStore';
   import { getCategoryName } from '../categoryMappings';
   import Tag from './Tag.svelte';
+  import Accordion from './Accordion.svelte';
 
   let selectedTags = [];
   let onlineOnly = false;
   let selectedTimeHorizon = 'all'; // Default to 'all'
-  let isFilterOpen = true; // For mobile toggle
+  let isFilterOpen = false; // Default closed on mobile
   let tagFrequency = {};
   let groupedTags = {
     "topic": [],
@@ -152,12 +153,14 @@
   }
 </script>
 
-<div class="bg-white rounded-lg shadow p-4 mb-6">
-  <div class="flex justify-between items-center mb-4 pb-2">
-    <h2 class="text-lg font-semibold text-gray-800">Filter</h2>
-  </div>
-  
-  <div class={isFilterOpen ? 'block' : 'hidden md:block'}>
+<div class="bg-white rounded-lg shadow mb-6">
+  <Accordion 
+    title="Filter" 
+    defaultOpen={false} 
+    mobileOnly={true}
+    id="filter"
+    on:toggle={({ detail }) => isFilterOpen = detail.isOpen}
+  >
     <!-- Tag filters by group -->
     {#each Object.entries(groupedTags) as [groupId, tags]}
       {#if tags.length > 0}
@@ -227,5 +230,5 @@
           Zurücksetzen
       </button>
     </div>
-  </div>
+  </Accordion>
 </div>

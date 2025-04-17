@@ -53,7 +53,7 @@ run-scraper.bat --verbose --max-events 5
 
 3. Run the scraper:
    ```bash
-   python scraper-directus-optimized.py
+   python event_scraper.py
    ```
 
 ### On Windows:
@@ -67,7 +67,7 @@ run-scraper.bat --verbose --max-events 5
 
 3. Run the scraper:
    ```
-   python scraper-directus-optimized.py
+   python event_scraper.py
    ```
 
 ## Manual Setup (if the setup scripts don't work)
@@ -88,7 +88,7 @@ run-scraper.bat --verbose --max-events 5
 
 4. Run the scraper:
    ```bash
-   python scraper-directus-optimized.py
+   python event_scraper.py
    ```
 
 ## Configuration
@@ -110,7 +110,7 @@ DIRECTUS_COLLECTION=scraped_data
 ## Command Line Options
 
 ```
-python scraper-directus-optimized.py --help
+python event_scraper.py --help
 ```
 
 Available options:
@@ -134,7 +134,7 @@ Once the setup is complete, you only need to:
 
 2. Run the scraper:
    ```bash
-   python scraper-directus-optimized.py
+   python event_scraper.py
    ```
 
 ## Troubleshooting

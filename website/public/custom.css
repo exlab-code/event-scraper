@@ -51,6 +51,13 @@
   flex: 1 !important;
 }
 
+/* Ensure chevrons are always visible on mobile */
+@media (max-width: 767px) {
+  .accordion .accordion-icon {
+    display: flex !important;
+  }
+}
+
 /* Chevron rotation for accordions */
 .accordion .chevron {
   transform: rotate(0deg);
@@ -59,23 +66,6 @@
 
 .accordion .chevron.rotate {
   transform: rotate(180deg);
-}
-
-/* Desktop accordion styles */
-@media (min-width: 768px) {
-  .accordion.mobile-only .accordion-header {
-    background-color: transparent !important;
-    margin-bottom: 0;
-  }
-  
-  .accordion.mobile-only .accordion-content {
-    display: block !important;
-  }
-  
-  /* Hide chevrons on desktop */
-  .accordion .accordion-icon {
-    display: none !important;
-  }
 }
 
 /* Fix for specific width range (1024px-1200px) where headers might center */

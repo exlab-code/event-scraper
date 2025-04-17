@@ -22,33 +22,33 @@ mkdir -p logs
 case "$1" in
     scrape)
         echo "Running scraper..."
-        python scraper-directus-optimized.py
+        python event_scraper.py
         ;;
     analyze)
         echo "Running LLM analysis..."
-        python data-analysis-save-gpt-v2.py
+        python event_analyzer.py
         ;;
     sync)
         echo "Starting sync service..."
-        python sync-events.py
+        python calendar_sync.py
         ;;
     sync-once)
         echo "Running one-time sync..."
-        python sync-events.py --sync-once
+        python calendar_sync.py --sync-once
         ;;
     clean)
         echo "Cleaning Nextcloud calendar..."
-        python sync-events.py --clean --sync-once
+        python calendar_sync.py --clean --sync-once
         ;;
     all)
         # Run scraper and analysis once
         echo "Running scraper..."
-        python scraper-directus-optimized.py > logs/scraper.log 2>&1
+        python event_scraper.py > logs/scraper.log 2>&1
         echo "Running LLM analysis..."
-        python data-analysis-save-gpt-v2.py > logs/analysis.log 2>&1
+        python event_analyzer.py > logs/analysis.log 2>&1
         
         # Start sync service in the background
-        run_component "sync" "python sync-events.py"
+        run_component "sync" "python calendar_sync.py"
         echo "All components executed. Scraper and analysis completed. Sync service running in background."
         echo "Use './run-event-system.sh stop' to stop all components."
         echo "View logs in the logs/ directory."
@@ -90,7 +90,7 @@ case "$1" in
         (crontab -l 2>/dev/null; echo "# Event Scraper System - Added $(date)") | crontab -
         (crontab -l 2>/dev/null; echo "0 1 * * * cd $(pwd) && $(pwd)/run-event-system.sh scrape >> $(pwd)/logs/scraper-cron.log 2>&1") | crontab -
         (crontab -l 2>/dev/null; echo "0 2 * * * cd $(pwd) && $(pwd)/run-event-system.sh analyze >> $(pwd)/logs/analysis-cron.log 2>&1") | crontab -
-        (crontab -l 2>/dev/null; echo "0 * * * * pgrep -f \"python.*sync-events.py\" || cd $(pwd) && $(pwd)/run-event-system.sh sync >> $(pwd)/logs/sync-cron.log 2>&1") | crontab -
+        (crontab -l 2>/dev/null; echo "0 * * * * pgrep -f \"python.*calendar_sync.py\" || cd $(pwd) && $(pwd)/run-event-system.sh sync >> $(pwd)/logs/sync-cron.log 2>&1") | crontab -
         echo "Cron jobs set up. Use 'crontab -l' to view them."
         ;;
     remove-cron)

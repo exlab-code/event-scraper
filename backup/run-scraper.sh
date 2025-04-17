@@ -19,7 +19,7 @@ fi
 
 # Run the scraper
 echo -e "${GREEN}Running the scraper...${NC}"
-python scraper-directus-optimized.py "$@"
+python event_scraper.py "$@"
 
 # Deactivate virtual environment
 deactivate

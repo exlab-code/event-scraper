@@ -59,14 +59,14 @@ echo To run the scraper:
 echo 1. Activate the virtual environment (if not already activated):
 echo    venv\Scripts\activate.bat
 echo 2. Run the scraper:
-echo    python scraper-directus-optimized.py
+echo    python event_scraper.py
 echo.
 echo To deactivate the virtual environment when done:
 echo    deactivate
 echo.
 echo Next time you want to run the scraper, you only need to:
 echo    venv\Scripts\activate.bat
-echo    python scraper-directus-optimized.py
+echo    python event_scraper.py
 echo.
 echo Virtual environment is now active for this terminal session.
-echo You can now run the scraper with: python scraper-directus-optimized.py
+echo You can now run the scraper with: python event_scraper.py

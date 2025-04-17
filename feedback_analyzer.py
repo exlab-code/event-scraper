@@ -266,7 +266,7 @@ def main():
         print(f"- Suggested {len(analysis.get('criteria_modifications', []))} criteria modifications")
         print(f"\nAnalysis saved to: {args.output}")
         print(f"Prompt section saved to: {args.prompt_output}")
-        print("\nTo use this analysis in the main LLM, add the content of the prompt section file to the feedback section in data-analysis-save-gpt-v2.py")
+        print("\nTo use this analysis in the main LLM, add the content of the prompt section file to the feedback section in event_analyzer.py")
     else:
         logger.error("Failed to generate analysis")
         print("Error: Failed to generate analysis. Check the logs for details.")

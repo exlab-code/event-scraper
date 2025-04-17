@@ -443,7 +443,7 @@ const ui = {
                     <ul style="text-align: left; max-width: 600px; margin: 0 auto; padding-top: 10px;">
                         <li>There are no events in the database yet</li>
                         <li>The current filter settings are too restrictive</li>
-                        <li>You need to run the data-analysis-save-gpt-v2.py script to process events</li>
+                        <li>You need to run the event_analyzer.py script to process events</li>
                     </ul>
                     <p style="margin-top: 15px;">Try changing the filters or running the script to process more events.</p>
                 </div>`;

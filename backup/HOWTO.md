@@ -60,7 +60,7 @@ This project is a comprehensive system for collecting, analyzing, moderating, an
 The scraper collects event information from configured websites:
 
 ```bash
-python scraper-directus-optimized.py
+python event_scraper.py
 ```
 
 - Events are scraped based on configurations in the `config/` directory
@@ -77,7 +77,7 @@ To add a new source:
 After scraping, you can run the LLM analysis to enhance event data:
 
 ```bash
-python data-analysis-save-gpt-v2.py
+python event_analyzer.py
 ```
 
 This script:
@@ -101,7 +101,7 @@ In the moderation interface, you can:
 Finally, sync approved events to your Nextcloud calendar:
 
 ```bash
-python sync-events.py
+python calendar_sync.py
 ```
 
 Options:
@@ -215,7 +215,7 @@ services:
     volumes:
       - ./.env:/app/.env
     restart: unless-stopped
-    command: python scraper-directus-optimized.py
+    command: python event_scraper.py
   
   analysis:
     build:
@@ -224,7 +224,7 @@ services:
     volumes:
       - ./.env:/app/.env
     restart: unless-stopped
-    command: python data-analysis-save-gpt-v2.py
+    command: python event_analyzer.py
   
   sync:
     build:
@@ -234,7 +234,7 @@ services:
       - ./.env:/app/.env
       - ./logs:/app/logs
     restart: unless-stopped
-    command: python sync-events.py
+    command: python calendar_sync.py
   
   moderation:
     build:

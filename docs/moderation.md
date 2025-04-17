@@ -1,6 +1,6 @@
 # Event Moderation Interface
 
-A web-based interface for moderating events and providing feedback on LLM relevance determinations. This interface works in conjunction with the `data-analysis-save-gpt-v2.py` script to create a feedback loop that improves the LLM's relevance determinations over time.
+A web-based interface for moderating events and providing feedback on LLM relevance determinations. This interface works in conjunction with the `event_analyzer.py` script to create a feedback loop that improves the LLM's relevance determinations over time.
 
 ## Features
 
@@ -38,9 +38,9 @@ A web-based interface for moderating events and providing feedback on LLM releva
 
 4. Alternatively, you can use any web server to host the interface files
 
-## Integration with data-analysis-save-gpt-v2.py
+## Integration with event_analyzer.py
 
-The moderation interface works with the `data-analysis-save-gpt-v2.py` script to create a feedback loop:
+The moderation interface works with the `event_analyzer.py` script to create a feedback loop:
 
 1. The script processes events and makes initial relevance determinations
 2. Events are saved to the Directus database with pending approval status
@@ -54,11 +54,11 @@ The moderation interface works with the `data-analysis-save-gpt-v2.py` script to
    - Tracking and reporting accuracy statistics
 5. The script can also flag events where the LLM's determination doesn't match human feedback:
    ```
-   python data-analysis-save-gpt-v2.py --flag-mismatches
+   python event_analyzer.py --flag-mismatches
    ```
    Or only flag mismatches without processing new events:
    ```
-   python data-analysis-save-gpt-v2.py --only-flag
+   python event_analyzer.py --only-flag
    ```
 
 ## How the Feedback System Works
@@ -142,9 +142,9 @@ The dashboard displays:
 
 If you see a "No events found" message, this could be due to:
 
-1. **No events in the database**: Run the `data-analysis-save-gpt-v2.py` script to process events:
+1. **No events in the database**: Run the `event_analyzer.py` script to process events:
    ```
-   python data-analysis-save-gpt-v2.py
+   python event_analyzer.py
    ```
 
 2. **Filter settings**: Try changing the filter settings to "All" for Status, Relevance, and Feedback.
@@ -237,11 +237,11 @@ If the Python script fails to run:
 
 ### Feedback Statistics Calculation Issue
 
-There is a known issue with the feedback statistics calculation in both the `data-analysis-save-gpt-v2.py` script and the moderation interface:
+There is a known issue with the feedback statistics calculation in both the `event_analyzer.py` script and the moderation interface:
 
 #### Problem Details
 
-1. **Script Issue**: In `data-analysis-save-gpt-v2.py`, the `get_feedback_stats` method uses an incorrect query syntax:
+1. **Script Issue**: In `event_analyzer.py`, the `get_feedback_stats` method uses an incorrect query syntax:
    ```python
    # In DirectusClient class, get_feedback_stats method (around line 180)
    url = f"{self.base_url}/items/events?filter[_and][][is_relevant][_eq]=$relevance_feedback&aggregate[count]=*"
@@ -256,7 +256,7 @@ There is a known issue with the feedback statistics calculation in both the `dat
 
 To fix this issue in the future, implement these changes:
 
-1. **For data-analysis-save-gpt-v2.py**:
+1. **For event_analyzer.py**:
    ```python
    def get_feedback_stats(self):
        """Get statistics about feedback and LLM performance"""

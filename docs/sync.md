@@ -76,7 +76,7 @@ Create the following configuration files:
 Run the script:
 
 ```bash
-python sync-events.py [options]
+python calendar_sync.py [options]
 ```
 
 ### Command-line Options
@@ -89,22 +89,22 @@ python sync-events.py [options]
 
 **Standard usage (run once and exit):**
 ```bash
-python sync-events.py
+python calendar_sync.py
 ```
 
 **Enable continuous hourly sync:**
 ```bash
-python sync-events.py --schedule
+python calendar_sync.py --schedule
 ```
 
 **Clean the calendar and exit:**
 ```bash
-python sync-events.py --clean
+python calendar_sync.py --clean
 ```
 
 **Clean the calendar and enable continuous sync:**
 ```bash
-python sync-events.py --clean --schedule
+python calendar_sync.py --clean --schedule
 ```
 
 The script will:
@@ -197,5 +197,5 @@ To check if the sync script is running as a background process:
 To check if it's running as a cron job:
 
 ```bash
-crontab -l | grep "sync-events.py"
+crontab -l | grep "calendar_sync.py"
 ```

@@ -60,7 +60,7 @@ This project is a comprehensive system for collecting, analyzing, moderating, an
 The scraper collects event information from configured websites:
 
 ```bash
-python scraper-directus-optimized.py
+python event_scraper.py
 ```
 
 - Events are scraped based on configurations in the `config/` directory
@@ -77,7 +77,7 @@ To add a new source:
 After scraping, you can run the LLM analysis to enhance event data:
 
 ```bash
-python data-analysis-save-gpt-v2.py
+python event_analyzer.py
 ```
 
 This script:
@@ -101,7 +101,7 @@ In the moderation interface, you can:
 Finally, sync approved events to your Nextcloud calendar:
 
 ```bash
-python sync-events.py
+python calendar_sync.py
 ```
 
 Options:
@@ -115,11 +115,11 @@ Options:
 For a fresh installation:
 
 1. Set up your `.env` file with all credentials
-2. Run the scraper: `python scraper-directus-optimized.py`
-3. Run the LLM analysis: `python data-analysis-save-gpt-v2.py`
+2. Run the scraper: `python event_scraper.py`
+3. Run the LLM analysis: `python event_analyzer.py`
 4. Start the moderation interface: `cd event-moderation-interface && python serve.py`
 5. Review and approve events
-6. Sync to Nextcloud: `python sync-events.py --sync-once`
+6. Sync to Nextcloud: `python calendar_sync.py --sync-once`
 
 ### Regular Maintenance
 
@@ -128,14 +128,14 @@ For ongoing operation:
 1. Schedule the scraper to run daily: `cron job or task scheduler`
 2. Schedule the LLM analysis to run after scraping
 3. Moderate events regularly through the web interface
-4. Keep the sync script running continuously: `python sync-events.py`
+4. Keep the sync script running continuously: `python calendar_sync.py`
 
 ### Calendar Cleanup
 
 If your Nextcloud calendar has unwanted events:
 
 ```bash
-python sync-events.py --clean --sync-once
+python calendar_sync.py --clean --sync-once
 ```
 
 ## Troubleshooting
@@ -168,7 +168,7 @@ To make the constant running of this project easier, you can use several approac
 
 Create systemd service files for each component to run them as background services that start automatically on boot:
 
-**Example for sync-events.py:**
+**Example for calendar_sync.py:**
 
 Create a file at `/etc/systemd/system/event-sync.service`:
 ```
@@ -180,7 +180,7 @@ After=network.target
 Type=simple
 User=yourusername
 WorkingDirectory=/path/to/Event-Scraper
-ExecStart=/path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/sync-events.py
+ExecStart=/path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/calendar_sync.py
 Restart=on-failure
 Environment=PYTHONUNBUFFERED=1
 
@@ -215,7 +215,7 @@ services:
     volumes:
       - ./.env:/app/.env
     restart: unless-stopped
-    command: python scraper-directus-optimized.py
+    command: python event_scraper.py
   
   analysis:
     build:
@@ -224,7 +224,7 @@ services:
     volumes:
       - ./.env:/app/.env
     restart: unless-stopped
-    command: python data-analysis-save-gpt-v2.py
+    command: python event_analyzer.py
   
   sync:
     build:
@@ -234,7 +234,7 @@ services:
       - ./.env:/app/.env
       - ./logs:/app/logs
     restart: unless-stopped
-    command: python sync-events.py
+    command: python calendar_sync.py
   
   moderation:
     build:
@@ -262,7 +262,7 @@ sudo apt-get install supervisor
 Create a configuration file at `/etc/supervisor/conf.d/event-scraper.conf`:
 ```
 [program:event-sync]
-command=/path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/sync-events.py
+command=/path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/calendar_sync.py
 directory=/path/to/Event-Scraper
 user=yourusername
 autostart=true
@@ -303,23 +303,23 @@ mkdir -p logs
 # Start components
 case "$1" in
     scrape)
-        python scraper-directus-optimized.py
+        python event_scraper.py
         ;;
     analyze)
-        python data-analysis-save-gpt-v2.py
+        python event_analyzer.py
         ;;
     sync)
-        python sync-events.py
+        python calendar_sync.py
         ;;
     all)
         # Run scraper and analysis once
         echo "Running scraper..."
-        python scraper-directus-optimized.py > logs/scraper.log 2>&1
+        python event_scraper.py > logs/scraper.log 2>&1
         echo "Running LLM analysis..."
-        python data-analysis-save-gpt-v2.py > logs/analysis.log 2>&1
+        python event_analyzer.py > logs/analysis.log 2>&1
         
         # Start sync service in the background
-        run_component "sync" "python sync-events.py"
+        run_component "sync" "python calendar_sync.py"
         echo "All components executed. Scraper and analysis completed. Sync service running in background."
         echo "Use './run-event-system.sh stop' to stop all components."
         ;;
@@ -378,13 +378,13 @@ crontab -e
 
 # Add these lines:
 # Run scraper daily at 1 AM
-0 1 * * * cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/scraper-directus-optimized.py >> /path/to/Event-Scraper/logs/scraper.log 2>&1
+0 1 * * * cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/event_scraper.py >> /path/to/Event-Scraper/logs/scraper.log 2>&1
 
 # Run LLM analysis daily at 2 AM
-0 2 * * * cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/data-analysis-save-gpt-v2.py >> /path/to/Event-Scraper/logs/analysis.log 2>&1
+0 2 * * * cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/event_analyzer.py >> /path/to/Event-Scraper/logs/analysis.log 2>&1
 
 # Ensure sync is running (restart if needed) every hour
-0 * * * * pgrep -f "python.*sync-events.py" || cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/sync-events.py >> /path/to/Event-Scraper/logs/sync.log 2>&1
+0 * * * * pgrep -f "python.*calendar_sync.py" || cd /path/to/Event-Scraper && /path/to/Event-Scraper/venv/bin/python /path/to/Event-Scraper/calendar_sync.py >> /path/to/Event-Scraper/logs/sync.log 2>&1
 ```
 
 ## Additional Resources

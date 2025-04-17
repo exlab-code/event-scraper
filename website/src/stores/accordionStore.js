@@ -8,7 +8,6 @@ export function setActiveAccordion(id) {
   activeAccordionId.set(id);
 }
 
-// Function to close all accordions
 export function closeAllAccordions() {
   activeAccordionId.set(null);
 }

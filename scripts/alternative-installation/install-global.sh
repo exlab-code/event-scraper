@@ -21,7 +21,7 @@ install_with_pip_user() {
     
     if [ $? -eq 0 ]; then
         echo "Installation complete!"
-        echo "You can now run the scraper with: python3 scraper-directus-optimized.py"
+        echo "You can now run the scraper with: python3 event_scraper.py"
     else
         echo "Installation with pip --user failed."
         echo "Please use the virtual environment approach instead:"
@@ -46,7 +46,7 @@ install_with_pipx() {
     
     if [ $? -eq 0 ]; then
         echo "Installation complete!"
-        echo "You can now run the scraper with: python3 scraper-directus-optimized.py"
+        echo "You can now run the scraper with: python3 event_scraper.py"
     else
         echo "Installation with pipx failed."
         echo "Please use the virtual environment approach instead:"
@@ -66,7 +66,7 @@ if [ "$USE_BREW" = true ]; then
     
     if [ $? -eq 0 ]; then
         echo "Installation complete!"
-        echo "You can now run the scraper with: python3 scraper-directus-optimized.py"
+        echo "You can now run the scraper with: python3 event_scraper.py"
     else
         echo "Installation with pip --user failed after Homebrew."
         echo "Trying alternative approach..."

@@ -18,6 +18,7 @@ Detailed documentation for each component of the system is available in the `doc
 
 - [Installation Guide](docs/installation.md) - Complete guide to setting up and using the system
 - [Scraper Documentation](docs/scraper.md) - Details on the event scraper component
+- [ICS Import Documentation](docs/ics_import.md) - Guide to importing events from ICS calendars
 - [Analyzer Documentation](docs/analyzer.md) - Information about the LLM analysis component
 - [Sync Documentation](docs/sync.md) - Details on the Directus-Nextcloud sync
 - [Moderation Interface](docs/moderation.md) - Guide to the moderation web interface
@@ -56,6 +57,9 @@ Detailed documentation for each component of the system is available in the `doc
    ```bash
    # Run the scraper
    python event_scraper.py
+   
+   # Import events from ICS calendars
+   python ics_import.py
    
    # Run the LLM analysis
    python event_analyzer.py
@@ -151,6 +155,7 @@ The proxy runs on port 9090 by default and will automatically try the next avail
 - `event_scraper.py` - Main scraper script (formerly scraper-directus-optimized.py)
 - `event_analyzer.py` - LLM analysis script (formerly data-analysis-save-gpt-v2.py)
 - `calendar_sync.py` - Nextcloud calendar sync script (formerly sync-events.py)
+- `ics_import.py` - Script for importing events from ICS calendar files
 - `run_system.sh` - Master script to run all components (formerly run-event-system.sh)
 - `run_scraper.sh` / `run_scraper.bat` - Helper scripts to run the scraper
 - `config/` - Configuration files for scrapers and sources
@@ -162,6 +167,15 @@ The proxy runs on port 9090 by default and will automatically try the next avail
 - `scripts/` - Additional utility scripts
 
 ## Recent Updates (April 2025)
+
+### Added ICS Calendar Import
+
+A new feature has been added to import events from ICS calendar files:
+- Created a dedicated script (`ics_import.py`) for importing events from ICS calendars
+- Added support for HumHub and other ICS calendar sources
+- Implemented a configuration system for managing multiple ICS sources
+- Events are imported directly into the Directus database for processing by the analyzer
+- See [ICS Import Documentation](docs/ics_import.md) for details
 
 ### Migrated from Categories to Tags-Based System
 

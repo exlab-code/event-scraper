@@ -30,7 +30,7 @@ pip3 install --break-system-packages requests beautifulsoup4 python-dotenv
 
 if [ $? -eq 0 ]; then
     echo "Installation complete! You can now run the scraper directly with:"
-    echo "python3 scraper-directus-optimized.py"
+    echo "python3 event_scraper.py"
 else
     echo "Installation failed. Please try the safer approaches:"
     echo "1. Use a virtual environment: ./setup.sh"

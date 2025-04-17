@@ -1,8 +1,10 @@
 <script>
   import { calendarUrls } from '../stores/eventStore';
+  import Accordion from './Accordion.svelte';
   
   let copySuccess = false;
   let copyTimeout;
+  let isSubscriptionOpen = false;
   
   function copyToClipboard(url) {
     navigator.clipboard.writeText(url)
@@ -24,9 +26,15 @@
   }
 </script>
 
-<div class="bg-white rounded-lg shadow p-5">
-  <h2 class="text-lg font-semibold text-gray-800 mb-2">Kalender abonnieren</h2>
-  <p class="text-gray-600 mb-4 text-sm">Füge diese Veranstaltungen zu deinem persönlichen Kalender hinzu:</p>
+<div class="bg-white rounded-lg shadow">
+  <Accordion 
+    title="Kalender abonnieren" 
+    defaultOpen={false} 
+    mobileOnly={true}
+    id="calendar"
+    on:toggle={({ detail }) => isSubscriptionOpen = detail.isOpen}
+  >
+    <p class="text-gray-600 mb-4 text-sm">Füge diese Veranstaltungen zu deinem persönlichen Kalender hinzu:</p>
   
   <div class="flex flex-col gap-3">
     {#if $calendarUrls.nextcloud}
@@ -60,4 +68,5 @@
       </a>
     {/if} -->
   </div>
+  </Accordion>
 </div>

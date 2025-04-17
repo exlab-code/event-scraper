@@ -686,7 +686,7 @@ LLM EXTRACTION:
     - organizer: Die Organisation, die die Veranstaltung durchführt
     - tags: Schlagwörter für die Veranstaltung (Array von Strings). Extrahiere relevante Tags in diesen Kategorien:
       * Themen-Tags: ALLGEMEINE Hauptthemen der Veranstaltung (z.B. KI, Datenschutz, Social Media)
-      * Format-Tags: Art der Veranstaltung (z.B. Workshop, Webinar, Konferenz)
+      * Format-Tags: Art der Veranstaltung (z.B. Workshop, Webinar, Konferenz, Forbildung)
       * Zielgruppen-Tags: Für wen ist die Veranstaltung gedacht (z.B. Vereine, Stiftungen)
       * Kosten-Tags: Füge "Kostenlos" hinzu, wenn die Veranstaltung kostenlos ist
     - tag_groups: Organisiere die Tags nach Kategorien (Objekt mit Arrays):

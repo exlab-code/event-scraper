@@ -57,7 +57,7 @@
       <div class="text-2xl font-bold">{formatShortDate(event.start_date).split('.')[0]}</div>
       <div class="text-sm">{new Date(event.start_date).toLocaleString('de-DE', {month: 'short'})}</div>
       {#if event.end_date && new Date(event.start_date).toDateString() !== new Date(event.end_date).toDateString()}
-        <div class="text-xs mt-1 px-2 py-1 bg-white/20 rounded-full">+ {Math.ceil((new Date(event.end_date) - new Date(event.start_date)) / (1000 * 60 * 60 * 24))} days</div>
+        <div class="text-xs mt-1 py-1 bg-white/20 rounded-full">+ {Math.ceil((new Date(event.end_date) - new Date(event.start_date)) / (1000 * 60 * 60 * 24))} Tage</div>
       {/if}
     </div>
     
