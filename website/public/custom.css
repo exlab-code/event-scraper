@@ -28,6 +28,132 @@
   padding-bottom: 1rem;
 }
 
+/* Accordion styles */
+.accordion {
+  margin-bottom: 1rem;
+}
+
+/* Accordion header styling */
+.accordion .accordion-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  text-align: left !important; /* Ensure text is always left-aligned */
+}
+
+/* Ensure chevron is properly positioned */
+.accordion .accordion-icon {
+  margin-left: 1rem !important;
+}
+
+/* Fix any alignment issues */
+.accordion .accordion-title {
+  flex: 1 !important;
+}
+
+/* Chevron rotation for accordions */
+.accordion .chevron {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.accordion .chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Desktop accordion styles */
+@media (min-width: 768px) {
+  .accordion.mobile-only .accordion-header {
+    background-color: transparent !important;
+    margin-bottom: 0;
+  }
+  
+  .accordion.mobile-only .accordion-content {
+    display: block !important;
+  }
+  
+  /* Hide chevrons on desktop */
+  .accordion .accordion-icon {
+    display: none !important;
+  }
+}
+
+/* Fix for specific width range (1024px-1200px) where headers might center */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .accordion .accordion-header {
+    text-align: left !important;
+  }
+  
+  .accordion .accordion-title {
+    text-align: left !important;
+    width: auto !important;
+  }
+  
+  /* Ensure the sidebar content is properly aligned */
+  aside .accordion {
+    width: 100% !important;
+  }
+}
+
+/* Mobile styles for EventCard (screens smaller than 768px) */
+@media (max-width: 767px) {
+  /* Only change the main card flex container to vertical */
+  .event-card > .flex {
+    /* Change to vertical layout */
+    flex-direction: column;
+  }
+  
+  /* Adjust date indicator to span full width */
+  .event-card .date-indicator {
+    width: 100%;
+    border-radius: 0.5rem 0.5rem 0 0;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem; /* Add space between date elements */
+  }
+  
+  /* Adjust main content padding */
+  .event-card .main-content {
+    padding: 1rem;
+  }
+  
+  /* Ensure meta information stays horizontal */
+  .event-card .main-content .flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  /* Reduce gap between meta info items */
+  .event-card .main-content .flex.gap-4 {
+    gap: 0.5rem; /* Reduce from 1rem (gap-4) to 0.5rem */
+  }
+  
+  /* Reduce gap between tags */
+  .event-card .flex.gap-2 {
+    gap: 0.25rem; /* Reduce from 0.5rem (gap-2) to 0.25rem */
+  }
+  
+  /* Adjust action bar */
+  .event-card .action-bar {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #f0f0f0;
+    padding: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  /* Adjust action buttons to be side by side */
+  .event-card .action-bar button,
+  .event-card .action-bar a {
+    width: auto;
+    margin-right: 0.5rem;
+  }
+}
+
 /* Tag styling */
 .tag {
   padding: 0.2rem 0.6rem;
