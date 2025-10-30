@@ -582,7 +582,26 @@ class FoerdermittelScraper:
                 if details:
                     program_data['extracted_details'] = details
 
-                # Try to find application link
+                # Generate stable unique URL from title (all content is on overview page)
+                # Use URL fragment with title slug for human-readable, stable tracking
+                import hashlib
+                from urllib.parse import quote
+
+                # Create URL-safe slug from title
+                title_slug = title.lower()
+                # Remove common prefixes
+                for prefix in ['förderaktion:', 'pauschalförderung:', 'projektförderung:', 'investitionsförderung:']:
+                    if title_slug.startswith(prefix):
+                        title_slug = title_slug[len(prefix):].strip()
+                # Clean up for URL
+                title_slug = ''.join(c if c.isalnum() or c in '-_' else '-' for c in title_slug)
+                title_slug = '-'.join(filter(None, title_slug.split('-')))[:50]  # Max 50 chars
+
+                # Add hash to ensure uniqueness if titles are similar
+                title_hash = hashlib.md5(title.encode()).hexdigest()[:6]
+                program_data['url'] = f"{source['url']}#{title_slug}-{title_hash}"
+
+                # Also extract application link for reference
                 app_link = section.find('a', href=lambda x: x and 'antrag' in x.lower())
                 if app_link and app_link.has_attr('href'):
                     app_url = app_link['href']
@@ -591,15 +610,6 @@ class FoerdermittelScraper:
                         from urllib.parse import urljoin
                         app_url = urljoin(source['url'], app_url)
                     program_data['application_url'] = app_url
-                    # Use application URL as unique identifier
-                    program_data['url'] = app_url
-
-                # If no application URL found, generate a unique URL from title
-                if 'url' not in program_data:
-                    # Use source URL + hash of title as unique identifier
-                    import hashlib
-                    title_hash = hashlib.md5(title.encode()).hexdigest()[:8]
-                    program_data['url'] = f"{source['url']}#{title_hash}"
 
                 # Check for duplicates before adding
                 program_json = json.dumps(program_data, ensure_ascii=False)

@@ -17,9 +17,134 @@ import logging
 from datetime import datetime
 from openai import OpenAI
 from collections import Counter
+from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import Optional, List
+import instructor
 
 import os
 from dotenv import load_dotenv
+
+# ============================================================================
+# Pydantic Models for Structured Output
+# ============================================================================
+
+class TagGroups(BaseModel):
+    """Organized tags by category"""
+    topic: List[str] = Field(default_factory=list, description="Themen-Tags")
+    format: List[str] = Field(default_factory=list, description="Format-Tags (Workshop, Webinar, etc.)")
+    audience: List[str] = Field(default_factory=list, description="Zielgruppen-Tags")
+    cost: List[str] = Field(default_factory=list, description="Kosten-Tags")
+
+
+class EventData(BaseModel):
+    """Structured event data with validation"""
+    title: str = Field(..., min_length=1, max_length=500, description="Titel der Veranstaltung")
+    description: str = Field(..., max_length=450, description="Prägnante Beschreibung (max 450 Zeichen)")
+    start_date: str = Field(..., description="Startdatum im ISO-Format (YYYY-MM-DD)")
+    start_time: Optional[str] = Field(None, description="Startzeit (HH:MM)")
+    end_date: Optional[str] = Field(None, description="Enddatum im ISO-Format")
+    end_time: Optional[str] = Field(None, description="Endzeit (HH:MM)")
+    location: str = Field(..., min_length=1, description="Physischer Ort oder 'Online'")
+    organizer: str = Field(..., min_length=1, description="Veranstalter")
+    tags: List[str] = Field(default_factory=list, max_length=5, description="Schlagwörter (max 5)")
+    tag_groups: Optional[TagGroups] = Field(None, description="Tags nach Kategorien organisiert")
+    cost: str = Field(default="Kostenlos", description="Preisinformationen")
+    registration_link: Optional[str] = Field(None, description="URL für Anmeldung")
+    is_relevant: bool = Field(..., description="Ob die Veranstaltung relevant ist")
+    status: Optional[str] = Field(None, description="Status (leer oder 'excluded')")
+
+    # Additional fields added by processor
+    source: Optional[str] = Field(None, description="Quelle der Veranstaltung")
+    approved: Optional[bool] = Field(None, description="Freigabestatus")
+    website: Optional[str] = Field(None, description="Event-Website URL")
+
+    @field_validator('start_date', 'end_date')
+    @classmethod
+    def validate_date_format(cls, v: Optional[str]) -> Optional[str]:
+        """Validate ISO date format (YYYY-MM-DD)"""
+        if v is None:
+            return v
+
+        # Check if already in ISO format
+        if re.match(r'^\d{4}-\d{2}-\d{2}$', v):
+            try:
+                datetime.strptime(v, '%Y-%m-%d')
+                return v
+            except ValueError:
+                pass
+
+        # Try to parse German date formats
+        german_formats = [
+            (r'(\d{1,2})\.(\d{1,2})\.(\d{4})', '%d.%m.%Y'),  # DD.MM.YYYY
+            (r'(\d{1,2})/(\d{1,2})/(\d{4})', '%d/%m/%Y'),    # DD/MM/YYYY
+        ]
+
+        for pattern, format_str in german_formats:
+            match = re.match(pattern, v)
+            if match:
+                try:
+                    parsed_date = datetime.strptime(v, format_str)
+                    return parsed_date.strftime('%Y-%m-%d')
+                except ValueError:
+                    continue
+
+        # If we can't parse it, raise an error
+        raise ValueError(f"Date must be in ISO format (YYYY-MM-DD) or German format (DD.MM.YYYY). Got: {v}")
+
+    @field_validator('start_time', 'end_time')
+    @classmethod
+    def validate_time_format(cls, v: Optional[str]) -> Optional[str]:
+        """Validate time format (HH:MM)"""
+        if v is None:
+            return v
+
+        # Check if in HH:MM format
+        if re.match(r'^\d{1,2}:\d{2}$', v):
+            parts = v.split(':')
+            hour = int(parts[0])
+            minute = int(parts[1])
+
+            if 0 <= hour <= 23 and 0 <= minute <= 59:
+                return f"{hour:02d}:{minute:02d}"
+
+        raise ValueError(f"Time must be in HH:MM format. Got: {v}")
+
+    @field_validator('tags')
+    @classmethod
+    def validate_tags(cls, v: List[str]) -> List[str]:
+        """Validate and clean tags"""
+        if len(v) > 5:
+            # Truncate to 5 tags if too many
+            v = v[:5]
+
+        # Clean and validate each tag
+        cleaned_tags = []
+        for tag in v:
+            tag = tag.strip()
+            if tag:  # Only add non-empty tags
+                cleaned_tags.append(tag)
+
+        return cleaned_tags
+
+    @model_validator(mode='after')
+    def validate_dates_consistency(self):
+        """Ensure end_date is not before start_date"""
+        if self.start_date and self.end_date:
+            try:
+                start = datetime.strptime(self.start_date, '%Y-%m-%d')
+                end = datetime.strptime(self.end_date, '%Y-%m-%d')
+
+                if end < start:
+                    raise ValueError(f"End date ({self.end_date}) cannot be before start date ({self.start_date})")
+            except ValueError as e:
+                if "End date" in str(e):
+                    raise
+                # If date parsing fails, it will be caught by field validators
+                pass
+
+        return self
+
+# ============================================================================
 
 # Set up logging - only log to file, not console
 logging.basicConfig(
