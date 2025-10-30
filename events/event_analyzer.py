@@ -183,30 +183,13 @@ class DirectusClient:
     
     def get_unprocessed_items(self, limit=10):
         """Get unprocessed items from scraped_data collection"""
-        items = []
-        page = 1
-        page_size = 50
-        
-        while len(items) < limit:
-            url = f"{self.base_url}/items/scraped_data?limit={page_size}&page={page}"
-            response = requests.get(url, headers=self.headers)
-            response.raise_for_status()
-            
-            batch = response.json().get('data', [])
-            if not batch:
-                break
-            
-            # Filter for unprocessed items
-            for item in batch:
-                if not item.get('processed', False):
-                    items.append(item)
-                    if len(items) >= limit:
-                        break
-            
-            page += 1
-            if page > 10:  # Safety limit
-                break
-        
+        # Use Directus filter to get only unprocessed items directly
+        url = f"{self.base_url}/items/scraped_data?filter[processed][_eq]=false&limit={limit}"
+        response = requests.get(url, headers=self.headers)
+        response.raise_for_status()
+
+        items = response.json().get('data', [])
+
         print(f"Retrieved {len(items)} unprocessed items")
         return items
     
@@ -428,9 +411,10 @@ class DirectusClient:
 
 class GPT4MiniProcessor:
     """Processes event data with GPT-4o Mini with enhanced extraction and feedback loop"""
-    
+
     def __init__(self, api_key, directus_client, feedback_section=""):
-        self.client = OpenAI(api_key=api_key)
+        # Wrap OpenAI client with Instructor for structured output with validation
+        self.client = instructor.from_openai(OpenAI(api_key=api_key))
         self.directus = directus_client
         self.feedback_section = feedback_section  # Store the pre-generated feedback section
         
@@ -443,57 +427,7 @@ class GPT4MiniProcessor:
         # Match URLs following registration words - ensure they start with http:// or https://
         re.compile(r'(?:Anmeldung|Registrierung)[^\w]*?(https?://[^\s]+)', re.IGNORECASE | re.DOTALL)
     ]
-    
-    # Date and time extraction patterns
-    _date_patterns = [
-        # ISO format: YYYY-MM-DD
-        re.compile(r'(\d{4})-(\d{1,2})-(\d{1,2})'),
-        # German format with dots: DD.MM.YYYY or D.M.YYYY or DD.MM.YY
-        re.compile(r'(\d{1,2})\.(\d{1,2})\.(\d{2,4})'),
-        # German format with month name: DD. Month YYYY or D. Month YYYY
-        re.compile(r'(\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{2,4})', re.IGNORECASE),
-        # German format with abbreviated month: DD. Mon YYYY or D. Mon YYYY
-        re.compile(r'(\d{1,2})\.\s*(Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez)\.?\s*(\d{2,4})', re.IGNORECASE),
-        # Date ranges with dash: DD.-DD. Month YYYY
-        re.compile(r'(\d{1,2})\.[-–](\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{2,4})', re.IGNORECASE),
-        # Date ranges with "bis": vom DD. bis DD. Month YYYY
-        re.compile(r'vom\s+(\d{1,2})\.\s+bis\s+(\d{1,2})\.\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s+(\d{2,4})', re.IGNORECASE),
-        # Date with weekday: Weekday, DD. Month YYYY
-        re.compile(r'(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Mo|Di|Mi|Do|Fr|Sa|So),?\s+(\d{1,2})\.\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s+(\d{2,4})', re.IGNORECASE)
-    ]
-    
-    _time_patterns = [
-        # Standard time format: HH:MM or H:MM
-        re.compile(r'(\d{1,2}):(\d{2})(?:\s*Uhr)?'),
-        # German time format with dots: HH.MM or H.MM
-        re.compile(r'(\d{1,2})\.(\d{2})(?:\s*Uhr)?'),
-        # Time with just hours: HH Uhr or H Uhr
-        re.compile(r'(\d{1,2})\s+Uhr'),
-        # Time ranges with dash: HH:MM-HH:MM or HH-HH Uhr
-        re.compile(r'(\d{1,2}):?(\d{2})?\s*[-–]\s*(\d{1,2}):?(\d{2})?\s*(?:Uhr)?'),
-        # Time ranges with "bis": von HH:MM bis HH:MM Uhr
-        re.compile(r'von\s+(\d{1,2}):?(\d{2})?\s+bis\s+(\d{1,2}):?(\d{2})?\s+(?:Uhr)?', re.IGNORECASE),
-        # Time with context: Beginn: HH:MM Uhr
-        re.compile(r'(?:Beginn|Start|Anfang|Einlass):\s*(\d{1,2}):?(\d{2})?\s*(?:Uhr)?', re.IGNORECASE)
-    ]
-    
-    # Month name to number mapping
-    _month_map = {
-        'januar': '01', 'jan': '01',
-        'februar': '02', 'feb': '02',
-        'märz': '03', 'mär': '03', 'maerz': '03',
-        'april': '04', 'apr': '04',
-        'mai': '05',
-        'juni': '06', 'jun': '06',
-        'juli': '07', 'jul': '07',
-        'august': '08', 'aug': '08',
-        'september': '09', 'sep': '09',
-        'oktober': '10', 'okt': '10',
-        'november': '11', 'nov': '11',
-        'dezember': '12', 'dez': '12'
-    }
-    
-    
+
     def preprocess_event(self, content):
         """Extract key information using regex before GPT processing"""
         extracted_info = {}
@@ -541,46 +475,37 @@ class GPT4MiniProcessor:
             system_prompt = "Extract structured information from German event descriptions with focus on dates, times, and links. Be VERY strict about relevance criteria - only mark events as relevant if they EXPLICITLY mention both non-profit/gemeinnützig context AND digital transformation."
             
             logger.info(f"\n--- LLM INPUT for item {item_id_str} ---\nSYSTEM PROMPT:\n{system_prompt}\n\nUSER PROMPT:\n{prompt}\n--- END LLM INPUT ---")
-            
-            # Call GPT-4o Mini
-            response = self.client.chat.completions.create(
+
+            # Call GPT-4o Mini with Instructor for structured output and automatic validation
+            event = self.client.chat.completions.create(
                 model="gpt-4o-mini",
+                response_model=EventData,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
                 ],
-                response_format={"type": "json_object"},
-                temperature=0.1
+                temperature=0.1,
+                max_retries=3  # Instructor will automatically retry on validation errors
             )
-            
-            # Parse response
-            llm_response = response.choices[0].message.content
-            
-            # Log the LLM response for debugging
-            logger.info(f"\n--- LLM RESPONSE for item {item_id_str} ---\n{llm_response}\n--- END LLM RESPONSE ---")
-            
-            # Log specifically the date-related parts if present
-            try:
-                structured_data = json.loads(llm_response)
-                
-                # Log the extracted date information
-                date_log = f"""
+
+            # The event is already a validated Pydantic model, convert to dict
+            structured_data = event.model_dump(exclude_none=True)
+
+            # Log the validated response
+            logger.info(f"\n--- VALIDATED RESPONSE for item {item_id_str} ---\n{json.dumps(structured_data, indent=2, ensure_ascii=False)}\n--- END VALIDATED RESPONSE ---")
+
+            # Log the extracted date information
+            date_log = f"""
 Date extraction for item {item_id_str}:
 Title: {structured_data.get('title', 'Unknown')}
 
-LLM EXTRACTION:
+VALIDATED EXTRACTION:
   start_date: {structured_data.get('start_date', 'Not found')}
   end_date: {structured_data.get('end_date', 'Not found')}
   start_time: {structured_data.get('start_time', 'Not found')}
   end_time: {structured_data.get('end_time', 'Not found')}
 """
-                logger.info(date_log)
-                
-                # Don't print date extraction to console - only log to file
-            except json.JSONDecodeError:
-                logger.error("Could not parse LLM response as JSON")
-                print("Error: Could not parse LLM response as JSON")
-                structured_data = {}
+            logger.info(date_log)
             
             # Only override event_type, and registration_link only if it's a valid URL
             for key, value in extracted_info.items():
@@ -598,45 +523,7 @@ LLM EXTRACTION:
                     structured_data[key] = value
                     logger.info(f"Using regex-extracted {key}: {value}")
                     # Don't print to console - only log to file
-            
-            # Ensure description is limited to 450 characters
-            if 'description' in structured_data and structured_data['description']:
-                if len(structured_data['description']) > 450:
-                    structured_data['description'] = structured_data['description'][:447] + '...'
-            
-            # Post-process dates and times if needed
-            if 'start_date' in structured_data and structured_data['start_date']:
-                # Ensure correct date format (YYYY-MM-DDTHH:MM:00)
-                date_match = re.search(r'(\d{4})-(\d{1,2})-(\d{1,2})', structured_data['start_date'])
-                if date_match:
-                    year, month, day = date_match.groups()
-                    
-                    # Use start_time if available, otherwise default to 00:00
-                    time_part = "00:00:00"
-                    if 'start_time' in structured_data and structured_data['start_time']:
-                        time_match = re.search(r'(\d{1,2}):(\d{2})', structured_data['start_time'])
-                        if time_match:
-                            hour, minute = time_match.groups()
-                            time_part = f"{hour.zfill(2)}:{minute}:00"
-                    
-                    structured_data['start_date'] = f"{year}-{month.zfill(2)}-{day.zfill(2)}T{time_part}"
-            
-            # Also handle end_date if present
-            if 'end_date' in structured_data and structured_data['end_date']:
-                date_match = re.search(r'(\d{4})-(\d{1,2})-(\d{1,2})', structured_data['end_date'])
-                if date_match:
-                    year, month, day = date_match.groups()
-                    
-                    # Use end_time if available, otherwise default to 00:00
-                    time_part = "00:00:00"
-                    if 'end_time' in structured_data and structured_data['end_time']:
-                        time_match = re.search(r'(\d{1,2}):(\d{2})', structured_data['end_time'])
-                        if time_match:
-                            hour, minute = time_match.groups()
-                            time_part = f"{hour.zfill(2)}:{minute}:00"
-                    
-                    structured_data['end_date'] = f"{year}-{month.zfill(2)}-{day.zfill(2)}T{time_part}"
-                    
+
             # Check if this is a multi-day, high-cost training event that should be excluded
             is_multi_day = False
             is_high_cost = False
@@ -718,52 +605,7 @@ LLM EXTRACTION:
                         time_part = f"{hour.zfill(2)}:{minute}:00"
                         
                         structured_data['end_date'] = f"{date_part}T{time_part}"
-            
-            # If event_type is present, add it to topics
-            if 'event_type' in structured_data and structured_data['event_type']:
-                event_type = structured_data['event_type']
-                
-                # Initialize topics if not present
-                if 'topics' not in structured_data or not structured_data['topics']:
-                    structured_data['topics'] = [event_type]
-                # Add event_type to topics if not already there
-                elif event_type not in structured_data['topics']:
-                    if isinstance(structured_data['topics'], list):
-                        structured_data['topics'].append(event_type)
-                    else:
-                        # If topics is a string, convert to list
-                        structured_data['topics'] = [structured_data['topics'], event_type]
-                
-                # Remove event_type field as it's now included in topics
-                del structured_data['event_type']
-            
-            # Extract topics as tags if available
-            if 'topics' in structured_data and structured_data['topics']:
-                # Ensure topics is a list
-                topics = structured_data['topics']
-                if isinstance(topics, str):
-                    # If it's a string, try to parse it as JSON array
-                    try:
-                        topics = json.loads(topics)
-                    except json.JSONDecodeError:
-                        # If not valid JSON, split by commas
-                        topics = [t.strip() for t in topics.split(',')]
-                
-                # No need to filter out category names anymore
-                
-                # Store topics as tags
-                structured_data["tags"] = topics
-            
-            # Remove target_audience field if present
-            if 'target_audience' in structured_data:
-                del structured_data['target_audience']
-            
-            # Remove legacy category fields if present
-            if 'category' in structured_data:
-                del structured_data['category']
-            if 'categories' in structured_data:
-                del structured_data['categories']
-            
+
             # Add metadata
             structured_data["source"] = content.get("source_name", event_data.get("source_name", "Unknown"))
             structured_data["approved"] = None  # Set to pending approval by default
@@ -771,14 +613,29 @@ LLM EXTRACTION:
             # Add URL if available
             if content.get("url") and not structured_data.get("website"):
                 structured_data["website"] = content.get("url")
-            
+
             # Add token usage info
+            # Note: Instructor wraps the response, so we need to access the raw response
+            # For now, we'll provide a default token usage since Instructor doesn't expose it directly
+            # The token tracking is primarily for monitoring, not critical for functionality
             token_usage = {
-                "prompt_tokens": response.usage.prompt_tokens,
-                "completion_tokens": response.usage.completion_tokens,
-                "total_tokens": response.usage.total_tokens
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0
             }
-            
+
+            # Try to get token usage from the raw response if available
+            try:
+                if hasattr(event, '_raw_response') and hasattr(event._raw_response, 'usage'):
+                    token_usage = {
+                        "prompt_tokens": event._raw_response.usage.prompt_tokens,
+                        "completion_tokens": event._raw_response.usage.completion_tokens,
+                        "total_tokens": event._raw_response.usage.total_tokens
+                    }
+            except AttributeError:
+                # If we can't access token usage, continue with defaults
+                pass
+
             return structured_data, token_usage
             
         except Exception as e:
@@ -888,141 +745,13 @@ LLM EXTRACTION:
     Liefere nur gültiges JSON zurück. Nutze null für unbekannte Felder.
     """
     
-    def _extract_date_time_info(self, text):
-        """Extract date and time information from text using regex patterns"""
-        extracted_info = {}
-        current_year = datetime.now().year
-        
-        # Extract dates
-        start_date = None
-        end_date = None
-        
-        # Try to find dates with ISO format first (YYYY-MM-DD)
-        for match in self._date_patterns[0].finditer(text):
-            year, month, day = match.groups()
-            date_str = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-            if not start_date:
-                start_date = date_str
-            elif not end_date:
-                # If we already have a start date, this is an end date
-                end_date = date_str
-        
-        # If no ISO dates found, try German format with dots (DD.MM.YYYY)
-        if not start_date:
-            for match in self._date_patterns[1].finditer(text):
-                day, month, year = match.groups()
-                # Handle 2-digit years
-                if len(year) == 2:
-                    year = f"20{year}"
-                date_str = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-                if not start_date:
-                    start_date = date_str
-                elif not end_date:
-                    end_date = date_str
-        
-        # If still no dates, try German format with month names
-        if not start_date:
-            for match in self._date_patterns[2].finditer(text):
-                day, month_name, year = match.groups()
-                month_num = self._month_map.get(month_name.lower(), "01")
-                # Handle 2-digit years or missing years
-                if not year:
-                    year = str(current_year)
-                elif len(year) == 2:
-                    year = f"20{year}"
-                date_str = f"{year}-{month_num}-{day.zfill(2)}"
-                if not start_date:
-                    start_date = date_str
-                elif not end_date:
-                    end_date = date_str
-        
-        # Try abbreviated month names
-        if not start_date:
-            for match in self._date_patterns[3].finditer(text):
-                day, month_abbr, year = match.groups()
-                month_num = self._month_map.get(month_abbr.lower(), "01")
-                # Handle 2-digit years or missing years
-                if not year:
-                    year = str(current_year)
-                elif len(year) == 2:
-                    year = f"20{year}"
-                date_str = f"{year}-{month_num}-{day.zfill(2)}"
-                if not start_date:
-                    start_date = date_str
-                elif not end_date:
-                    end_date = date_str
-        
-        # Extract times
-        start_time = None
-        end_time = None
-        
-        # Standard time format (HH:MM)
-        for match in self._time_patterns[0].finditer(text):
-            hour, minute = match.groups()
-            time_str = f"{hour.zfill(2)}:{minute}"
-            if not start_time:
-                start_time = time_str
-            elif not end_time:
-                end_time = time_str
-        
-        # German time format with dots (HH.MM)
-        if not start_time:
-            for match in self._time_patterns[1].finditer(text):
-                hour, minute = match.groups()
-                time_str = f"{hour.zfill(2)}:{minute}"
-                if not start_time:
-                    start_time = time_str
-                elif not end_time:
-                    end_time = time_str
-        
-        # Time with just hours (HH Uhr)
-        if not start_time:
-            for match in self._time_patterns[2].finditer(text):
-                hour = match.group(1)
-                time_str = f"{hour.zfill(2)}:00"
-                if not start_time:
-                    start_time = time_str
-                elif not end_time:
-                    end_time = time_str
-        
-        # Time with context (Beginn: HH:MM)
-        if not start_time:
-            for match in self._time_patterns[5].finditer(text):
-                hour = match.group(1)
-                minute = match.group(2) or "00"
-                time_str = f"{hour.zfill(2)}:{minute}"
-                start_time = time_str
-        
-        # Add extracted information to result
-        if start_date:
-            extracted_info["start_date"] = start_date
-        if end_date:
-            extracted_info["end_date"] = end_date
-        if start_time:
-            extracted_info["start_time"] = start_time
-        if end_time:
-            extracted_info["end_time"] = end_time
-        
-        # Log what we found
-        if extracted_info:
-            logger.info(f"Pre-extracted date/time info: {extracted_info}")
-        
-        return extracted_info
-    
     def _build_prompt(self, content, extracted_info=None):
         """Build prompt for GPT-4o Mini with extracted information and feedback"""
         # Get text content efficiently
         listing_text = content.get("listing_text", "") or ""
         detail_text = content.get("detail_text", "") or ""
         url = content.get("url", "")
-        
-        # Extract date/time information before truncation
-        date_time_info = self._extract_date_time_info(listing_text + " " + detail_text)
-        if date_time_info and not extracted_info:
-            extracted_info = date_time_info
-        elif date_time_info and extracted_info:
-            extracted_info.update(date_time_info)
-        
+
         # Less aggressive trimming for texts to preserve more content
         # Increase limits to retain more information while still managing token usage
         if len(listing_text) > 3000:
@@ -1103,7 +832,10 @@ def process_events(limit=10, batch_size=3):
             
             if not structured_data:
                 print(f"Failed to process item {item_id}")
-                directus.update_item_status(item_id, success=False)
+                try:
+                    directus.update_item_status(item_id, success=False)
+                except requests.exceptions.HTTPError as e:
+                    print(f"Warning: Could not update item status in DB: {e}")
                 errors += 1
                 continue
             
@@ -1150,7 +882,10 @@ def process_events(limit=10, batch_size=3):
             
             # Update item status
             processed_content = json.dumps(structured_data, ensure_ascii=False)
-            directus.update_item_status(item_id, success=True, processed_content=processed_content)
+            try:
+                directus.update_item_status(item_id, success=True, processed_content=processed_content)
+            except requests.exceptions.HTTPError as e:
+                print(f"Warning: Could not update item {item_id} status in DB: {e}")
     
     # Calculate cost (approx. $0.15 per 1M tokens)
     cost = (total_tokens / 1_000_000) * 0.15

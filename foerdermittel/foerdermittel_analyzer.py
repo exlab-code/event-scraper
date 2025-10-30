@@ -19,6 +19,9 @@ import argparse
 from datetime import datetime
 from openai import OpenAI
 from dotenv import load_dotenv
+from pydantic import BaseModel, Field, field_validator
+from typing import Optional, List, Literal
+import instructor
 
 # Import shared utilities
 from shared.directus_client import DirectusClient
@@ -49,121 +52,129 @@ if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY environment variable is required")
 
 
-# JSON Schema for structured output
-FOERDERMITTEL_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "title": {
-            "type": "string",
-            "description": "Title of the funding program in German"
-        },
-        "short_description": {
-            "type": "string",
-            "description": "Brief description (max 200 characters)"
-        },
-        "description": {
-            "type": "string",
-            "description": "Detailed description of the funding program"
-        },
-        "funding_organization": {
-            "type": "string",
-            "description": "Organization providing the funding"
-        },
-        "funding_provider_type": {
-            "type": "string",
-            "enum": ["Bund", "Land", "EU", "Stiftung", "Sonstige"],
-            "description": "Type of funding provider"
-        },
-        "bundesland": {
-            "type": "string",
-            "enum": [
-                "Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen",
-                "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen",
-                "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen",
-                "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen",
-                "bundesweit", "EU-weit", "International"
-            ],
-            "description": "Federal state or scope"
-        },
-        "funding_type": {
-            "type": "string",
-            "enum": ["Zuschuss", "Kredit", "Bürgschaft", "Preis", "Sonstige"],
-            "description": "Type of funding"
-        },
-        "funding_amount_min": {
-            "type": ["number", "null"],
-            "description": "Minimum funding amount in EUR"
-        },
-        "funding_amount_max": {
-            "type": ["number", "null"],
-            "description": "Maximum funding amount in EUR"
-        },
-        "funding_amount_text": {
-            "type": ["string", "null"],
-            "description": "Text description of funding amount if not numeric"
-        },
-        "funding_rate": {
-            "type": ["string", "null"],
-            "description": "Funding rate (e.g., '100%', 'bis zu 50%')"
-        },
-        "application_deadline": {
-            "type": ["string", "null"],
-            "description": "Application deadline in ISO format (YYYY-MM-DD) or null if none"
-        },
-        "deadline_type": {
-            "type": "string",
-            "enum": ["einmalig", "laufend", "jährlich", "geschlossen"],
-            "description": "Type of deadline"
-        },
-        "funding_period_start": {
-            "type": ["string", "null"],
-            "description": "Start of funding period in ISO format (YYYY-MM-DD)"
-        },
-        "funding_period_end": {
-            "type": ["string", "null"],
-            "description": "End of funding period in ISO format (YYYY-MM-DD)"
-        },
-        "target_group": {
-            "type": "string",
-            "description": "Target group for the funding"
-        },
-        "eligibility_criteria": {
-            "type": "string",
-            "description": "Detailed eligibility criteria"
-        },
-        "website": {
-            "type": "string",
-            "description": "Official website URL for the funding program"
-        },
-        "contact_email": {
-            "type": ["string", "null"],
-            "description": "Contact email if available"
-        },
-        "is_relevant": {
-            "type": "boolean",
-            "description": "Whether this funding is relevant for NGOs/Wohlfahrtsverbände"
-        },
-        "relevance_reason": {
-            "type": "string",
-            "description": "Brief explanation of relevance determination"
-        }
-    },
-    "required": [
-        "title", "short_description", "description", "funding_organization", "funding_provider_type",
-        "bundesland", "funding_type", "funding_amount_min", "funding_amount_max", "funding_amount_text",
-        "funding_rate", "application_deadline", "deadline_type", "funding_period_start", "funding_period_end",
-        "target_group", "eligibility_criteria", "website", "contact_email",
-        "is_relevant", "relevance_reason"
-    ],
-    "additionalProperties": False
-}
+# ============================================================================
+# Pydantic Models for Structured Output
+# ============================================================================
+
+class FoerdermittelData(BaseModel):
+    """Structured funding program data with validation"""
+
+    title: str = Field(..., min_length=1, max_length=500, description="Title of the funding program in German")
+    short_description: str = Field(..., max_length=200, description="Brief description (max 200 characters)")
+    description: str = Field(..., min_length=10, description="Detailed description of the funding program")
+    funding_organization: str = Field(..., min_length=1, description="Organization providing the funding")
+
+    funding_provider_type: Literal["Bund", "Land", "EU", "Stiftung", "Sonstige"] = Field(
+        ..., description="Type of funding provider"
+    )
+
+    bundesland: Literal[
+        "Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen",
+        "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen",
+        "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen",
+        "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen",
+        "bundesweit", "EU-weit", "International"
+    ] = Field(..., description="Federal state or scope")
+
+    funding_type: Literal["Zuschuss", "Kredit", "Bürgschaft", "Preis", "Sonstige"] = Field(
+        ..., description="Type of funding"
+    )
+
+    funding_amount_min: Optional[float] = Field(None, description="Minimum funding amount in EUR")
+    funding_amount_max: Optional[float] = Field(None, description="Maximum funding amount in EUR")
+    funding_amount_text: Optional[str] = Field(None, description="Text description of funding amount if not numeric")
+    funding_rate: Optional[str] = Field(None, description="Funding rate (e.g., '100%', 'bis zu 50%')")
+
+    application_deadline: Optional[str] = Field(None, description="Application deadline in ISO format (YYYY-MM-DD)")
+    deadline_type: Literal["einmalig", "laufend", "jährlich", "geschlossen"] = Field(
+        ..., description="Type of deadline"
+    )
+
+    funding_period_start: Optional[str] = Field(None, description="Start of funding period in ISO format (YYYY-MM-DD)")
+    funding_period_end: Optional[str] = Field(None, description="End of funding period in ISO format (YYYY-MM-DD)")
+
+    target_group: str = Field(..., min_length=1, description="Target group for the funding")
+    eligibility_criteria: str = Field(..., min_length=1, description="Detailed eligibility criteria")
+
+    website: str = Field(..., min_length=1, description="Official website URL for the funding program")
+    contact_email: Optional[str] = Field(None, description="Contact email if available")
+
+    is_relevant: bool = Field(..., description="Whether this funding is relevant for NGOs/Wohlfahrtsverbände")
+    relevance_reason: str = Field(..., min_length=1, description="Brief explanation of relevance determination")
+
+    # Additional fields added by processor
+    source: Optional[str] = Field(None, description="Source name")
+    source_url: Optional[str] = Field(None, description="Source URL")
+    approved: Optional[bool] = Field(None, description="Approval status")
+    status: Optional[str] = Field(None, description="Status (draft/published)")
+    scraped_data_id: Optional[int] = Field(None, description="Link to scraped data item")
+
+    @field_validator('application_deadline', 'funding_period_start', 'funding_period_end')
+    @classmethod
+    def validate_date_format(cls, v: Optional[str]) -> Optional[str]:
+        """Validate ISO date format (YYYY-MM-DD)"""
+        if v is None:
+            return v
+
+        # Check if already in ISO format
+        if re.match(r'^\d{4}-\d{2}-\d{2}$', v):
+            try:
+                datetime.strptime(v, '%Y-%m-%d')
+                return v
+            except ValueError:
+                pass
+
+        # Try to parse German date formats
+        german_formats = [
+            (r'(\d{1,2})\.(\d{1,2})\.(\d{4})', '%d.%m.%Y'),  # DD.MM.YYYY
+            (r'(\d{1,2})/(\d{1,2})/(\d{4})', '%d/%m/%Y'),    # DD/MM/YYYY
+        ]
+
+        for pattern, format_str in german_formats:
+            match = re.match(pattern, v)
+            if match:
+                try:
+                    parsed_date = datetime.strptime(v, format_str)
+                    return parsed_date.strftime('%Y-%m-%d')
+                except ValueError:
+                    continue
+
+        # If we can't parse it, raise an error
+        raise ValueError(f"Date must be in ISO format (YYYY-MM-DD) or German format (DD.MM.YYYY). Got: {v}")
+
+    @field_validator('short_description')
+    @classmethod
+    def validate_short_description_length(cls, v: str) -> str:
+        """Ensure short description is not too long"""
+        if len(v) > 200:
+            # Truncate and add ellipsis
+            return v[:197] + "..."
+        return v
+
+    @field_validator('contact_email')
+    @classmethod
+    def validate_email(cls, v: Optional[str]) -> Optional[str]:
+        """Basic email validation"""
+        if v is None:
+            return v
+
+        # Simple email pattern check
+        if '@' in v and '.' in v.split('@')[-1]:
+            return v
+
+        # If invalid, return None instead of raising error
+        logger.warning(f"Invalid email format: {v}, setting to None")
+        return None
+
+# ============================================================================
 
 
 class FoerdermittelProcessor:
     """Processes funding program data with GPT-4o and structured outputs"""
 
     def __init__(self, api_key, directus_client):
-        self.client = OpenAI(api_key=api_key)
+        # Patch OpenAI client with Instructor
+        self.client = instructor.from_openai(OpenAI(api_key=api_key))
         self.directus = directus_client
 
     def _extract_amounts_regex(self, text):
@@ -382,9 +393,10 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             logger.info(f"\n--- Processing program {item_id_str} ---")
             logger.info(f"Title: {content.get('title', 'Unknown')}")
 
-            # Call GPT-4o with Structured Outputs
-            response = self.client.chat.completions.create(
+            # Call GPT-4o with Instructor for structured output
+            structured_data = self.client.chat.completions.create(
                 model="gpt-4o",
+                response_model=FoerdermittelData,
                 messages=[
                     {
                         "role": "system",
@@ -395,36 +407,25 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
                         "content": prompt
                     }
                 ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "foerdermittel_extraction",
-                        "schema": FOERDERMITTEL_SCHEMA,
-                        "strict": True
-                    }
-                },
                 temperature=0.1
             )
 
-            # Parse response
-            llm_response = response.choices[0].message.content
-            structured_data = json.loads(llm_response)
-
-            logger.info(f"Extracted title: {structured_data.get('title', 'Unknown')}")
-            logger.info(f"Relevance: {structured_data.get('is_relevant', False)} - {structured_data.get('relevance_reason', '')}")
+            logger.info(f"Extracted title: {structured_data.title}")
+            logger.info(f"Relevance: {structured_data.is_relevant} - {structured_data.relevance_reason}")
 
             # Add source information
-            structured_data['source'] = content.get('source_name', '')
-            structured_data['source_url'] = content.get('url', '')
+            structured_data.source = content.get('source_name', '')
+            structured_data.source_url = content.get('url', '')
 
             # Set default approval status
-            structured_data['approved'] = None  # Pending approval
-            structured_data['status'] = 'draft'
+            structured_data.approved = None  # Pending approval
+            structured_data.status = 'draft'
 
             # Link to scraped data item
-            structured_data['scraped_data_id'] = program_data.get('id')
+            structured_data.scraped_data_id = program_data.get('id')
 
-            return structured_data
+            # Convert to dict for Directus
+            return structured_data.model_dump()
 
         except Exception as e:
             logger.error(f"Error processing program {item_id_str}: {str(e)}")
