@@ -222,6 +222,8 @@ class FoerdermittelScraper:
     def check_duplicate_content(self, content):
         """Check if content already exists in the database.
 
+        DEPRECATED: Use check_duplicate_or_changed instead for change detection.
+
         Args:
             content (str): Content to check
 
@@ -245,6 +247,38 @@ class FoerdermittelScraper:
                 return True, existing_item['id']
 
         return False, None
+
+    def check_duplicate_or_changed(self, content, url):
+        """Check if content is duplicate or has changed.
+
+        Args:
+            content (str): Content to check
+            url (str): URL of the program
+
+        Returns:
+            tuple: (status, existing_item_id, previous_hash)
+            status: 'new', 'unchanged', 'changed'
+        """
+        content_hash = calculate_content_hash(content)
+
+        # Check database for existing entry with this URL
+        if self.directus_client:
+            existing_item = self.directus_client.get_item_by_url(
+                self.collection_name, url
+            )
+
+            if existing_item:
+                previous_hash = existing_item.get('content_hash')
+
+                if previous_hash == content_hash:
+                    logger.debug(f"Content unchanged for: {url}")
+                    return ('unchanged', existing_item['id'], previous_hash)
+                else:
+                    logger.info(f"Content changed for: {url}")
+                    return ('changed', existing_item['id'], previous_hash)
+
+        logger.debug(f"New program: {url}")
+        return ('new', None, None)
 
     def save_to_directus(self, program_data, content_hash):
         """Save funding program data to Directus database.
@@ -364,6 +398,101 @@ class FoerdermittelScraper:
 
         logger.info(f"Found {len(program_urls)} program URLs")
         return program_urls
+
+    def scrape_aktion_mensch(self, source):
+        """Scrape Aktion Mensch Förderfinder for funding programs.
+
+        Aktion Mensch displays funding programs on a single page with detailed sections.
+        Each program has title, description, funding details, and application links.
+
+        Args:
+            source (dict): Source configuration
+
+        Returns:
+            list: List of program data dictionaries (complete data, not just URLs)
+        """
+        logger.info(f"Scraping {source['name']} - {source['url']}")
+
+        programs = []
+
+        # Get the Förderfinder page
+        content = self.get_page_content(source['url'])
+        if not content:
+            return []
+
+        # Parse the page
+        soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
+
+        # Find all funding program sections
+        # The programs are in list items with headings containing "Förderaktion:", "Pauschalförderung:", etc.
+        program_sections = []
+
+        # Look for list items containing program headers
+        for li in soup.find_all('li'):
+            header = li.find('h3')
+            if header and any(keyword in header.get_text() for keyword in ['Förderaktion:', 'Pauschalförderung:', 'Projektförderung:', 'Investitionsförderung:']):
+                program_sections.append(li)
+
+        logger.info(f"Found {len(program_sections)} funding programs on page")
+
+        # Limit based on max_programs
+        if self.max_programs > 0:
+            program_sections = program_sections[:self.max_programs]
+
+        # Extract details from each program section
+        for section in program_sections:
+            try:
+                # Extract program title
+                title_elem = section.find('h3')
+                if not title_elem:
+                    continue
+
+                title = title_elem.get_text().strip()
+
+                # Extract program details
+                program_data = {
+                    'title': title,
+                    'source_url': source['url'],
+                    'source_name': source['name'],
+                    'scraped_date': datetime.now().isoformat(),
+                    'raw_html': str(section),
+                    'program_type': 'Aktion Mensch'
+                }
+
+                # Try to extract specific funding details if available
+                details = {}
+
+                # Look for key-value pairs (Förderprogramm, Zielgruppe, Zuschuss, etc.)
+                for p in section.find_all(['p', 'div']):
+                    text = p.get_text().strip()
+                    if ':' in text and len(text) < 200:  # Likely a detail field
+                        key, value = text.split(':', 1)
+                        details[key.strip()] = value.strip()
+
+                if details:
+                    program_data['extracted_details'] = details
+
+                # Try to find application link
+                app_link = section.find('a', href=lambda x: x and 'antrag' in x.lower())
+                if app_link and app_link.has_attr('href'):
+                    program_data['application_url'] = app_link['href']
+
+                # Check for duplicates before adding
+                program_json = json.dumps(program_data, ensure_ascii=False)
+                is_duplicate, item_id = self.check_duplicate_content(program_json)
+
+                if is_duplicate:
+                    logger.info(f"Skipping duplicate program: {title}")
+                    continue
+
+                programs.append(program_data)
+                logger.info(f"✓ Extracted: {title}")
+
+            except Exception as e:
+                logger.error(f"Error extracting program from section: {e}")
+                continue
+
+        return programs
 
     def scrape_program_detail(self, url, source_name):
         """Scrape a single funding program detail page.
@@ -559,6 +688,22 @@ class FoerdermittelScraper:
             list: List of program data dictionaries
         """
         all_programs = []
+
+        # Handle Aktion Mensch differently - it returns complete program data
+        if source.get('type') == 'aktion_mensch':
+            programs = self.scrape_aktion_mensch(source)
+
+            # Save each program
+            for program_data in programs:
+                all_programs.append(program_data)
+
+                # Save to Directus
+                if self.directus_client:
+                    program_json = json.dumps(program_data, ensure_ascii=False)
+                    content_hash = calculate_content_hash(program_json)
+                    self.save_to_directus(program_data, content_hash)
+
+            return all_programs
 
         # Get program URLs from search/listing page
         if source.get('type') == 'rss':

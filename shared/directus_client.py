@@ -306,6 +306,75 @@ class DirectusClient:
             logger.error(f"Failed to get pending items from {collection}: {str(e)}")
             return []
 
+    def get_item_by_url(self, collection, url):
+        """Get an item by its URL field.
+
+        Args:
+            collection (str): Collection name
+            url (str): URL to search for
+
+        Returns:
+            dict: Item data or None if not found
+        """
+        url_endpoint = f"{self.base_url}/items/{collection}"
+        params = {
+            "filter": json.dumps({
+                "url": {"_eq": url}
+            }),
+            "limit": 1
+        }
+
+        try:
+            response = self.session.get(
+                url_endpoint, headers=self.get_headers(), params=params
+            )
+
+            if response.status_code == 401:  # Token might have expired
+                self.login()
+                response = self.session.get(
+                    url_endpoint, headers=self.get_headers(), params=params
+                )
+
+            response.raise_for_status()
+            data = response.json().get('data', [])
+            return data[0] if data else None
+        except Exception as e:
+            logger.error(f"Failed to get item by URL from {collection}: {str(e)}")
+            return None
+
+    def get_active_programs(self, collection, source_name):
+        """Get all active programs from a specific source.
+
+        Args:
+            collection (str): Collection name
+            source_name (str): Source name to filter by
+
+        Returns:
+            list: List of active programs
+        """
+        url = f"{self.base_url}/items/{collection}"
+        params = {
+            "filter": json.dumps({
+                "source_name": {"_eq": source_name},
+                "is_active": {"_eq": True}
+            }),
+            "fields": "id,url,last_seen_at",
+            "limit": -1  # Get all
+        }
+
+        try:
+            response = self.session.get(url, headers=self.get_headers(), params=params)
+
+            if response.status_code == 401:  # Token might have expired
+                self.login()
+                response = self.session.get(url, headers=self.get_headers(), params=params)
+
+            response.raise_for_status()
+            return response.json().get('data', [])
+        except Exception as e:
+            logger.error(f"Failed to get active programs: {str(e)}")
+            return []
+
 
 def calculate_content_hash(content):
     """Calculate SHA-256 hash of content for deduplication.

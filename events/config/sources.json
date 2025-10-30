@@ -1,0 +1,20 @@
+{
+  "sources": [
+    {
+      "name": "Stifter-helfen.de",
+      "url": "https://www.hausdesstiftens.org/non-profits/wissen/webinare/",
+      "type": "html",
+      "event_selector": ".eg-webinare-22-wrapper",
+      "link_selector": "a",
+      "full_page_selector": ".article-content"
+    },
+    {
+      "name": "Aktion Zivilcourage Weiterbildungsforum Ehrenamt",
+      "url": "https://eveeno.com/138543290",
+      "type": "html",
+      "event_selector": ".event",
+      "link_selector": "a",
+      "full_page_selector": ".article-content"
+    }
+  ]
+}

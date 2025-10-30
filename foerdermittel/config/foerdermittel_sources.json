@@ -18,6 +18,15 @@
       "target_group": "Various including NGOs, businesses, municipalities",
       "regions": ["bundesweit", "regional"],
       "update_frequency": "daily"
+    },
+    {
+      "name": "Aktion Mensch Förderfinder",
+      "url": "https://www.aktion-mensch.de/foerderung/angebote/foerderfinder",
+      "type": "aktion_mensch",
+      "description": "Aktion Mensch funding programs for inclusive projects, disability services, and social initiatives",
+      "target_group": "NGOs, gemeinnützige Organisationen, Wohlfahrtsverbände focusing on inclusion and disability",
+      "regions": ["bundesweit"],
+      "update_frequency": "irregular (currently limited program availability)"
     }
   ]
 }

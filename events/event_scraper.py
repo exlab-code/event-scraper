@@ -311,20 +311,46 @@ class DirectusClient:
                 }
             })
         }
-        
+
         try:
             response = self.session.get(url, headers=self.get_headers(), params=params)
-            
+
             if response.status_code == 401:  # Token might have expired
                 self.login()
                 response = self.session.get(url, headers=self.get_headers(), params=params)
-            
+
             response.raise_for_status()
-            
+
             data = response.json().get('data', [])
             return data[0] if data else None
         except Exception as e:
             logger.error(f"Failed to get item by hash from {collection}: {str(e)}")
+            return None
+
+    def get_item_by_url(self, collection, event_url):
+        """Get an item by its URL - most reliable duplicate check"""
+        url = f"{self.base_url}/items/{collection}"
+        params = {
+            "filter": json.dumps({
+                "url": {
+                    "_eq": event_url
+                }
+            })
+        }
+
+        try:
+            response = self.session.get(url, headers=self.get_headers(), params=params)
+
+            if response.status_code == 401:  # Token might have expired
+                self.login()
+                response = self.session.get(url, headers=self.get_headers(), params=params)
+
+            response.raise_for_status()
+
+            data = response.json().get('data', [])
+            return data[0] if data else None
+        except Exception as e:
+            logger.error(f"Failed to get item by URL from {collection}: {str(e)}")
             return None
     
     def update_item(self, collection, item_id, data):
@@ -420,6 +446,25 @@ class EventScraper:
     def calculate_hash(self, content):
         """Calculate MD5 hash of content for deduplication"""
         return hashlib.md5(content.encode('utf-8')).hexdigest()
+
+    def calculate_content_hash(self, event_data):
+        """Calculate hash of event content only (excluding URL and source).
+        This provides better duplicate detection as URLs might have tracking params
+        or the content might be hosted at multiple URLs.
+
+        Args:
+            event_data (dict): Event data dictionary
+
+        Returns:
+            str: MD5 hash of content
+        """
+        # Create a copy and remove URL and source_name for hashing
+        content_for_hash = {
+            "listing_text": event_data.get("listing_text", ""),
+            "detail_text": event_data.get("detail_text", "")
+        }
+        content_json = json.dumps(content_for_hash, ensure_ascii=False, sort_keys=True)
+        return self.calculate_hash(content_json)
         
     def get_page_content(self, url, headers=None, use_cache=True):
         """Get content from a URL with error handling and caching.
@@ -497,33 +542,53 @@ class EventScraper:
         
         return text
 
+    def check_duplicate_by_url(self, event_url):
+        """Check if an event URL already exists in the database.
+        This is the most reliable duplicate detection method.
+
+        Args:
+            event_url (str): Event URL to check
+
+        Returns:
+            tuple: (is_duplicate, existing_item_id)
+        """
+        if self.directus_client and event_url:
+            existing_item = self.directus_client.get_item_by_url(self.collection_name, event_url)
+
+            if existing_item:
+                logger.info(f"Found duplicate URL with ID: {existing_item['id']}")
+                return True, existing_item['id']
+
+        return False, None
+
     def check_duplicate_content(self, content):
-        """Check if content already exists in the database.
-        
+        """Check if content already exists in the database using content hash.
+        This is a fallback when URL-based detection isn't applicable.
+
         Args:
             content (str): Content to check
-            
+
         Returns:
             tuple: (is_duplicate, existing_item_id)
         """
         # Calculate hash of content
         content_hash = self.calculate_hash(content)
-        
+
         # Check in-memory cache first
         if self.hash_cache.contains(content_hash):
             logger.info(f"Found duplicate content in memory cache")
             return True, None
-        
+
         # If not in memory cache, check database if available
         if self.directus_client:
             existing_item = self.directus_client.get_item_by_hash(self.collection_name, content_hash)
-            
+
             if existing_item:
                 # Add to memory cache for future checks
                 self.hash_cache.add(content_hash)
                 logger.info(f"Found duplicate content with ID: {existing_item['id']}")
                 return True, existing_item['id']
-        
+
         return False, None
     
     def save_to_directus(self, event_data, content_hash):
@@ -740,7 +805,14 @@ class EventScraper:
                 # Get the full URL
                 event_url = urljoin(source['url'], link_element['href'])
                 content_log.write(f"EVENT URL: {event_url}\n\n")
-                
+
+                # Check for duplicate URL first (most reliable method)
+                if self.directus_client:
+                    is_duplicate, item_id = self.check_duplicate_by_url(event_url)
+                    if is_duplicate:
+                        content_log.write(f"DUPLICATE URL - ID: {item_id}\n\n")
+                        continue
+
                 # Get the detail page
                 logger.info(f"Following link to {event_url}")
                 detail_content = self.get_page_content(event_url)
@@ -802,22 +874,22 @@ class EventScraper:
                     "url": event_url,
                     "source_name": source['name']
                 }
-                
-                # Check for duplicate content
+
+                # Check for duplicate content (as secondary check after URL check)
+                # This catches cases where content is duplicated at different URLs
                 if self.directus_client:
-                    event_json = json.dumps(event_data, ensure_ascii=False)
-                    is_duplicate, item_id = self.check_duplicate_content(event_json)
+                    content_hash = self.calculate_content_hash(event_data)
+                    is_duplicate, item_id = self.check_duplicate_content(content_hash)
                     if is_duplicate:
                         content_log.write(f"DUPLICATE CONTENT - ID: {item_id}\n\n")
                         continue
-                
+
                 # Add to our results
                 full_event_details.append(event_data)
-                
+
                 # Save to Directus if configured
                 if self.directus_client:
-                    event_json = json.dumps(event_data, ensure_ascii=False)
-                    content_hash = self.calculate_hash(event_json)
+                    content_hash = self.calculate_content_hash(event_data)
                     self.save_to_directus(event_data, content_hash)
                 
                 # Be nice to the server - small delay between requests
