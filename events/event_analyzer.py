@@ -15,12 +15,9 @@ import os
 import logging
 from datetime import datetime
 from openai import OpenAI
-from collections import Counter
 from pydantic import BaseModel, Field, field_validator, model_validator
 from typing import Optional, List
 import instructor
-
-import os
 from dotenv import load_dotenv
 
 # ============================================================================
@@ -230,11 +227,7 @@ class DirectusClient:
             existing = check_response.json().get("data", [])
             if existing:
                 return False, "duplicate"
-        
-        # Set default values for approval and feedback
-        if "approved" not in event_data:
-            event_data["approved"] = None  # Pending approval
-        
+
         # Add the event
         response = requests.post(f"{self.base_url}/items/events", headers=self.headers, json=event_data)
         
@@ -243,7 +236,6 @@ class DirectusClient:
         else:
             return False, f"Error: {response.status_code}"
 
-# No replacement - removing the CategoryManager class entirely
 
 class GPT4MiniProcessor:
     """Processes event data with GPT-4o Mini using Instructor for structured extraction"""
@@ -307,7 +299,7 @@ class GPT4MiniProcessor:
             item_id_str = event_data.get('id', 'unknown')
             
             # Log the prompt being sent to the LLM
-            system_prompt = "Extract structured information from German event descriptions with focus on dates, times, and links. Be VERY strict about relevance criteria - only mark events as relevant if they EXPLICITLY mention both non-profit/gemeinnützig context AND digital transformation."
+            system_prompt = "Extract structured information from German event descriptions with focus on dates, times, and links. Provide a relevancy score (0-100) based on how well the event matches the Non-Profit digital transformation use case."
             
             logger.info(f"\n--- LLM INPUT for item {item_id_str} ---\nSYSTEM PROMPT:\n{system_prompt}\n\nUSER PROMPT:\n{prompt}\n--- END LLM INPUT ---")
 
@@ -359,69 +351,6 @@ VALIDATED EXTRACTION:
                     logger.info(f"Using regex-extracted {key}: {value}")
                     # Don't print to console - only log to file
 
-            # Check if this is a multi-day, high-cost training event that should be excluded
-            is_multi_day = False
-            is_high_cost = False
-            is_training = False
-            
-            # Check if it's a multi-day event
-            if ('start_date' in structured_data and structured_data['start_date'] and
-                'end_date' in structured_data and structured_data['end_date']):
-                start_date = datetime.fromisoformat(structured_data['start_date'].replace('Z', '+00:00'))
-                end_date = datetime.fromisoformat(structured_data['end_date'].replace('Z', '+00:00'))
-                
-                # If the event spans multiple days (more than 24 hours)
-                if (end_date - start_date).days >= 1:
-                    is_multi_day = True
-                    logger.info(f"Multi-day event detected: {structured_data.get('title', 'Unknown')}")
-            
-            # Check if it's a high-cost event
-            if 'cost' in structured_data and structured_data['cost']:
-                cost_text = structured_data['cost'].lower()
-                
-                # Look for price indicators
-                price_match = re.search(r'(\d+[\.,]?\d*)\s*(?:€|euro|eur)', cost_text)
-                if price_match:
-                    try:
-                        # Extract the price and convert to float
-                        price_str = price_match.group(1).replace(',', '.')
-                        price = float(price_str)
-                        
-                        # Consider events costing more than 500€ as high-cost
-                        if price > 500:
-                            is_high_cost = True
-                            logger.info(f"High-cost event detected: {structured_data.get('title', 'Unknown')} - {price}€")
-                    except ValueError:
-                        # If conversion fails, check for keywords indicating high cost
-                        pass
-                
-                # Check for keywords indicating high cost if no price was found
-                if not is_high_cost and any(term in cost_text for term in 
-                                           ['kostenpflichtig', 'kostenpflichtiges', 'gebührenpflichtig']):
-                    is_high_cost = True
-                    logger.info(f"Potentially high-cost event detected: {structured_data.get('title', 'Unknown')}")
-            
-            # Check if it's a training event
-            training_keywords = [
-                'training', 'schulung', 'seminar', 'workshop', 'kurs', 'weiterbildung', 
-                'fortbildung', 'qualifizierung', 'zertifizierung', 'ausbildung'
-            ]
-            
-            # Check title and description for training keywords
-            event_text = (structured_data.get('title', '') + ' ' + 
-                         structured_data.get('description', '')).lower()
-            
-            if any(keyword in event_text for keyword in training_keywords):
-                is_training = True
-                logger.info(f"Training event detected: {structured_data.get('title', 'Unknown')}")
-            
-            # Mark as excluded if it meets all criteria
-            if is_multi_day and is_high_cost and is_training:
-                structured_data['excluded'] = True
-                # Make sure it's not marked as pending
-                structured_data['status'] = 'excluded'
-                logger.info(f"Event marked as EXCLUDED: {structured_data.get('title', 'Unknown')}")
-                    
             # If we have a start_date but no end_date, and we have an end_time,
             # use the start_date as the end_date as well (for same-day events)
             if ('start_date' in structured_data and structured_data['start_date'] and
@@ -513,9 +442,8 @@ VALIDATED EXTRACTION:
       * cost: Kosten-Tags
     - cost: Preisinformationen oder "Kostenlos"
     - registration_link: URL für die Anmeldung falls verfügbar
-    - is_relevant: Boolean (true/false) ob die Veranstaltung relevant ist
-    - status: Leer oder "excluded" (je nach Status der Veranstaltung)
-    
+    - relevancy_score: Relevanzwert (0-100) für Non-Profit digitale Transformation
+
     Wichtig für Tags:
     - Verwende ALLGEMEINE, WIEDERVERWENDBARE Tags statt zu spezifischer Begriffe
     - Beschränke dich auf MAXIMAL 5 Tags pro Veranstaltung
@@ -560,20 +488,32 @@ VALIDATED EXTRACTION:
       * "Vortrag am 8.4., Einlass 18:30 Uhr, Beginn 19 Uhr"
         → start_date: "2025-04-08", start_time: "19:00" (nicht Einlasszeit)
     
-    Relevanzkriterien (WICHTIG - STRENG ANWENDEN):
-    - Die Veranstaltung MUSS EINDEUTIG für Non-Profit-Organisationen oder den gemeinnützigen Sektor relevant sein
-      UND gleichzeitig einen klaren Bezug zu digitaler Transformation haben
-    - Beide Aspekte müssen klar erkennbar sein: Non-Profit-Bezug UND Digitalisierungsbezug
-    - Allgemeine Business-, Technologie- oder Innovationsveranstaltungen ohne expliziten Non-Profit-Bezug
-      sind NICHT relevant, selbst wenn sie digitale Themen behandeln
-    - Im Zweifelsfall (wenn der Non-Profit-Bezug nicht eindeutig ist): als NICHT relevant markieren
+    Relevanzkriterien für relevancy_score (0-100):
 
-    Ausschlusskriterien für "excluded" Status:
-    - Markiere Veranstaltungen als "excluded" (Feld "status" auf "excluded" setzen), wenn ALLE diese Kriterien erfüllt sind:
-      1. Mehrtägige Veranstaltung (Zeitraum über mehrere Tage)
-      2. Hohe Kosten (mehr als 500€)
-      3. Schulungs- oder Trainingscharakter (z.B. Workshop, Seminar, Kurs, Zertifizierung, Ausbildung)
-    - Diese Veranstaltungen werden automatisch aus dem Moderationsprozess ausgeschlossen
+    HOHE RELEVANZ (70-100 Punkte):
+    - Expliziter Fokus auf Non-Profit-Organisationen (Vereine, Stiftungen, NGOs, gemeinnützige Organisationen)
+    - Klarer Bezug zu digitaler Transformation, Digitalisierung oder IT-Themen
+    - Beide Aspekte (Non-Profit + Digital) sind deutlich erkennbar
+    - Beispiele: "Digitalisierung für Vereine", "IT-Lösungen für gemeinnützige Organisationen"
+
+    MITTLERE RELEVANZ (40-69 Punkte):
+    - Indirekter Non-Profit-Bezug (z.B. soziale Innovation, Engagement, bürgerschaftliches Engagement)
+    - Digitale Themen vorhanden, aber Non-Profit-Bezug nicht explizit
+    - Oder: Non-Profit-Bezug vorhanden, aber digitaler Aspekt nur teilweise relevant
+
+    NIEDRIGE RELEVANZ (20-39 Punkte):
+    - Schwacher Non-Profit-Bezug oder nur allgemein soziale Themen
+    - Digitale Themen vorhanden, aber für breite Business-Zielgruppe
+    - Kann für Non-Profits interessant sein, aber nicht spezifisch ausgerichtet
+
+    KEINE RELEVANZ (0-19 Punkte):
+    - Reine Business/Unternehmens-Veranstaltungen ohne Non-Profit-Bezug
+    - Fehlender Digitalisierungsbezug
+    - Allgemeine Schulungen ohne spezifischen Non-Profit-Kontext
+
+    WICHTIG:
+    - Mehrtägige, teure Schulungen (>500€) sollten in der Regel niedrigere Scores erhalten (max. 20-30 Punkte)
+    - Im Zweifelsfall: Eher konservativ bewerten (niedrigerer Score)
 
     Liefere nur gültiges JSON zurück. Nutze null für unbekannte Felder.
     """
@@ -605,8 +545,7 @@ VALIDATED EXTRACTION:
             extracted_info=extracted_info_str,
             listing_text=listing_text,
             detail_text=detail_text,
-            url=url,
-            categories_info=""  # No longer using categories
+            url=url
         )
         
         return prompt
@@ -665,11 +604,7 @@ def process_events(limit=10, batch_size=3):
         for result in batch_results:
             item_id = result['item_id']
             structured_data = result['structured_data']
-            
-            # If this is an excluded event, update the status
-            if structured_data.get('excluded', False):
-                structured_data['status'] = 'excluded'
-            
+
             # Save all events to Directus, but mark them as pending approval
             structured_data["approved"] = None  # Pending approval
             
@@ -682,13 +617,12 @@ def process_events(limit=10, batch_size=3):
             if date and len(date) > 10:  # Truncate ISO date to just YYYY-MM-DD
                 date = date[:10]
             
-            relevance = "✓ Relevant" if structured_data.get('is_relevant', False) else "✗ Not Relevant"
-            event_status = "EXCLUDED" if structured_data.get('status') == 'excluded' else "Pending"
-            
+            relevancy_score = structured_data.get('relevancy_score', 0)
+
             # Print a single, well-formatted line for each event
             if success:
                 processed += 1
-                print(f"✓ {title} | {date} | {relevance} | Status: {event_status}")
+                print(f"✓ {title} | {date} | Score: {relevancy_score}/100")
             elif status == "duplicate":
                 duplicates += 1
                 print(f"↺ Duplicate: {title}")
