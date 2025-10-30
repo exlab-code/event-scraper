@@ -105,8 +105,10 @@ class FoerdermittelData(BaseModel):
     # Additional fields added by processor
     source: Optional[str] = Field(None, description="Source name")
     source_url: Optional[str] = Field(None, description="Source URL")
-    approved: Optional[bool] = Field(None, description="Approval status")
-    status: Optional[str] = Field(None, description="Status (draft/published)")
+    status: Literal["draft", "published", "archived"] = Field(
+        default="draft",
+        description="Publication status - new programs start as draft pending review"
+    )
     scraped_data_id: Optional[int] = Field(None, description="Link to scraped data item")
 
     @field_validator('application_deadline', 'funding_period_start', 'funding_period_end')
@@ -417,8 +419,7 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             structured_data.source = content.get('source_name', '')
             structured_data.source_url = content.get('url', '')
 
-            # Set default approval status
-            structured_data.approved = None  # Pending approval
+            # New programs start as draft, requiring review before publishing
             structured_data.status = 'draft'
 
             # Link to scraped data item
@@ -576,8 +577,9 @@ def process_program_update(processor, directus, item, dry_run=False):
         logger.info(f"Changes detected: {change_summary}")
 
         if not dry_run:
-            # Get current version number
+            # Get current version number and status
             current_version = old_data.get('version', 1)
+            current_status = old_data.get('status', 'draft')
 
             # Prepare new version data
             new_version_data = new_structured_data.copy()
@@ -585,6 +587,10 @@ def process_program_update(processor, directus, item, dry_run=False):
             new_version_data['change_summary'] = change_summary
             new_version_data['previous_version_id'] = existing_foerdermittel_id
             new_version_data['requires_review'] = True  # Flag for human review
+
+            # Changed programs go back to draft status for review
+            # (even if the old version was published)
+            new_version_data['status'] = 'draft'
 
             # Create new version
             created_item = directus.create_item("foerdermittel", new_version_data)

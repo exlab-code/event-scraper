@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Improved Event Analysis App with Feedback Loop
+Event Analysis App with Instructor
 
 A streamlined application that processes event data from a Directus database
-using GPT-4o Mini and stores structured results back to Directus, with enhanced
-extraction for dates, times, and links. Includes a feedback loop to improve
-relevance determinations based on moderator feedback.
+using GPT-4o Mini with Instructor for structured extraction and validation.
+Processes events with automatic date parsing, validation, and relevance determination.
 """
 import json
 import requests
@@ -50,8 +49,7 @@ class EventData(BaseModel):
     tag_groups: Optional[TagGroups] = Field(None, description="Tags nach Kategorien organisiert")
     cost: str = Field(default="Kostenlos", description="Preisinformationen")
     registration_link: Optional[str] = Field(None, description="URL für Anmeldung")
-    is_relevant: bool = Field(..., description="Ob die Veranstaltung relevant ist")
-    status: Optional[str] = Field(None, description="Status (leer oder 'excluded')")
+    relevancy_score: int = Field(..., ge=0, le=100, description="Relevanzwert für Non-Profit digitale Transformation (0-100)")
 
     # Additional fields added by processor
     source: Optional[str] = Field(None, description="Quelle der Veranstaltung")
@@ -171,7 +169,7 @@ if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY environment variable is required")
 
 class DirectusClient:
-    """Enhanced client for Directus API interactions with feedback support"""
+    """Client for Directus API interactions - managing scraped data and events"""
     
     def __init__(self, base_url, token):
         self.base_url = base_url.rstrip('/')
@@ -244,179 +242,16 @@ class DirectusClient:
             return True, "created"
         else:
             return False, f"Error: {response.status_code}"
-    
-    def flag_mismatched_events(self):
-        """Flag events where LLM determination doesn't match human feedback"""
-        print("\nChecking for mismatched events...")
-        
-        # Get events with feedback
-        url = f"{self.base_url}/items/events?filter[relevance_feedback][_nnull]=true&limit=100"
-        response = requests.get(url, headers=self.headers)
-        
-        if response.status_code != 200:
-            print("Error fetching events with feedback")
-            return
-        
-        events = response.json().get('data', [])
-        mismatches = []
-        
-        for event in events:
-            # Check if the LLM's determination matched the feedback
-            llm_determination = event.get('is_relevant', False)
-            human_feedback = event.get('relevance_feedback', False)
-            
-            # If there's a mismatch, add a flag
-            if llm_determination != human_feedback:
-                event_id = event.get('id')
-                title = event.get('title', 'Unknown')
-                
-                # Add a flag to the event
-                update_data = {
-                    "mismatch_flag": True,
-                    "mismatch_notes": f"LLM said {'relevant' if llm_determination else 'not relevant'} but human said {'relevant' if human_feedback else 'not relevant'}"
-                }
-                
-                update_url = f"{self.base_url}/items/events/{event_id}"
-                update_response = requests.patch(update_url, headers=self.headers, json=update_data)
-                
-                if update_response.status_code in (200, 201, 204):
-                    mismatches.append(title)
-                    print(f"Flagged mismatch: {title}")
-                else:
-                    print(f"Error flagging mismatch for event {event_id}: {update_response.status_code}")
-        
-        if mismatches:
-            print(f"\nFlagged {len(mismatches)} mismatched events")
-        else:
-            print("No mismatches found")
-    
-    def get_feedback_examples(self, limit=5):
-        """Get events with feedback for few-shot learning, focusing on false negatives"""
-        # Focus on events that were marked as not relevant by LLM but approved by user
-        url = f"{self.base_url}/items/events?filter[_and][][is_relevant][_eq]=false&filter[_and][][approved][_eq]=true&limit={limit}"
-        response = requests.get(url, headers=self.headers)
-        
-        if response.status_code != 200:
-            return []
-        
-        events = response.json().get('data', [])
-        print(f"Found {len(events)} false negative events (marked not relevant by LLM but approved)")
-        
-        # Format examples for the prompt
-        examples = []
-        for event in events:
-            examples.append({
-                'title': event.get('title', ''),
-                'description': event.get('description', ''),
-                'is_relevant': True,  # These should be relevant since they were approved
-                'reason': event.get('feedback_notes', '') or "Approved by moderator despite being marked as not relevant by LLM"
-            })
-        
-        return examples
-    
-    def get_feedback_patterns(self):
-        """Extract patterns from feedback to create concise rules, focusing on false negatives"""
-        # Get events that were marked as not relevant by LLM but approved by user
-        url = f"{self.base_url}/items/events?filter[_and][][is_relevant][_eq]=false&filter[_and][][approved][_eq]=true&limit=100"
-        response = requests.get(url, headers=self.headers)
-        
-        if response.status_code != 200:
-            return []
-        
-        false_negatives = response.json().get('data', [])
-        print(f"Found {len(false_negatives)} false negative events for pattern extraction")
-        
-        # Extract common terms from false negatives (incorrectly marked as not relevant)
-        fn_terms = self._extract_common_terms([
-            (e.get('title', '') + ' ' + e.get('description', '')) for e in false_negatives
-        ])
-        
-        # Create concise rules based on patterns
-        rules = []
-        
-        if fn_terms:
-            rules.append(f"WICHTIG: Veranstaltungen mit Begriffen wie {', '.join(fn_terms[:5])} sind oft RELEVANT, auch wenn sie nicht explizit 'Non-Profit' erwähnen.")
-            
-            # Add more specific rules if we have enough examples
-            if len(false_negatives) >= 3:
-                # Extract organization types that might be relevant
-                org_types = set()
-                for event in false_negatives:
-                    text = (event.get('title', '') + ' ' + event.get('description', '')).lower()
-                    if 'verein' in text:
-                        org_types.add('Vereine')
-                    if 'stiftung' in text:
-                        org_types.add('Stiftungen')
-                    if 'ngo' in text or 'non-governmental' in text:
-                        org_types.add('NGOs')
-                    if 'gemeinnützig' in text:
-                        org_types.add('gemeinnützige Organisationen')
-                    if 'ehrenamt' in text or 'freiwillig' in text:
-                        org_types.add('Ehrenamtsorganisationen')
-                
-                if org_types:
-                    rules.append(f"Veranstaltungen für {', '.join(org_types)} sollten als relevant betrachtet werden, wenn sie digitale Themen behandeln.")
-        
-        return rules
-    
-    def _extract_common_terms(self, texts, min_count=2, min_length=5):
-        """Extract common terms from a list of texts"""
-        if not texts:
-            return []
-            
-        # Simple implementation - in practice, use NLP techniques
-        all_words = []
-        for text in texts:
-            if not text:
-                continue
-            words = re.findall(r'\b\w+\b', text.lower())
-            all_words.extend(words)
-        
-        # Count occurrences
-        word_counts = Counter(all_words)
-        
-        # Return common terms
-        return [word for word, count in word_counts.most_common(10) 
-                if count >= min_count and len(word) >= min_length]
-    
-    def get_feedback_stats(self):
-        """Get statistics about feedback and LLM performance"""
-        # Get counts of events with feedback
-        url = f"{self.base_url}/items/events?filter[relevance_feedback][_nnull]=true&aggregate[count]=*"
-        response = requests.get(url, headers=self.headers)
-        
-        if response.status_code != 200:
-            return {"total": 0, "accuracy": 0}
-        
-        total_feedback = response.json().get('data', [{}])[0].get('count', 0)
-        
-        if total_feedback == 0:
-            return {"total": 0, "accuracy": 0}
-        
-        # Get count of correct determinations
-        url = f"{self.base_url}/items/events?filter[_and][][is_relevant][_eq]=$relevance_feedback&aggregate[count]=*"
-        response = requests.get(url, headers=self.headers)
-        
-        if response.status_code != 200:
-            return {"total": total_feedback, "accuracy": 0}
-        
-        correct_count = response.json().get('data', [{}])[0].get('count', 0)
-        
-        return {
-            "total": total_feedback,
-            "accuracy": correct_count / total_feedback if total_feedback > 0 else 0
-        }
 
 # No replacement - removing the CategoryManager class entirely
 
 class GPT4MiniProcessor:
-    """Processes event data with GPT-4o Mini with enhanced extraction and feedback loop"""
+    """Processes event data with GPT-4o Mini using Instructor for structured extraction"""
 
-    def __init__(self, api_key, directus_client, feedback_section=""):
+    def __init__(self, api_key, directus_client):
         # Wrap OpenAI client with Instructor for structured output with validation
         self.client = instructor.from_openai(OpenAI(api_key=api_key))
         self.directus = directus_client
-        self.feedback_section = feedback_section  # Store the pre-generated feedback section
         
     # Cache for regex patterns to avoid recompiling
     _reg_link_patterns = [
@@ -463,8 +298,8 @@ class GPT4MiniProcessor:
         
         # Pre-process to extract dates, times, and links with regex
         extracted_info = self.preprocess_event(content)
-        
-        # Build prompt with feedback
+
+        # Build prompt for LLM extraction
         prompt = self._build_prompt(content, extracted_info)
         
         try:
@@ -732,8 +567,6 @@ VALIDATED EXTRACTION:
     - Allgemeine Business-, Technologie- oder Innovationsveranstaltungen ohne expliziten Non-Profit-Bezug
       sind NICHT relevant, selbst wenn sie digitale Themen behandeln
     - Im Zweifelsfall (wenn der Non-Profit-Bezug nicht eindeutig ist): als NICHT relevant markieren
-    
-    {feedback_section}
 
     Ausschlusskriterien für "excluded" Status:
     - Markiere Veranstaltungen als "excluded" (Feld "status" auf "excluded" setzen), wenn ALLE diese Kriterien erfüllt sind:
@@ -746,7 +579,7 @@ VALIDATED EXTRACTION:
     """
     
     def _build_prompt(self, content, extracted_info=None):
-        """Build prompt for GPT-4o Mini with extracted information and feedback"""
+        """Build prompt for GPT-4o Mini with extracted information"""
         # Get text content efficiently
         listing_text = content.get("listing_text", "") or ""
         detail_text = content.get("detail_text", "") or ""
@@ -758,7 +591,7 @@ VALIDATED EXTRACTION:
             listing_text = listing_text[:3000] + "..."
         if len(detail_text) > 4000:
             detail_text = detail_text[:4000] + "..."
-        
+
         # Add pre-extracted information if available
         extracted_info_str = ""
         if extracted_info:
@@ -766,42 +599,25 @@ VALIDATED EXTRACTION:
             for key, value in extracted_info.items():
                 extracted_info_str += f"- {key}: {value}\n"
             extracted_info_str += "\n"
-        
-        # Use the pre-generated feedback section
-        feedback_section = self.feedback_section
-        
+
         # Use the template with format() for better performance than f-strings with large text
         prompt = self._prompt_template.format(
             extracted_info=extracted_info_str,
             listing_text=listing_text,
             detail_text=detail_text,
             url=url,
-            categories_info="",  # No longer using categories
-            feedback_section=feedback_section
+            categories_info=""  # No longer using categories
         )
         
         return prompt
 
 def process_events(limit=10, batch_size=3):
-    """Main processing function with optimized feedback"""
+    """Main processing function for event extraction and analysis"""
     # Initialize clients
     directus = DirectusClient(DIRECTUS_URL, DIRECTUS_TOKEN)
-    
-    print("\n--- LOADING FEEDBACK ANALYSIS ---")
-    
-    # Load the feedback section from the feedback_analyzer.py output
-    try:
-        with open("feedback_prompt_section.txt", "r", encoding="utf-8") as f:
-            feedback_section = f.read()
-        print("Successfully loaded feedback analysis from feedback_prompt_section.txt")
-    except FileNotFoundError:
-        feedback_section = ""
-        print("Warning: feedback_prompt_section.txt not found. Run feedback_analyzer.py first.")
-    
-    print("--- FEEDBACK ANALYSIS LOADED ---\n")
-    
-    # Initialize processor with pre-generated feedback section
-    gpt = GPT4MiniProcessor(OPENAI_API_KEY, directus, feedback_section)
+
+    # Initialize processor
+    gpt = GPT4MiniProcessor(OPENAI_API_KEY, directus)
     
     # Get unprocessed items
     items = directus.get_unprocessed_items(limit)
@@ -897,16 +713,11 @@ def process_events(limit=10, batch_size=3):
     print(f"Errors: {errors}")
     print(f"Total tokens: {total_tokens}")
     print(f"Estimated cost: ${cost:.4f}")
-    
-    # Print feedback information
-    print("\nFeedback: Using analysis from feedback_analyzer.py")
 
 def main():
-    parser = argparse.ArgumentParser(description="Process events with enhanced extraction and feedback loop")
+    parser = argparse.ArgumentParser(description="Process events with structured extraction using Instructor")
     parser.add_argument("--limit", "-l", type=int, default=10, help="Maximum number of items to process")
     parser.add_argument("--batch", "-b", type=int, default=3, help="Batch size for processing")
-    parser.add_argument("--flag-mismatches", "-f", action="store_true", help="Flag events where LLM determination doesn't match human feedback")
-    parser.add_argument("--only-flag", "-o", action="store_true", help="Only flag mismatches without processing new events")
     parser.add_argument("--log-file", default="llm_extraction.log", help="Path to log file for LLM extraction results")
     
     args = parser.parse_args()
@@ -923,21 +734,9 @@ def main():
         logger.addHandler(file_handler)
         
     logger.info(f"Starting event processing with limit={args.limit}, batch_size={args.batch}")
-    
-    # Initialize Directus client
-    directus = DirectusClient(DIRECTUS_URL, DIRECTUS_TOKEN)
-    
-    # If only flagging mismatches, skip processing
-    if args.only_flag:
-        directus.flag_mismatched_events()
-        return
-    
+
     # Process events
     process_events(limit=args.limit, batch_size=args.batch)
-    
-    # Flag mismatches if requested
-    if args.flag_mismatches:
-        directus.flag_mismatched_events()
 
 if __name__ == "__main__":
     main()
