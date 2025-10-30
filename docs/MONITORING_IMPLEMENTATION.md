@@ -1,8 +1,12 @@
 # Fördermittel Monitoring System Implementation
 
-## Status: IN PROGRESS
+## Status: ✅ COMPLETED
 
 This document tracks the implementation of the website change monitoring system for the Fördermittel scraper.
+
+**Completion Date**: 2025-10-30
+
+All components of the monitoring system have been successfully implemented and tested.
 
 ## Completed
 
@@ -29,12 +33,34 @@ This document tracks the implementation of the website change monitoring system 
 - Added `get_item_by_url(collection, url)` method
 - Added `get_active_programs(collection, source_name)` method
 
-### 3. Scraper Updates (PARTIAL)
-- Added `check_duplicate_or_changed(content, url)` method ✓
+### 3. Scraper Updates ✓
+- Added `check_duplicate_or_changed(content, url)` method
+- Updated `save_to_directus()` method to handle new/unchanged/changed states
+- Added `mark_removed_programs()` method
+- Modified `scrape_source()` to track seen URLs and mark removed programs
+- Fixed Aktion Mensch URLs to use stable fragment identifiers
 
-## Remaining Work
+### 4. Analyzer Updates ✓
+- Implemented Instructor library with Pydantic models for structured output
+- Added `detect_changes()` function for comparing program versions
+- Added `process_program_update()` function for handling changed programs
+- Integrated Directus status field (draft/published/archived)
+- Modified `main()` to process both pending and pending_update items
 
-### 4. Complete Scraper Updates
+### 5. Monitoring Script ✓
+- Created `foerdermittel/foerdermittel_monitor.py`
+- Orchestrates full workflow: scrape → analyze → report
+- Made executable for cron scheduling
+
+### 6. Testing ✓
+- Tested new program detection
+- Tested change detection with Aktion Mensch programs
+- Tested Instructor validation with multiple programs
+- Verified status field integration
+
+## Implementation Details
+
+### 4. Scraper Implementation (Lines 283-429)
 
 #### A. Update `save_to_directus()` method
 Replace existing method at line 283 with:
@@ -369,14 +395,23 @@ if __name__ == "__main__":
 4. Test restoration
 5. Test LLM reanalysis of changed programs
 
-## Next Steps
+## Usage
 
-1. Complete scraper updates (save_to_directus, mark_removed_programs, scrape_source modifications)
-2. Add analyzer change detection and update processing
-3. Create monitoring script
-4. Test all scenarios
-5. Set up cron job for weekly runs
-6. Update documentation
+### Manual Execution
+
+Run the complete monitoring workflow:
+```bash
+python3 foerdermittel/foerdermittel_monitor.py
+```
+
+Or run components individually:
+```bash
+# 1. Scrape for changes
+python3 foerdermittel/foerdermittel_scraper.py --max-programs -1
+
+# 2. Analyze new/changed programs
+python3 foerdermittel/foerdermittel_analyzer.py --limit 50
+```
 
 ## Cron Schedule
 
