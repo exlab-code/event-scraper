@@ -55,20 +55,19 @@ Detailed documentation for each component of the system is available in the `doc
 
 4. **Run the system components**:
    ```bash
-   # Run the scraper
-   python event_scraper.py
-   
-   # Import events from ICS calendars
-   python ics_import.py
+   # Event Management System
+   python events/event_scraper.py
+   python events/ics_import.py
+   python events/event_analyzer.py
+   python events/calendar_sync.py
 
-   # Run the LLM analysis
-   python event_analyzer.py
+   # Fördermittel (Funding) System
+   python foerdermittel/foerdermittel_scraper.py
+   python foerdermittel/foerdermittel_analyzer.py
+   python foerdermittel/foerdermittel_importer.py
 
-   # Moderate events using Directus admin interface
+   # Moderate content using Directus admin interface
    # Access at: https://calapi.buerofalk.de/admin
-
-   # Sync to Nextcloud
-   python calendar_sync.py
    ```
 
 ## Command Line Arguments
@@ -144,18 +143,39 @@ Event moderation is handled through the Directus admin interface at `https://cal
 
 ## Project Structure
 
-- `event_scraper.py` - Main scraper script (formerly scraper-directus-optimized.py)
-- `event_analyzer.py` - LLM analysis script (formerly data-analysis-save-gpt-v2.py)
-- `calendar_sync.py` - Nextcloud calendar sync script (formerly sync-events.py)
-- `ics_import.py` - Script for importing events from ICS calendar files
-- `run_system.sh` - Master script to run all components (formerly run-event-system.sh)
-- `run_scraper.sh` / `run_scraper.bat` - Helper scripts to run the scraper
-- `config/` - Configuration files for scrapers and sources
-- `docs/` - Comprehensive documentation for all components
-- `website/` - Svelte-based static website for displaying events (hosted on GitHub Pages)
-- `archives/` - Archive of historical data
-- `deprecated/` - Deprecated code and scripts
-- `scripts/` - Additional utility scripts
+```
+Event-Scraper/
+├── events/                     # Event management system
+│   ├── event_scraper.py       # Main event scraper
+│   ├── event_analyzer.py      # LLM-based event analysis
+│   ├── ics_import.py          # ICS calendar import
+│   ├── calendar_sync.py       # Nextcloud calendar sync
+│   ├── feedback_analyzer.py   # Feedback analysis
+│   └── migrate_to_tags.py     # Tag migration utility
+│
+├── foerdermittel/             # Funding opportunity system
+│   ├── foerdermittel_scraper.py    # Funding program scraper
+│   ├── foerdermittel_analyzer.py   # LLM relevance analysis
+│   ├── foerdermittel_importer.py   # Import to Directus
+│   ├── README.md              # Fördermittel documentation
+│   └── config/                # Funding sources config
+│
+├── shared/                    # Shared utilities
+│   ├── __init__.py
+│   └── directus_client.py     # Directus API client
+│
+├── website/                   # Public event website (GitHub Pages)
+│   ├── src/                   # Svelte components
+│   └── public/                # Built static files
+│
+├── config/                    # Shared configuration
+│   ├── directus.json.example
+│   └── nextcloud.json.example
+│
+├── docs/                      # Documentation
+├── scripts/                   # Utility scripts
+└── run_system.sh             # Master control script
+```
 
 ## Recent Updates (April 2025)
 

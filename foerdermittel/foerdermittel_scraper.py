@@ -690,7 +690,7 @@ def main():
     )
     parser.add_argument(
         "--config", "-c",
-        default="config/foerdermittel_sources.json",
+        default="foerdermittel/config/foerdermittel_sources.json",
         help="Path to configuration file"
     )
     parser.add_argument(
