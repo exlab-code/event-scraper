@@ -4,49 +4,52 @@
   import Home from './pages/Home.svelte';
   import About from './pages/About.svelte';
   import LinkedInGenerator from './pages/LinkedInGenerator.svelte';
+  import Foerderprogramme from './pages/Foerderprogramme.svelte';
   import { trackPageView } from './services/analytics';
-  
+
   // Simple routing
   let currentRoute = 'home';
-  
+
   onMount(() => {
     // Set initial route based on URL
     handleRouteChange();
-    
+
     // Track initial page view
     trackPageView(window.location.pathname);
-    
+
     // Listen for URL changes
     window.addEventListener('popstate', () => {
       handleRouteChange();
       trackPageView(window.location.pathname);
     });
-    
+
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
     };
   });
-  
+
   function handleRouteChange() {
     const path = window.location.pathname;
-    
+
     if (path === '/about') {
       currentRoute = 'about';
     } else if (path === '/linkedin-generator') {
       currentRoute = 'linkedin-generator';
+    } else if (path === '/foerderprogramme') {
+      currentRoute = 'foerderprogramme';
     } else {
       currentRoute = 'home';
     }
   }
-  
+
   function navigateTo(route, event) {
     if (event) {
       event.preventDefault();
     }
-    
+
     window.history.pushState({}, '', route);
     handleRouteChange();
-    
+
     // Track page view on navigation
     trackPageView(route);
   }
@@ -66,6 +69,8 @@
     <About />
   {:else if currentRoute === 'linkedin-generator'}
     <LinkedInGenerator />
+  {:else if currentRoute === 'foerderprogramme'}
+    <Foerderprogramme />
   {/if}
 </div>
 

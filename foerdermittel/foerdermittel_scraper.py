@@ -471,7 +471,7 @@ class FoerdermittelScraper:
         return program_urls
 
     def scrape_dsee_search(self, source):
-        """Scrape DSEE funding database search results.
+        """Scrape DSEE funding database search results with pagination support.
 
         Args:
             source (dict): Source configuration
@@ -482,31 +482,61 @@ class FoerdermittelScraper:
         logger.info(f"Scraping {source['name']} - {source['url']}")
 
         program_urls = []
+        page = 1
+        max_pages = 100  # Safety limit to prevent infinite loops
 
-        # Get the search page
-        content = self.get_page_content(source['url'])
-        if not content:
-            return []
+        while page <= max_pages:
+            # Construct URL with page parameter
+            if page == 1:
+                page_url = source['url']
+            else:
+                # DSEE uses /p{page_number} format for pagination
+                base_url = source['url'].rstrip('/')
+                page_url = f"{base_url}/p{page}"
 
-        # Parse the page
-        soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
+            logger.info(f"Scraping page {page}: {page_url}")
 
-        # Find all program links based on the configured selector
-        link_elements = soup.select(source.get('link_selector', 'a[href*="/foerderung/"]'))
+            # Get the page content
+            content = self.get_page_content(page_url)
+            if not content:
+                break
 
-        for link in link_elements:
-            if link.has_attr('href'):
-                url = urljoin(source['url'], link['href'])
+            # Parse the page
+            soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
 
-                # Avoid duplicates
-                if url not in program_urls:
-                    program_urls.append(url)
+            # Find all program links based on the configured selector
+            link_elements = soup.select(source.get('link_selector', 'a[href*="/foerderung/"]'))
 
-        # Limit based on max_programs
-        if self.max_programs > 0:
-            program_urls = program_urls[:self.max_programs]
+            # Track if we found new URLs on this page
+            new_urls_found = 0
 
-        logger.info(f"Found {len(program_urls)} program URLs")
+            for link in link_elements:
+                if link.has_attr('href'):
+                    url = urljoin(source['url'], link['href'])
+
+                    # Avoid duplicates
+                    if url not in program_urls:
+                        program_urls.append(url)
+                        new_urls_found += 1
+
+                        # Check if we've reached max_programs limit
+                        if self.max_programs > 0 and len(program_urls) >= self.max_programs:
+                            logger.info(f"Reached max_programs limit ({self.max_programs})")
+                            logger.info(f"Found {len(program_urls)} program URLs")
+                            return program_urls
+
+            # If no new URLs were found, we've reached the end
+            if new_urls_found == 0:
+                logger.info(f"No new URLs found on page {page}, stopping pagination")
+                break
+
+            logger.info(f"Found {new_urls_found} new URLs on page {page} (total: {len(program_urls)})")
+            page += 1
+
+            # Add a small delay to be respectful to the server
+            time.sleep(0.5)
+
+        logger.info(f"Found {len(program_urls)} program URLs across {page} pages")
         return program_urls
 
     def scrape_aktion_mensch(self, source):

@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "name": "DSEE Förderdatenbank",
+      "url": "https://foerderdatenbank.d-s-e-e.de/",
+      "type": "dsee",
+      "link_selector": "a[href*='/foerderung/']",
+      "description": "Deutsche Stiftung für Engagement und Ehrenamt funding database"
+    }
+  ]
+}

@@ -16,8 +16,9 @@ import re
 import os
 import logging
 import argparse
+import asyncio
 from datetime import datetime
-from openai import OpenAI
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List, Literal
@@ -56,10 +57,19 @@ if not OPENAI_API_KEY:
 # Pydantic Models for Structured Output
 # ============================================================================
 
+class TagGroups(BaseModel):
+    """Structured tag groups for filtering"""
+    super_kategorie: List[str] = Field(default_factory=list, min_length=1, max_length=3, description="REQUIRED: 1-3 broad super-categories for discoverability. Choose from EXACTLY these 12 options: 'Soziales' (social services, welfare, poverty), 'Umwelt' (environment, climate, nature), 'Kultur' (arts, culture, heritage), 'Bildung' (education, training), 'Sport' (sports clubs, athletics), 'Integration' (migration, refugees, inclusion), 'Forschung' (research, science, innovation), 'Digitalisierung' (digital, technology, media), 'Gesundheit' (health, medical), 'Demokratie' (civic engagement, participation, political education), 'Jugend' (youth work, children, family), 'Wirtschaft' (economic development, entrepreneurship, employment)")
+    thema: List[str] = Field(default_factory=list, max_length=5, description="Topic tags - specific themes covered by the program. MAXIMUM 2 WORDS per tag (e.g., Digitalisierung, Klimaschutz, Inklusion, Jugendarbeit, Kultur, Bildung, Integration, Soziale Teilhabe, Kulturelle Bildung)")
+    zielgruppe: List[str] = Field(default_factory=list, max_length=5, description="Target audience tags - SPECIFIC beneficiary types, NOT generic terms. MAXIMUM 2 WORDS per tag. Use specific organizational types like 'Jugendorganisationen', 'Sportvereine', 'Kultureinrichtungen', 'Umweltorganisationen', 'Soziale Dienste', 'Bildungsträger', 'Migrantenorganisationen', 'Quartiersprojekte'. AVOID generic terms like 'NGOs', 'Vereine', 'gemeinnützige Organisationen'.")
+    foerderart: List[str] = Field(default_factory=list, max_length=3, description="Funding type tags - specific funding mechanism. MAXIMUM 2 WORDS per tag (e.g., 'Projektförderung', 'Pauschalförderung', 'Investitionsförderung', 'Preis', 'Wettbewerb', 'Betriebskosten', 'Mikroprojekte')")
+    foerdergeber: List[str] = Field(default_factory=list, max_length=3, description="Funder tags - name or type of funding organization. MAXIMUM 2 WORDS per tag, use abbreviations where possible (e.g., 'Aktion Mensch', 'BMBF', 'EU', 'Stiftung', 'Kommune', 'Land Bayern')")
+
+
 class FoerdermittelData(BaseModel):
     """Structured funding program data with validation"""
 
-    title: str = Field(..., min_length=1, max_length=500, description="Title of the funding program in German")
+    title: str = Field(..., min_length=1, max_length=500, description="Descriptive title of the funding program in German. If the original title is too short or generic (e.g. 'Projektförderung', 'anstiftung'), create a more informative title by combining it with the organization name or key details (e.g. 'Projektförderung für Engagement-Projekte – Deutsche Stiftung für Engagement und Ehrenamt'). Aim for clarity and context.")
     short_description: str = Field(..., max_length=200, description="Brief description (max 200 characters)")
     description: str = Field(..., min_length=10, description="Detailed description of the funding program")
     funding_organization: str = Field(..., min_length=1, description="Organization providing the funding")
@@ -98,6 +108,9 @@ class FoerdermittelData(BaseModel):
 
     website: str = Field(..., min_length=1, description="Official website URL for the funding program")
     contact_email: Optional[str] = Field(None, description="Contact email if available")
+
+    # Tags for filtering and categorization
+    tag_groups: Optional[TagGroups] = Field(None, description="Structured tags grouped by category")
 
     is_relevant: bool = Field(..., description="Whether this funding is relevant for NGOs/Wohlfahrtsverbände")
     relevance_score: int = Field(
@@ -181,8 +194,8 @@ class FoerdermittelProcessor:
     """Processes funding program data with GPT-4o and structured outputs"""
 
     def __init__(self, api_key, directus_client):
-        # Patch OpenAI client with Instructor
-        self.client = instructor.from_openai(OpenAI(api_key=api_key))
+        # Patch AsyncOpenAI client with Instructor
+        self.client = instructor.from_openai(AsyncOpenAI(api_key=api_key))
         self.directus = directus_client
 
     def _extract_amounts_regex(self, text):
@@ -327,15 +340,24 @@ class FoerdermittelProcessor:
         text_content = content.get("content", "")
         url = content.get("url", "")
         source_name = content.get("source_name", "")
+        external_urls = content.get("external_urls", [])
 
         prompt = f"""Extrahiere strukturierte Informationen aus der folgenden deutschen Förderprogramm-Beschreibung.
 
 QUELLE: {source_name}
-URL: {url}
+QUELL-URL: {url}
 TITEL: {title}
 
 INHALT:
-{text_content}
+{text_content}"""
+
+        # Add external URLs if available
+        if external_urls:
+            prompt += f"\n\nVERFÜGBARE EXTERNE LINKS:\n"
+            for ext_url in external_urls:
+                prompt += f"- {ext_url}\n"
+
+        prompt += f"""
 
 WICHTIGE HINWEISE:
 1. Die Zielgruppe muss NGOs, Wohlfahrtsverbände, gemeinnützige Organisationen oder Ehrenamtsorganisationen umfassen
@@ -344,6 +366,34 @@ WICHTIGE HINWEISE:
 4. Bestimme den Bundesland-Bezug oder "bundesweit"
 5. Identifiziere die Art des Fördergebers (Bund, Land, EU, Stiftung, Sonstige)
 6. Bewerte die Relevanz für NGOs/Wohlfahrtsverbände
+7. WEBSITE URL: Wähle die SPEZIFISCHSTE URL für das Förderprogramm aus den verfügbaren externen Links:
+   - Bevorzuge direkte Links zu Antragsformularen (PDFs, Word-Dokumente)
+   - Dann spezifische Programmseiten mit Antragsdetails
+   - Dann allgemeine Informationsseiten zum Programm
+   - VERMEIDE allgemeine Förderdatenbank-URLs - nutze die QUELL-URL nur wenn keine spezifischeren Links verfügbar sind
+   - Die QUELL-URL ist die Datenbank/Quelle und sollte NUR verwendet werden wenn keine besseren externen Links existieren
+
+TAG-GRUPPEN RICHTLINIEN:
+WICHTIG: Alle Tags MAXIMAL 2 WÖRTER! Nutze kompakte Begriffe.
+
+- SUPER_KATEGORIE (PFLICHT): Wähle 1-3 passende Kategorien aus GENAU diesen 12 Optionen:
+  • Soziales (Wohlfahrt, Armut, Pflege, soziale Dienste)
+  • Umwelt (Klima, Natur, Nachhaltigkeit, Ökologie)
+  • Kultur (Kunst, Musik, Theater, Museum, Kreativwirtschaft)
+  • Bildung (Schule, Training, Weiterbildung, lebenslanges Lernen)
+  • Sport (Sportvereine, Athletik, Bewegung)
+  • Integration (Migration, Flüchtlinge, Inklusion, Vielfalt)
+  • Forschung (Wissenschaft, Innovation, Entwicklung)
+  • Digitalisierung (Technologie, Medien, IT)
+  • Gesundheit (Medizin, Prävention, Pflege)
+  • Demokratie (Engagement, Partizipation, politische Bildung)
+  • Jugend (Jugendarbeit, Kinder, Familie)
+  • Wirtschaft (Wirtschaftsentwicklung, Unternehmertum, Beschäftigung)
+
+- THEMA: Spezifische Themenbereiche, max. 2 Wörter (z.B., Digitalisierung, Klimaschutz, Inklusion, Jugendarbeit, Kultur, Soziale Teilhabe)
+- ZIELGRUPPE: SPEZIFISCHE Organisationstypen, max. 2 Wörter (z.B., 'Jugendorganisationen', 'Sportvereine', 'Kultureinrichtungen', 'Umweltorganisationen', 'Soziale Dienste', 'Bildungsträger'). VERMEIDE generische Begriffe wie 'NGOs', 'Vereine', 'gemeinnützige Organisationen'
+- FOERDERART: Spezifischer Fördermechanismus, max. 2 Wörter (z.B., 'Projektförderung', 'Pauschalförderung', 'Investitionsförderung', 'Preis', 'Wettbewerb', 'Mikroprojekte')
+- FOERDERGEBER: Name oder Typ, max. 2 Wörter, nutze Abkürzungen (z.B., 'Aktion Mensch', 'BMBF', 'EU', 'Land Bayern')
 
 RELEVANZ-KRITERIEN (is_relevant=true wenn):
 - Explizit für gemeinnützige Organisationen, NGOs, Vereine, Wohlfahrtsverbände
@@ -370,7 +420,7 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
 
         return prompt
 
-    def process_program(self, program_data):
+    async def process_program(self, program_data):
         """Process a single funding program with GPT-4o.
 
         Args:
@@ -402,13 +452,13 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             logger.info(f"Title: {content.get('title', 'Unknown')}")
 
             # Call GPT-4o with Instructor for structured output
-            structured_data = self.client.chat.completions.create(
+            structured_data = await self.client.chat.completions.create(
                 model="gpt-4o",
                 response_model=FoerdermittelData,
                 messages=[
                     {
                         "role": "system",
-                        "content": "Du bist ein Experte für die Analyse deutscher Förderprogramme für NGOs und gemeinnützige Organisationen. Extrahiere strukturierte Informationen aus Förderprogramm-Beschreibungen."
+                        "content": "Du bist ein Experte für die Analyse deutscher Förderprogramme für NGOs und gemeinnützige Organisationen. Extrahiere strukturierte Informationen aus Förderprogramm-Beschreibungen. WICHTIG: Erstelle aussagekräftige Titel. Wenn der Originaltitel zu kurz oder generisch ist (z.B. 'anstiftung', 'Projektförderung'), kombiniere ihn mit dem Organisationsnamen oder wichtigen Details für bessere Verständlichkeit."
                     },
                     {
                         "role": "user",
@@ -483,7 +533,7 @@ def detect_changes(old_data, new_data):
     return "; ".join(changes)
 
 
-def process_program_update(processor, directus, item, dry_run=False):
+async def process_program_update(processor, directus, item, dry_run=False):
     """Process a program that has changed content.
 
     Args:
@@ -497,7 +547,7 @@ def process_program_update(processor, directus, item, dry_run=False):
     """
     try:
         # Process the updated program
-        new_structured_data = processor.process_program(item)
+        new_structured_data = await processor.process_program(item)
 
         if not new_structured_data:
             logger.error(f"Failed to extract structured data for updated program {item['id']}")
@@ -640,7 +690,7 @@ def process_program_update(processor, directus, item, dry_run=False):
         return False
 
 
-def main():
+async def main():
     """Main entry point for the analyzer application."""
     parser = argparse.ArgumentParser(
         description="Fördermittel Analyzer with LLM Extraction"
@@ -650,6 +700,12 @@ def main():
         type=int,
         default=10,
         help="Maximum number of items to process"
+    )
+    parser.add_argument(
+        "--concurrency", "-c",
+        type=int,
+        default=5,
+        help="Number of programs to process concurrently (default: 5)"
     )
     parser.add_argument(
         "--verbose", "-v",
@@ -681,16 +737,38 @@ def main():
     )
 
     print(f"Found {len(pending_items)} pending items to process")
+    print(f"Using concurrency: {args.concurrency}")
 
-    # Process each item
+    # Process all items concurrently with concurrency limit
+    # Split into batches to respect concurrency limit
     processed_count = 0
     relevant_count = 0
     error_count = 0
 
-    for item in pending_items:
-        try:
-            # Process the program
-            structured_data = processor.process_program(item)
+    for i in range(0, len(pending_items), args.concurrency):
+        batch = pending_items[i:i + args.concurrency]
+
+        # Process batch concurrently
+        tasks = [processor.process_program(item) for item in batch]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        # Handle results sequentially for safe DB operations
+        for item, result in zip(batch, results):
+            structured_data = result if not isinstance(result, Exception) else None
+
+            if isinstance(result, Exception):
+                logger.error(f"Error processing item {item.get('id')}: {str(result)}")
+                error_count += 1
+                if not args.dry_run:
+                    directus.update_item(
+                        "foerdermittel_scraped_data",
+                        item['id'],
+                        {
+                            "processing_status": "failed",
+                            "error_message": str(result)
+                        }
+                    )
+                continue
 
             if not structured_data:
                 error_count += 1
@@ -756,23 +834,6 @@ def main():
 
             processed_count += 1
 
-        except Exception as e:
-            logger.error(f"Error processing item {item.get('id', 'unknown')}: {str(e)}")
-            error_count += 1
-
-            if not args.dry_run:
-                try:
-                    directus.update_item(
-                        "foerdermittel_scraped_data",
-                        item['id'],
-                        {
-                            "processing_status": "failed",
-                            "error_message": str(e)
-                        }
-                    )
-                except Exception as update_error:
-                    logger.error(f"Failed to update error status: {str(update_error)}")
-
     # Process pending_update items (changed programs)
     print(f"\nProcessing changed programs...")
     pending_updates = directus.get_pending_items(
@@ -782,16 +843,28 @@ def main():
     )
 
     print(f"Found {len(pending_updates)} changed programs to process")
+    print(f"Using concurrency: {args.concurrency}")
 
     updated_count = 0
     update_error_count = 0
 
-    for item in pending_updates:
-        success = process_program_update(processor, directus, item, args.dry_run)
-        if success:
-            updated_count += 1
-        else:
-            update_error_count += 1
+    # Process updates concurrently with concurrency limit
+    for i in range(0, len(pending_updates), args.concurrency):
+        batch = pending_updates[i:i + args.concurrency]
+
+        # Process batch concurrently
+        tasks = [process_program_update(processor, directus, item, args.dry_run) for item in batch]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        # Count successes and errors
+        for result in results:
+            if isinstance(result, Exception):
+                logger.error(f"Error processing program update: {str(result)}")
+                update_error_count += 1
+            elif result:
+                updated_count += 1
+            else:
+                update_error_count += 1
 
     # Print summary
     print("\n" + "="*60)
@@ -808,4 +881,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

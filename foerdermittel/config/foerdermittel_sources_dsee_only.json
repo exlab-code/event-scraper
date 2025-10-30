@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "name": "DSEE Förderdatenbank",
+      "url": "https://foerderdatenbank.d-s-e-e.de/",
+      "type": "dsee",
+      "link_selector": "a[href*='/foerderprogramme/']",
+      "description": "Deutsche Stiftung für Engagement und Ehrenamt funding database for NGOs and civic engagement organizations",
+      "target_group": "NGOs, Wohlfahrtsverbände, civic engagement organizations",
+      "regions": ["bundesweit", "regional"],
+      "update_frequency": "weekly"
+    }
+  ]
+}

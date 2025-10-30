@@ -165,3 +165,69 @@ export async function getCalendarUrls() {
     ical: "/calendar.ics"
   };
 }
+
+/**
+ * Fetch all relevant Förderprogramme from Directus
+ * @param {Object} filters - Optional filters
+ * @returns {Promise<Array>} - Array of foerdermittel objects
+ */
+export async function getFoerderprogramme(filters = {}) {
+  try {
+    // Prepare the filter object for Directus
+    // For now, show all programs (draft and published) since relevance scoring hasn't been applied yet
+    // TODO: Once relevance_score is populated, filter by: relevance_score >= 60 AND status = published
+    let filterObj = {
+      _or: [
+        {
+          // Show published programs with good relevance scores
+          _and: [
+            {
+              relevance_score: {
+                _gte: 60
+              }
+            },
+            {
+              status: {
+                _eq: "published"
+              }
+            }
+          ]
+        },
+        {
+          // Also show draft programs (for development)
+          status: {
+            _eq: "draft"
+          }
+        }
+      ]
+    };
+
+    // Build query parameters
+    const params = new URLSearchParams({
+      filter: JSON.stringify(filterObj),
+      sort: "-application_deadline",  // Sort by deadline descending (upcoming first)
+      limit: "-1"  // Get all programs (no limit)
+    });
+
+    // Use the Nginx proxy endpoint for items
+    const apiUrl = `${ITEMS_BASE_URL}/foerdermittel?${params}`;
+
+    // Make the API request with authorization header
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${DIRECTUS_TOKEN}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching förderprogramme:', error);
+    throw error;
+  }
+}

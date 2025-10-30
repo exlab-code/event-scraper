@@ -49,24 +49,40 @@
               transition-all duration-300 md:transition-none">
       <ul class="flex flex-col md:flex-row gap-4 md:gap-6">
         <li>
-          <a 
-            href="/" 
+          <a
+            href="/"
             on:click|preventDefault={(e) => {
               navigateTo('/', e);
               isMenuOpen = false;
             }}
-            class="block md:inline-block px-2 py-2 md:py-1 text-gray-700 font-medium hover:text-primary-600 relative 
+            class="block md:inline-block px-2 py-2 md:py-1 text-gray-700 font-medium hover:text-primary-600 relative
                   {currentRoute === 'home' ? 'text-primary-600' : ''}
-                  after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary-600 after:w-full 
+                  after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary-600 after:w-full
                   {currentRoute === 'home' ? 'after:block' : 'after:hidden'}"
           >
             Veranstaltungen
           </a>
         </li>
-       
+
+        <li>
+          <a
+            href="/foerderprogramme"
+            on:click|preventDefault={(e) => {
+              navigateTo('/foerderprogramme', e);
+              isMenuOpen = false;
+            }}
+            class="block md:inline-block px-2 py-2 md:py-1 text-gray-700 font-medium hover:text-primary-600 relative
+                  {currentRoute === 'foerderprogramme' ? 'text-primary-600' : ''}
+                  after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary-600 after:w-full
+                  {currentRoute === 'foerderprogramme' ? 'after:block' : 'after:hidden'}"
+          >
+            Förderprogramme
+          </a>
+        </li>
+
         <!-- <li>
-          <a 
-            href="/about" 
+          <a
+            href="/about"
             on:click|preventDefault={(e) => {
               navigateTo('/about', e);
               isMenuOpen = false;
