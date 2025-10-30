@@ -1,6 +1,7 @@
 <script>
   import { getCategoryName } from '../categoryMappings';
   import Tag from './Tag.svelte';
+  import { trackEvent } from '../services/analytics';
   
   export let event;
   
@@ -156,6 +157,13 @@
       <button 
         class="w-full py-1 transition-colors hover:bg-gray-50 text-primary-600 flex items-center gap-2 mb-1"
         on:click={() => {
+          // Track ICS download event
+          trackEvent('ics_download', { 
+            event_id: event.id,
+            event_title: event.title,
+            organizer: event.organizer
+          });
+          
           // Create ICS content
           const startDate = new Date(event.start_date);
           const endDate = event.end_date ? new Date(event.end_date) : new Date(startDate.getTime() + 60*60*1000); // Default 1 hour

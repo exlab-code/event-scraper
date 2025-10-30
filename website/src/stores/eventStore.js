@@ -104,12 +104,22 @@ function getDateRangeFromTimeHorizon(timeHorizon) {
 export const filteredEvents = derived(
   [events, filters],
   ([$events, $filters]) => {
+    console.log('[EventStore] Filtering', $events.length, 'events with filters:', $filters);
+
     return $events.filter(event => {
       // Skip events without a start date
       if (!event.start_date) return false;
+
+      // Compare dates only, not times - an event on "today" should still show
       const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const eventDate = new Date(event.start_date);
-      if (eventDate < now) return false;
+      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+
+      console.log('[EventStore] Checking event:', event.title, 'Date:', event.start_date, 'Event day:', eventDay, 'Today:', today, 'Past?', eventDay < today);
+
+      // Only filter out events that are on days BEFORE today
+      if (eventDay < today) return false;
       
       // Filter by tags if any are selected (AND logic)
       if ($filters.tags && $filters.tags.length > 0) {
@@ -181,7 +191,7 @@ export const filteredEvents = derived(
 export async function loadEvents() {
   isLoading.set(true);
   error.set(null);
-  
+
   try {
     // Only pass the category to the API since it supports this filter
     // Other filters will be applied client-side
@@ -189,8 +199,15 @@ export async function loadEvents() {
     filters.subscribe(value => {
       if (value.category) currentFilters.category = value.category;
     })();
-    
+
+    console.log('[EventStore] Loading events with filters:', currentFilters);
     const eventData = await api.getEvents(currentFilters);
+    console.log('[EventStore] Loaded', eventData.length, 'events from API');
+    console.log('[EventStore] First 3 events:', eventData.slice(0, 3).map(e => ({
+      title: e.title,
+      start_date: e.start_date,
+      approved: e.approved
+    })));
     events.set(eventData);
   } catch (err) {
     console.error('Fehler beim Laden der Veranstaltungen:', err);

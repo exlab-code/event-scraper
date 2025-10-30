@@ -60,13 +60,13 @@ Detailed documentation for each component of the system is available in the `doc
    
    # Import events from ICS calendars
    python ics_import.py
-   
+
    # Run the LLM analysis
    python event_analyzer.py
-   
-   # Start the moderation interface
-   cd event-moderation-interface && python serve.py
-   
+
+   # Moderate events using Directus admin interface
+   # Access at: https://calapi.buerofalk.de/admin
+
    # Sync to Nextcloud
    python calendar_sync.py
    ```
@@ -134,21 +134,13 @@ Options:
 - `--sync-once` - Run sync once and exit (this is now the default behavior)
 - `--schedule` - Enable hourly scheduling (disabled by default)
 
-### Moderation Interface Server (event-moderation-interface/serve.py)
+### Event Moderation
 
-```bash
-python event-moderation-interface/serve.py
-```
-
-The server runs on port 9000 by default and will automatically try the next available port if 9000 is in use.
-
-### CORS Proxy (event-moderation-interface/proxy.py)
-
-```bash
-python event-moderation-interface/proxy.py
-```
-
-The proxy runs on port 9090 by default and will automatically try the next available port if 9090 is in use.
+Event moderation is handled through the Directus admin interface at `https://calapi.buerofalk.de/admin`. The admin interface provides:
+- Filtering and sorting events
+- Bulk approval/rejection operations
+- Custom fields and workflows
+- User permission management
 
 ## Project Structure
 
@@ -160,8 +152,7 @@ The proxy runs on port 9090 by default and will automatically try the next avail
 - `run_scraper.sh` / `run_scraper.bat` - Helper scripts to run the scraper
 - `config/` - Configuration files for scrapers and sources
 - `docs/` - Comprehensive documentation for all components
-- `event-moderation-interface/` - Web interface for event moderation
-- `website/` - Svelte-based website for displaying events
+- `website/` - Svelte-based static website for displaying events (hosted on GitHub Pages)
 - `archives/` - Archive of historical data
 - `deprecated/` - Deprecated code and scripts
 - `scripts/` - Additional utility scripts

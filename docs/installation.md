@@ -117,9 +117,8 @@ For a fresh installation:
 1. Set up your `.env` file with all credentials
 2. Run the scraper: `python event_scraper.py`
 3. Run the LLM analysis: `python event_analyzer.py`
-4. Start the moderation interface: `cd event-moderation-interface && python serve.py`
-5. Review and approve events
-6. Sync to Nextcloud: `python calendar_sync.py --sync-once`
+4. Review and approve events in Directus admin: https://calapi.buerofalk.de/admin
+5. Sync to Nextcloud: `python calendar_sync.py --sync-once`
 
 ### Regular Maintenance
 
@@ -238,15 +237,9 @@ services:
   
   moderation:
     build:
-      context: .
-      dockerfile: Dockerfile.moderation
-    volumes:
-      - ./.env:/app/.env
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-    command: cd event-moderation-interface && python serve.py
 ```
+
+**Note**: The custom moderation interface has been removed. Event moderation is now handled through the Directus admin interface at https://calapi.buerofalk.de/admin.
 
 ### 3. Using Process Managers
 

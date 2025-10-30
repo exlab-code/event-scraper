@@ -1,10 +1,9 @@
 <script>
   import { onMount } from 'svelte';
-  import { events, categories, tags, filters, updateFilters } from '../stores/eventStore';
-  import { topTags } from '../stores/eventStore';
-  import { getCategoryName } from '../categoryMappings';
+  import { events, filters, updateFilters } from '../stores/eventStore';
   import Tag from './Tag.svelte';
   import Accordion from './Accordion.svelte';
+  import { trackEvent } from '../services/analytics';
 
   let selectedTags = [];
   let onlineOnly = false;
@@ -17,13 +16,13 @@
     "audience": [],
     "cost": []
   };
-  
+
   // Initialize tag frequency and grouped tags on mount
   onMount(() => {
     calculateTagFrequency($events);
     groupedTags = getGroupedTags($events);
   });
-  
+
   // Time horizon options
   const timeHorizons = [
     { value: 'all', label: 'Alle Termine' },
@@ -51,11 +50,23 @@
 
   // Set minimum tag frequency
   const minTagFrequency = 3; // Only show tags that appear in at least 3 events
-  
-  // Update tag frequency and grouped tags when events change
+
+  // Update tag frequency based on what would be visible WITHOUT the current tag/time filters
+  // This ensures tag counts reflect "future events only" but ignore active tag/time filters
   $: if ($events && $events.length > 0) {
-    tagFrequency = calculateTagFrequency($events);
-    groupedTags = getGroupedTags($events);
+    // Calculate frequency from events that pass the date filter (future events)
+    // by temporarily using events with only the date filtering applied
+    const futureEventsOnly = $events.filter(event => {
+      if (!event.start_date) return false;
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const eventDate = new Date(event.start_date);
+      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+      return eventDay >= today;
+    });
+
+    tagFrequency = calculateTagFrequency(futureEventsOnly);
+    groupedTags = getGroupedTags(futureEventsOnly);
   }
   
   function calculateTagFrequency(events) {
@@ -121,16 +132,31 @@
       selectedTags = [...selectedTags, tag];
     }
     applyFilters();
+    trackEvent('filter_change', {
+      tags: selectedTags,
+      onlineOnly,
+      timeHorizon: selectedTimeHorizon
+    });
   }
 
   function toggleOnlineOnly() {
     onlineOnly = !onlineOnly;
     applyFilters();
+    trackEvent('filter_change', {
+      tags: selectedTags,
+      onlineOnly,
+      timeHorizon: selectedTimeHorizon
+    });
   }
 
   function selectTimeHorizon(horizon) {
     selectedTimeHorizon = horizon;
     applyFilters();
+    trackEvent('filter_change', {
+      tags: selectedTags,
+      onlineOnly,
+      timeHorizon: selectedTimeHorizon
+    });
   }
 
   function applyFilters() {
@@ -146,6 +172,7 @@
     onlineOnly = false;
     selectedTimeHorizon = 'all';
     applyFilters();
+    trackEvent('filter_clear');
   }
 
   function toggleFilterPanel() {

@@ -1,6 +1,7 @@
 <script>
   import { calendarUrls } from '../stores/eventStore';
   import Accordion from './Accordion.svelte';
+  import { trackEvent } from '../services/analytics';
   
   let copySuccess = false;
   let copyTimeout;
@@ -18,6 +19,9 @@
         copyTimeout = setTimeout(() => {
           copySuccess = false;
         }, 3000);
+        
+        // Track calendar subscription copy event
+        trackEvent('calendar_subscription_copy', { url });
       })
       .catch(err => {
         console.error('Fehler beim Kopieren in die Zwischenablage:', err);

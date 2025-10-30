@@ -1,0 +1,578 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Fördermittel (Funding Programs) Analyzer with LLM Extraction
+
+This application processes funding program data from the Directus foerdermittel_scraped_data
+collection using OpenAI GPT-4o with Structured Outputs and stores structured results
+back to the foerdermittel collection.
+
+Uses JSON Schema for 100% schema adherence and handles German-specific patterns
+for amounts, dates, and eligibility criteria.
+"""
+
+import json
+import re
+import os
+import logging
+import argparse
+from datetime import datetime
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Import shared utilities
+from shared.directus_client import DirectusClient
+
+# Load environment variables
+load_dotenv()
+
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("foerdermittel_extraction.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("foerdermittel-analyzer")
+
+# Configuration
+DIRECTUS_URL = os.getenv("DIRECTUS_API_URL", "https://calapi.buerofalk.de")
+DIRECTUS_TOKEN = os.getenv("DIRECTUS_API_TOKEN", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
+# Validate required environment variables
+if not DIRECTUS_TOKEN:
+    raise ValueError("DIRECTUS_API_TOKEN environment variable is required")
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is required")
+
+
+# JSON Schema for structured output
+FOERDERMITTEL_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "description": "Title of the funding program in German"
+        },
+        "short_description": {
+            "type": "string",
+            "description": "Brief description (max 200 characters)"
+        },
+        "description": {
+            "type": "string",
+            "description": "Detailed description of the funding program"
+        },
+        "funding_organization": {
+            "type": "string",
+            "description": "Organization providing the funding"
+        },
+        "funding_provider_type": {
+            "type": "string",
+            "enum": ["Bund", "Land", "EU", "Stiftung", "Sonstige"],
+            "description": "Type of funding provider"
+        },
+        "bundesland": {
+            "type": "string",
+            "enum": [
+                "Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen",
+                "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen",
+                "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen",
+                "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen",
+                "bundesweit", "EU-weit", "International"
+            ],
+            "description": "Federal state or scope"
+        },
+        "funding_type": {
+            "type": "string",
+            "enum": ["Zuschuss", "Kredit", "Bürgschaft", "Preis", "Sonstige"],
+            "description": "Type of funding"
+        },
+        "funding_amount_min": {
+            "type": ["number", "null"],
+            "description": "Minimum funding amount in EUR"
+        },
+        "funding_amount_max": {
+            "type": ["number", "null"],
+            "description": "Maximum funding amount in EUR"
+        },
+        "funding_amount_text": {
+            "type": ["string", "null"],
+            "description": "Text description of funding amount if not numeric"
+        },
+        "funding_rate": {
+            "type": ["string", "null"],
+            "description": "Funding rate (e.g., '100%', 'bis zu 50%')"
+        },
+        "application_deadline": {
+            "type": ["string", "null"],
+            "description": "Application deadline in ISO format (YYYY-MM-DD) or null if none"
+        },
+        "deadline_type": {
+            "type": "string",
+            "enum": ["einmalig", "laufend", "jährlich", "geschlossen"],
+            "description": "Type of deadline"
+        },
+        "funding_period_start": {
+            "type": ["string", "null"],
+            "description": "Start of funding period in ISO format (YYYY-MM-DD)"
+        },
+        "funding_period_end": {
+            "type": ["string", "null"],
+            "description": "End of funding period in ISO format (YYYY-MM-DD)"
+        },
+        "target_group": {
+            "type": "string",
+            "description": "Target group for the funding"
+        },
+        "eligibility_criteria": {
+            "type": "string",
+            "description": "Detailed eligibility criteria"
+        },
+        "website": {
+            "type": "string",
+            "description": "Official website URL for the funding program"
+        },
+        "contact_email": {
+            "type": ["string", "null"],
+            "description": "Contact email if available"
+        },
+        "is_relevant": {
+            "type": "boolean",
+            "description": "Whether this funding is relevant for NGOs/Wohlfahrtsverbände"
+        },
+        "relevance_reason": {
+            "type": "string",
+            "description": "Brief explanation of relevance determination"
+        }
+    },
+    "required": [
+        "title", "short_description", "description", "funding_organization", "funding_provider_type",
+        "bundesland", "funding_type", "funding_amount_min", "funding_amount_max", "funding_amount_text",
+        "funding_rate", "application_deadline", "deadline_type", "funding_period_start", "funding_period_end",
+        "target_group", "eligibility_criteria", "website", "contact_email",
+        "is_relevant", "relevance_reason"
+    ],
+    "additionalProperties": False
+}
+
+
+class FoerdermittelProcessor:
+    """Processes funding program data with GPT-4o and structured outputs"""
+
+    def __init__(self, api_key, directus_client):
+        self.client = OpenAI(api_key=api_key)
+        self.directus = directus_client
+
+    def _extract_amounts_regex(self, text):
+        """Extract funding amounts using regex patterns.
+
+        Args:
+            text (str): Text to search for amounts
+
+        Returns:
+            dict: Dictionary with min_amount, max_amount, amount_text
+        """
+        result = {
+            "min_amount": None,
+            "max_amount": None,
+            "amount_text": None
+        }
+
+        # Patterns for German currency amounts
+        patterns = [
+            # Exact amount: 10.000 EUR, 10.000€, 10000 Euro
+            r'(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*(?:EUR|€|Euro)',
+            # Range: 1.000 bis 10.000 EUR
+            r'(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*bis\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*(?:EUR|€|Euro)',
+            # Up to: bis zu 50.000 EUR
+            r'bis\s+zu\s+(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*(?:EUR|€|Euro)',
+            # Max/Maximum: max. 25.000 EUR
+            r'(?:max\.|maximal|höchstens)\s+(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*(?:EUR|€|Euro)'
+        ]
+
+        for pattern in patterns:
+            matches = re.finditer(pattern, text, re.IGNORECASE)
+            for match in matches:
+                groups = match.groups()
+                if len(groups) == 2:
+                    # Range found
+                    min_str = groups[0].replace('.', '').replace(',', '.')
+                    max_str = groups[1].replace('.', '').replace(',', '.')
+                    result["min_amount"] = float(min_str)
+                    result["max_amount"] = float(max_str)
+                    break
+                elif len(groups) == 1:
+                    # Single amount
+                    amount_str = groups[0].replace('.', '').replace(',', '.')
+                    amount = float(amount_str)
+                    if "bis zu" in match.group(0).lower() or "max" in match.group(0).lower():
+                        result["max_amount"] = amount
+                    else:
+                        result["min_amount"] = amount
+                        result["max_amount"] = amount
+
+        return result
+
+    def _extract_dates_regex(self, text):
+        """Extract dates using regex patterns for German dates.
+
+        Args:
+            text (str): Text to search for dates
+
+        Returns:
+            list: List of dates in ISO format
+        """
+        dates = []
+
+        # Month name mapping
+        month_map = {
+            'januar': '01', 'jan': '01',
+            'februar': '02', 'feb': '02',
+            'märz': '03', 'mär': '03',
+            'april': '04', 'apr': '04',
+            'mai': '05',
+            'juni': '06', 'jun': '06',
+            'juli': '07', 'jul': '07',
+            'august': '08', 'aug': '08',
+            'september': '09', 'sep': '09',
+            'oktober': '10', 'okt': '10',
+            'november': '11', 'nov': '11',
+            'dezember': '12', 'dez': '12'
+        }
+
+        # Patterns
+        patterns = [
+            # DD.MM.YYYY
+            (r'(\d{1,2})\.(\d{1,2})\.(\d{4})', lambda m: f"{m.group(3)}-{m.group(2).zfill(2)}-{m.group(1).zfill(2)}"),
+            # DD. Month YYYY
+            (r'(\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{4})',
+             lambda m: f"{m.group(3)}-{month_map[m.group(2).lower()]}-{m.group(1).zfill(2)}"),
+            # YYYY-MM-DD (ISO)
+            (r'(\d{4})-(\d{1,2})-(\d{1,2})', lambda m: f"{m.group(1)}-{m.group(2).zfill(2)}-{m.group(3).zfill(2)}")
+        ]
+
+        for pattern, formatter in patterns:
+            matches = re.finditer(pattern, text, re.IGNORECASE)
+            for match in matches:
+                try:
+                    date_str = formatter(match)
+                    # Validate date format
+                    datetime.strptime(date_str, '%Y-%m-%d')
+                    dates.append(date_str)
+                except (ValueError, AttributeError):
+                    continue
+
+        return dates
+
+    def preprocess_program(self, content):
+        """Extract key information using regex before LLM processing.
+
+        Args:
+            content (dict): Program content
+
+        Returns:
+            dict: Extracted information
+        """
+        extracted_info = {}
+
+        # Get text content
+        title = content.get("title", "") or ""
+        text_content = content.get("content", "") or ""
+        combined_text = title + " " + text_content
+
+        # Extract amounts
+        amounts = self._extract_amounts_regex(combined_text)
+        extracted_info.update(amounts)
+
+        # Extract dates
+        dates = self._extract_dates_regex(combined_text)
+        if dates:
+            extracted_info["extracted_dates"] = dates
+
+        return extracted_info
+
+    def _build_prompt(self, content, extracted_info):
+        """Build the prompt for GPT-4o.
+
+        Args:
+            content (dict): Program content
+            extracted_info (dict): Pre-extracted information
+
+        Returns:
+            str: Formatted prompt
+        """
+        title = content.get("title", "Kein Titel")
+        text_content = content.get("content", "")
+        url = content.get("url", "")
+        source_name = content.get("source_name", "")
+
+        prompt = f"""Extrahiere strukturierte Informationen aus der folgenden deutschen Förderprogramm-Beschreibung.
+
+QUELLE: {source_name}
+URL: {url}
+TITEL: {title}
+
+INHALT:
+{text_content}
+
+WICHTIGE HINWEISE:
+1. Die Zielgruppe muss NGOs, Wohlfahrtsverbände, gemeinnützige Organisationen oder Ehrenamtsorganisationen umfassen
+2. Extrahiere präzise Fördersummen in EUR (min/max)
+3. Extrahiere Fristen im Format YYYY-MM-DD
+4. Bestimme den Bundesland-Bezug oder "bundesweit"
+5. Identifiziere die Art des Fördergebers (Bund, Land, EU, Stiftung, Sonstige)
+6. Bewerte die Relevanz für NGOs/Wohlfahrtsverbände
+
+RELEVANZ-KRITERIEN (is_relevant=true wenn):
+- Explizit für gemeinnützige Organisationen, NGOs, Vereine, Wohlfahrtsverbände
+- Oder für Engagement, Ehrenamt, Zivilgesellschaft
+- Und: Förderfähige Kosten oder Zuschüsse verfügbar
+
+RELEVANZ-KRITERIEN (is_relevant=false wenn):
+- Nur für Unternehmen/Startups
+- Nur für Forschungseinrichtungen/Hochschulen
+- Nur für Privatpersonen
+- Kredite ohne Zuschüsse für gewinnorientierte Projekte
+"""
+
+        # Add extracted info hints
+        if extracted_info.get("min_amount") or extracted_info.get("max_amount"):
+            prompt += f"\n\nVORAB EXTRAHIERTE BETRÄGE (als Hinweis):\n"
+            if extracted_info.get("min_amount"):
+                prompt += f"Min: {extracted_info['min_amount']} EUR\n"
+            if extracted_info.get("max_amount"):
+                prompt += f"Max: {extracted_info['max_amount']} EUR\n"
+
+        if extracted_info.get("extracted_dates"):
+            prompt += f"\n\nVORAB EXTRAHIERTE DATEN (als Hinweis):\n{', '.join(extracted_info['extracted_dates'])}\n"
+
+        return prompt
+
+    def process_program(self, program_data):
+        """Process a single funding program with GPT-4o.
+
+        Args:
+            program_data (dict): Program data from Directus
+
+        Returns:
+            dict: Structured program data or None if processing fails
+        """
+        # Extract raw content
+        raw_content = program_data.get('raw_content', '{}')
+        if isinstance(raw_content, str):
+            try:
+                content = json.loads(raw_content)
+            except json.JSONDecodeError:
+                content = {"text": raw_content}
+        else:
+            content = raw_content
+
+        # Pre-process to extract amounts and dates
+        extracted_info = self.preprocess_program(content)
+
+        # Build prompt
+        prompt = self._build_prompt(content, extracted_info)
+
+        try:
+            item_id_str = program_data.get('id', 'unknown')
+
+            logger.info(f"\n--- Processing program {item_id_str} ---")
+            logger.info(f"Title: {content.get('title', 'Unknown')}")
+
+            # Call GPT-4o with Structured Outputs
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "Du bist ein Experte für die Analyse deutscher Förderprogramme für NGOs und gemeinnützige Organisationen. Extrahiere strukturierte Informationen aus Förderprogramm-Beschreibungen."
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "foerdermittel_extraction",
+                        "schema": FOERDERMITTEL_SCHEMA,
+                        "strict": True
+                    }
+                },
+                temperature=0.1
+            )
+
+            # Parse response
+            llm_response = response.choices[0].message.content
+            structured_data = json.loads(llm_response)
+
+            logger.info(f"Extracted title: {structured_data.get('title', 'Unknown')}")
+            logger.info(f"Relevance: {structured_data.get('is_relevant', False)} - {structured_data.get('relevance_reason', '')}")
+
+            # Add source information
+            structured_data['source'] = content.get('source_name', '')
+            structured_data['source_url'] = content.get('url', '')
+
+            # Set default approval status
+            structured_data['approved'] = None  # Pending approval
+            structured_data['status'] = 'draft'
+
+            # Link to scraped data item
+            structured_data['scraped_data_id'] = program_data.get('id')
+
+            return structured_data
+
+        except Exception as e:
+            logger.error(f"Error processing program {item_id_str}: {str(e)}")
+            return None
+
+
+def main():
+    """Main entry point for the analyzer application."""
+    parser = argparse.ArgumentParser(
+        description="Fördermittel Analyzer with LLM Extraction"
+    )
+    parser.add_argument(
+        "--limit", "-l",
+        type=int,
+        default=10,
+        help="Maximum number of items to process"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Enable verbose logging"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Process without saving to Directus"
+    )
+
+    args = parser.parse_args()
+
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+
+    # Initialize clients
+    directus = DirectusClient(DIRECTUS_URL, token=DIRECTUS_TOKEN)
+    processor = FoerdermittelProcessor(OPENAI_API_KEY, directus)
+
+    print(f"Starting Fördermittel analyzer (limit: {args.limit})")
+
+    # Get pending items
+    pending_items = directus.get_pending_items(
+        collection="foerdermittel_scraped_data",
+        processing_status="pending",
+        limit=args.limit
+    )
+
+    print(f"Found {len(pending_items)} pending items to process")
+
+    # Process each item
+    processed_count = 0
+    relevant_count = 0
+    error_count = 0
+
+    for item in pending_items:
+        try:
+            # Process the program
+            structured_data = processor.process_program(item)
+
+            if not structured_data:
+                error_count += 1
+                if not args.dry_run:
+                    directus.update_item(
+                        "foerdermittel_scraped_data",
+                        item['id'],
+                        {
+                            "processing_status": "failed",
+                            "error_message": "Failed to extract structured data"
+                        }
+                    )
+                continue
+
+            # Count relevant programs
+            if structured_data.get('is_relevant', False):
+                relevant_count += 1
+
+            # Save to Directus if not dry-run
+            if not args.dry_run:
+                # Check for duplicates
+                existing = directus.session.get(
+                    f"{directus.base_url}/items/foerdermittel",
+                    headers=directus.get_headers(),
+                    params={
+                        "filter": json.dumps({
+                            "title": {"_eq": structured_data.get("title", "")},
+                            "funding_organization": {"_eq": structured_data.get("funding_organization", "")}
+                        })
+                    }
+                )
+
+                if existing.status_code == 200 and existing.json().get('data'):
+                    print(f"Skipping duplicate: {structured_data.get('title', 'Unknown')}")
+                    directus.update_item(
+                        "foerdermittel_scraped_data",
+                        item['id'],
+                        {
+                            "processed": True,
+                            "processing_status": "completed",
+                            "error_message": "Duplicate - already exists"
+                        }
+                    )
+                    continue
+
+                # Save to foerdermittel collection
+                created_item = directus.create_item("foerdermittel", structured_data)
+
+                # Update scraped data status
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processed": True,
+                        "processing_status": "completed",
+                        "foerdermittel_id": created_item.get('id')
+                    }
+                )
+
+                print(f"✓ Saved: {structured_data.get('title', 'Unknown')} (Relevant: {structured_data.get('is_relevant', False)})")
+            else:
+                print(f"[DRY-RUN] Would save: {structured_data.get('title', 'Unknown')} (Relevant: {structured_data.get('is_relevant', False)})")
+
+            processed_count += 1
+
+        except Exception as e:
+            logger.error(f"Error processing item {item.get('id', 'unknown')}: {str(e)}")
+            error_count += 1
+
+            if not args.dry_run:
+                try:
+                    directus.update_item(
+                        "foerdermittel_scraped_data",
+                        item['id'],
+                        {
+                            "processing_status": "failed",
+                            "error_message": str(e)
+                        }
+                    )
+                except Exception as update_error:
+                    logger.error(f"Failed to update error status: {str(update_error)}")
+
+    # Print summary
+    print("\n" + "="*60)
+    print("PROCESSING SUMMARY")
+    print("="*60)
+    print(f"Processed: {processed_count}")
+    print(f"Relevant: {relevant_count}")
+    print(f"Errors: {error_count}")
+    print("="*60)
+
+
+if __name__ == "__main__":
+    main()

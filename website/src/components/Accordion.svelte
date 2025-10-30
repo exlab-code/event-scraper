@@ -9,6 +9,7 @@
   export let title = ""; // The header text
   export let defaultOpen = false; // Whether the accordion is open by default
   export let id = ""; // Optional ID for the accordion
+  export let mobileOnly = false; // Add mobileOnly prop to fix unknown prop error
   
   // Event dispatcher to notify parent when accordion state changes
   const dispatch = createEventDispatcher();

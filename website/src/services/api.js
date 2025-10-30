@@ -33,7 +33,8 @@ export async function getEvents(filters = {}) {
     // Build query parameters
     const params = new URLSearchParams({
       filter: JSON.stringify(filterObj),
-      sort: "start_date"
+      sort: "start_date",
+      limit: "-1"  // Get all events (no limit)
     });
     
     // Use the Nginx proxy endpoint for items
@@ -75,7 +76,8 @@ export async function getCategories() {
     // Use the Nginx proxy endpoint for items
     const filterParams = new URLSearchParams({
       filter: JSON.stringify({approved:{_eq:true}}),
-      sort: "start_date"
+      sort: "start_date",
+      limit: "-1"  // Get all events (no limit)
     });
     
     const apiUrl = `${ITEMS_BASE_URL}/events?${filterParams}`;
@@ -117,7 +119,8 @@ export async function getTags() {
     // Use the Nginx proxy endpoint for items
     const filterParams = new URLSearchParams({
       filter: JSON.stringify({approved:{_eq:true}}),
-      sort: "start_date"
+      sort: "start_date",
+      limit: "-1"  // Get all events (no limit)
     });
     
     const apiUrl = `${ITEMS_BASE_URL}/events?${filterParams}`;

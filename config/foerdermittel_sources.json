@@ -1,0 +1,23 @@
+{
+  "sources": [
+    {
+      "name": "DSEE Förderdatenbank",
+      "url": "https://foerderdatenbank.d-s-e-e.de/",
+      "type": "dsee",
+      "link_selector": "a[href*='/foerderprogramme/']",
+      "description": "Deutsche Stiftung für Engagement und Ehrenamt funding database for NGOs and civic engagement organizations",
+      "target_group": "NGOs, Wohlfahrtsverbände, civic engagement organizations",
+      "regions": ["bundesweit", "regional"],
+      "update_frequency": "weekly"
+    },
+    {
+      "name": "Förderdatenbank des Bundes",
+      "url": "https://www.foerderdatenbank.de/FDB/DE/Service/RSS/Functions/foerderprogram_rssnewsfeed.xml",
+      "type": "rss",
+      "description": "Federal funding database RSS feed with programs from Bund, Länder, and EU",
+      "target_group": "Various including NGOs, businesses, municipalities",
+      "regions": ["bundesweit", "regional"],
+      "update_frequency": "daily"
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 data/
 logs/
 .cache/
+*.log
 
 # Environment variables and sensitive configuration
 .env
@@ -10,13 +11,11 @@ logs/
 config.json
 config/directus.json
 config/nextcloud.json
-event-moderation-interface/config-secrets.js
 
 # Include example files
 !.env.example
 !config/directus.json.example
 !config/nextcloud.json.example
-!event-moderation-interface/config-secrets.js.example
 
 # Python
 __pycache__/
@@ -25,6 +24,7 @@ __pycache__/
 *.so
 .Python
 env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -45,3 +45,19 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
