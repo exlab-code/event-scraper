@@ -561,19 +561,16 @@ class EventScraper:
 
         return False, None
 
-    def check_duplicate_content(self, content):
+    def check_duplicate_content(self, content_hash):
         """Check if content already exists in the database using content hash.
         This is a fallback when URL-based detection isn't applicable.
 
         Args:
-            content (str): Content to check
+            content_hash (str): Content hash to check
 
         Returns:
             tuple: (is_duplicate, existing_item_id)
         """
-        # Calculate hash of content
-        content_hash = self.calculate_hash(content)
-
         # Check in-memory cache first
         if self.hash_cache.contains(content_hash):
             logger.info(f"Found duplicate content in memory cache")
@@ -710,14 +707,7 @@ class EventScraper:
         content = self.get_page_content(url)
         if not content:
             return []
-        
-        # Check if this page is already in our database
-        if self.directus_client:
-            is_duplicate, item_id = self.check_duplicate_content(content)
-            if is_duplicate:
-                logger.info(f"Skipping {url} - content already in database with ID {item_id}")
-                return []
-        
+
         # Parse the listing page
         soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
         event_elements = soup.select(source['event_selector'])
@@ -782,22 +772,21 @@ class EventScraper:
                         "url": None,
                         "source_name": source['name']
                     }
-                    
+
                     # Check for duplicate content
                     if self.directus_client:
-                        event_json = json.dumps(event_data, ensure_ascii=False)
-                        is_duplicate, item_id = self.check_duplicate_content(event_json)
+                        content_hash = self.calculate_content_hash(event_data)
+                        is_duplicate, item_id = self.check_duplicate_content(content_hash)
                         if is_duplicate:
                             content_log.write(f"DUPLICATE CONTENT - ID: {item_id}\n\n")
                             continue
-                    
+
                     # Add to our results
                     full_event_details.append(event_data)
-                    
+
                     # Save to Directus if configured
                     if self.directus_client:
-                        event_json = json.dumps(event_data, ensure_ascii=False)
-                        content_hash = self.calculate_hash(event_json)
+                        content_hash = self.calculate_content_hash(event_data)
                         self.save_to_directus(event_data, content_hash)
                     
                     continue
@@ -827,22 +816,21 @@ class EventScraper:
                         "url": event_url,
                         "source_name": source['name']
                     }
-                    
+
                     # Check for duplicate content
                     if self.directus_client:
-                        event_json = json.dumps(event_data, ensure_ascii=False)
-                        is_duplicate, item_id = self.check_duplicate_content(event_json)
+                        content_hash = self.calculate_content_hash(event_data)
+                        is_duplicate, item_id = self.check_duplicate_content(content_hash)
                         if is_duplicate:
                             content_log.write(f"DUPLICATE CONTENT - ID: {item_id}\n\n")
                             continue
-                    
+
                     # Add to our results
                     full_event_details.append(event_data)
-                    
+
                     # Save to Directus if configured
                     if self.directus_client:
-                        event_json = json.dumps(event_data, ensure_ascii=False)
-                        content_hash = self.calculate_hash(event_json)
+                        content_hash = self.calculate_content_hash(event_data)
                         self.save_to_directus(event_data, content_hash)
                     
                     continue

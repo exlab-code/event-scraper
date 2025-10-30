@@ -280,42 +280,152 @@ class FoerdermittelScraper:
         logger.debug(f"New program: {url}")
         return ('new', None, None)
 
-    def save_to_directus(self, program_data, content_hash):
-        """Save funding program data to Directus database.
+    def save_to_directus(self, program_data, content_hash, status='new',
+                         existing_id=None, previous_hash=None, existing_item=None):
+        """Save or update funding program data to Directus database.
 
         Args:
             program_data (dict): Program data
             content_hash (str): Content hash for deduplication
+            status (str): 'new', 'unchanged', or 'changed'
+            existing_id (int): ID of existing item (for updates)
+            previous_hash (str): Previous content hash (for changes)
+            existing_item (dict): Full existing item data
 
         Returns:
-            int: ID of created item
+            int: ID of created/updated item
         """
         if not self.directus_client:
             return None
 
         now = datetime.now().isoformat()
 
-        directus_data = {
-            "url": program_data.get("url"),
-            "source_name": program_data.get("source_name"),
-            "content_hash": content_hash,
-            "raw_content": json.dumps(program_data, ensure_ascii=False),
-            "scraped_at": now,
-            "processed": False,
-            "processing_status": "pending"
-        }
+        if status == 'new':
+            # Create new entry
+            directus_data = {
+                "url": program_data.get("url"),
+                "source_name": program_data.get("source_name"),
+                "content_hash": content_hash,
+                "raw_content": json.dumps(program_data, ensure_ascii=False),
+                "scraped_at": now,
+                "last_checked_at": now,
+                "last_seen_at": now,
+                "processed": False,
+                "processing_status": "pending",
+                "is_active": True,
+                "check_count": 1
+            }
 
-        try:
-            created_item = self.directus_client.create_item(self.collection_name, directus_data)
-            logger.info(f"Saved program to Directus with ID: {created_item['id']}")
+            try:
+                created_item = self.directus_client.create_item(
+                    self.collection_name, directus_data
+                )
+                logger.info(f"Saved new program to Directus with ID: {created_item['id']}")
+                self.hash_cache.add(content_hash)
+                return created_item['id']
+            except Exception as e:
+                logger.error(f"Failed to save program to Directus: {str(e)}")
+                return None
 
-            # Add hash to memory cache
-            self.hash_cache.add(content_hash)
+        elif status == 'unchanged':
+            # Update timestamps only
+            update_data = {
+                "last_checked_at": now,
+                "last_seen_at": now,
+                "check_count": existing_item.get('check_count', 0) + 1 if existing_item else 1
+            }
 
-            return created_item['id']
-        except Exception as e:
-            logger.error(f"Failed to save program to Directus: {str(e)}")
-            return None
+            try:
+                self.directus_client.update_item(
+                    self.collection_name, existing_id, update_data
+                )
+                logger.debug(f"Updated timestamps for program ID: {existing_id}")
+                return existing_id
+            except Exception as e:
+                logger.error(f"Failed to update timestamps: {str(e)}")
+                return existing_id
+
+        elif status == 'changed':
+            # Update with new content and flag for reprocessing
+            update_data = {
+                "previous_content_hash": previous_hash,
+                "content_hash": content_hash,
+                "raw_content": json.dumps(program_data, ensure_ascii=False),
+                "scraped_at": now,
+                "last_checked_at": now,
+                "last_seen_at": now,
+                "change_detected_at": now,
+                "processed": False,
+                "processing_status": "pending_update",
+                "check_count": existing_item.get('check_count', 0) + 1 if existing_item else 1
+            }
+
+            try:
+                self.directus_client.update_item(
+                    self.collection_name, existing_id, update_data
+                )
+                logger.info(f"Updated changed program ID: {existing_id}")
+                self.hash_cache.add(content_hash)
+                return existing_id
+            except Exception as e:
+                logger.error(f"Failed to update changed program: {str(e)}")
+                return existing_id
+
+    def mark_removed_programs(self, source_name, seen_urls):
+        """Mark programs as inactive if they weren't found in latest scrape.
+
+        Uses a safety buffer - only marks as removed if not seen in 2+ scrapes
+        (roughly 1 week for weekly scrapes).
+
+        Args:
+            source_name (str): Name of the source
+            seen_urls (set): Set of URLs found in current scrape
+        """
+        if not self.directus_client:
+            return
+
+        now = datetime.now().isoformat()
+
+        # Get all active programs from this source
+        active_programs = self.directus_client.get_active_programs(
+            self.collection_name, source_name
+        )
+
+        removed_count = 0
+
+        for program in active_programs:
+            if program['url'] not in seen_urls:
+                # Program not found in current scrape
+
+                # Calculate days since last seen
+                if program.get('last_seen_at'):
+                    try:
+                        last_seen = datetime.fromisoformat(program['last_seen_at'].replace('Z', '+00:00'))
+                        days_since_last_seen = (datetime.now(last_seen.tzinfo) - last_seen).days
+                    except Exception:
+                        days_since_last_seen = 999  # Error parsing, mark immediately
+                else:
+                    days_since_last_seen = 999  # Very old, mark immediately
+
+                # Only mark as inactive after safety buffer (7 days ≈ 1-2 scrapes)
+                if days_since_last_seen >= 7:
+                    try:
+                        self.directus_client.update_item(
+                            self.collection_name,
+                            program['id'],
+                            {
+                                "is_active": False,
+                                "last_checked_at": now,
+                                "processing_status": "removed"
+                            }
+                        )
+                        logger.warning(f"Marked as removed: {program['url']}")
+                        removed_count += 1
+                    except Exception as e:
+                        logger.error(f"Failed to mark program as removed: {str(e)}")
+
+        if removed_count > 0:
+            logger.info(f"Marked {removed_count} programs from {source_name} as removed")
 
     def scrape_rss_feed(self, source):
         """Scrape funding programs from an RSS feed.
@@ -688,6 +798,7 @@ class FoerdermittelScraper:
             list: List of program data dictionaries
         """
         all_programs = []
+        seen_urls = set()  # Track URLs found in this scrape
 
         # Handle Aktion Mensch differently - it returns complete program data
         if source.get('type') == 'aktion_mensch':
@@ -695,13 +806,39 @@ class FoerdermittelScraper:
 
             # Save each program
             for program_data in programs:
+                url = program_data.get('source_url', source['url'])
+                seen_urls.add(url)
+
                 all_programs.append(program_data)
 
-                # Save to Directus
+                # Check for changes and save to Directus
                 if self.directus_client:
                     program_json = json.dumps(program_data, ensure_ascii=False)
                     content_hash = calculate_content_hash(program_json)
-                    self.save_to_directus(program_data, content_hash)
+
+                    # Check if this is new, unchanged, or changed
+                    status, existing_id, previous_hash = self.check_duplicate_or_changed(
+                        program_json, url
+                    )
+
+                    # Get existing item for check_count if needed
+                    existing_item = None
+                    if existing_id:
+                        existing_item = self.directus_client.get_item_by_url(
+                            self.collection_name, url
+                        )
+
+                    # Save/update
+                    self.save_to_directus(
+                        program_data, content_hash,
+                        status=status,
+                        existing_id=existing_id,
+                        previous_hash=previous_hash,
+                        existing_item=existing_item
+                    )
+
+            # Mark programs that weren't found as removed
+            self.mark_removed_programs(source['name'], seen_urls)
 
             return all_programs
 
@@ -729,21 +866,46 @@ class FoerdermittelScraper:
             if self.max_programs > 0:
                 program_urls = program_urls[:self.max_programs]
 
+        # Track URLs found in this scrape
+        seen_urls = set()
+
         # Scrape each program detail page
         for i, url in enumerate(program_urls):
             try:
+                # Track this URL
+                seen_urls.add(url)
+
                 # Scrape the program detail
                 program_data = self.scrape_program_detail(url, source['name'])
 
                 if not program_data:
                     continue
 
-                # Check for duplicates
+                # Check if this is new, unchanged, or changed
                 program_json = json.dumps(program_data, ensure_ascii=False)
-                is_duplicate, item_id = self.check_duplicate_content(program_json)
+                content_hash = calculate_content_hash(program_json)
 
-                if is_duplicate:
-                    logger.info(f"Skipping duplicate program: {url}")
+                status, existing_id, previous_hash = self.check_duplicate_or_changed(
+                    program_json, url
+                )
+
+                # Get existing item for check_count if needed
+                existing_item = None
+                if existing_id:
+                    existing_item = self.directus_client.get_item_by_url(
+                        self.collection_name, url
+                    ) if self.directus_client else None
+
+                if status == 'unchanged':
+                    logger.debug(f"Skipping unchanged program: {url}")
+                    # Still update timestamps
+                    if self.directus_client and existing_item:
+                        self.save_to_directus(
+                            program_data, content_hash,
+                            status='unchanged',
+                            existing_id=existing_id,
+                            existing_item=existing_item
+                        )
                     continue
 
                 # Add to results
@@ -751,8 +913,13 @@ class FoerdermittelScraper:
 
                 # Save to Directus
                 if self.directus_client:
-                    content_hash = calculate_content_hash(program_json)
-                    self.save_to_directus(program_data, content_hash)
+                    self.save_to_directus(
+                        program_data, content_hash,
+                        status=status,
+                        existing_id=existing_id,
+                        previous_hash=previous_hash,
+                        existing_item=existing_item
+                    )
 
                 # Save HTML if requested
                 if self.save_html:
@@ -769,6 +936,9 @@ class FoerdermittelScraper:
             except Exception as e:
                 logger.error(f"Error scraping {url}: {str(e)}")
                 continue
+
+        # Mark programs that weren't found as removed
+        self.mark_removed_programs(source['name'], seen_urls)
 
         return all_programs
 

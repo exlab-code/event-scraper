@@ -431,6 +431,201 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             return None
 
 
+def detect_changes(old_data, new_data):
+    """Compare old and new program data to identify significant changes.
+
+    Args:
+        old_data (dict): Previous program data
+        new_data (dict): New program data
+
+    Returns:
+        str: Summary of changes, or None if no significant changes
+    """
+    significant_fields = {
+        'title': 'Title',
+        'funding_amount_min': 'Min funding amount',
+        'funding_amount_max': 'Max funding amount',
+        'application_deadline': 'Application deadline',
+        'funding_period_end': 'Funding period end',
+        'eligibility_criteria': 'Eligibility criteria',
+        'funding_rate': 'Funding rate',
+        'deadline_type': 'Deadline type',
+        'is_relevant': 'Relevance status'
+    }
+
+    changes = []
+
+    for field, label in significant_fields.items():
+        old_val = old_data.get(field)
+        new_val = new_data.get(field)
+
+        # Skip if both are None/null
+        if old_val is None and new_val is None:
+            continue
+
+        # Detect change
+        if old_val != new_val:
+            changes.append(f"{label} changed")
+            logger.debug(f"{label}: {old_val} → {new_val}")
+
+    if not changes:
+        return None
+
+    return "; ".join(changes)
+
+
+def process_program_update(processor, directus, item, dry_run=False):
+    """Process a program that has changed content.
+
+    Args:
+        processor (FoerdermittelProcessor): Processor instance
+        directus (DirectusClient): Directus client
+        item (dict): Scraped data item with status 'pending_update'
+        dry_run (bool): If True, don't save to database
+
+    Returns:
+        bool: True if processed successfully, False otherwise
+    """
+    try:
+        # Process the updated program
+        new_structured_data = processor.process_program(item)
+
+        if not new_structured_data:
+            logger.error(f"Failed to extract structured data for updated program {item['id']}")
+            if not dry_run:
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processing_status": "failed",
+                        "error_message": "Failed to extract structured data"
+                    }
+                )
+            return False
+
+        # Get the existing foerdermittel entry to compare
+        existing_foerdermittel_id = item.get('foerdermittel_id')
+
+        if not existing_foerdermittel_id:
+            # No existing entry - treat as new
+            logger.warning(f"No foerdermittel_id found for item {item['id']}, treating as new")
+            if not dry_run:
+                created_item = directus.create_item("foerdermittel", new_structured_data)
+
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processed": True,
+                        "processing_status": "completed",
+                        "foerdermittel_id": created_item.get('id')
+                    }
+                )
+                print(f"✓ Created new: {new_structured_data.get('title', 'Unknown')}")
+            else:
+                print(f"[DRY-RUN] Would create new: {new_structured_data.get('title', 'Unknown')}")
+            return True
+
+        # Get existing foerdermittel entry
+        try:
+            response = directus.session.get(
+                f"{directus.base_url}/items/foerdermittel/{existing_foerdermittel_id}",
+                headers=directus.get_headers()
+            )
+            response.raise_for_status()
+            old_data = response.json().get('data', {})
+        except Exception as e:
+            logger.error(f"Failed to get existing foerdermittel entry: {str(e)}")
+            # Treat as new if we can't find the old entry
+            if not dry_run:
+                created_item = directus.create_item("foerdermittel", new_structured_data)
+
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processed": True,
+                        "processing_status": "completed",
+                        "foerdermittel_id": created_item.get('id')
+                    }
+                )
+                print(f"✓ Created new (old not found): {new_structured_data.get('title', 'Unknown')}")
+            else:
+                print(f"[DRY-RUN] Would create new (old not found): {new_structured_data.get('title', 'Unknown')}")
+            return True
+
+        # Detect changes
+        change_summary = detect_changes(old_data, new_structured_data)
+
+        if not change_summary:
+            # No significant changes detected
+            logger.info(f"No significant changes detected for {item['id']}")
+            if not dry_run:
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processed": True,
+                        "processing_status": "completed"
+                    }
+                )
+            return True
+
+        # Significant changes detected - create new version
+        logger.info(f"Changes detected: {change_summary}")
+
+        if not dry_run:
+            # Get current version number
+            current_version = old_data.get('version', 1)
+
+            # Prepare new version data
+            new_version_data = new_structured_data.copy()
+            new_version_data['version'] = current_version + 1
+            new_version_data['change_summary'] = change_summary
+            new_version_data['previous_version_id'] = existing_foerdermittel_id
+            new_version_data['requires_review'] = True  # Flag for human review
+
+            # Create new version
+            created_item = directus.create_item("foerdermittel", new_version_data)
+
+            # Update scraped data status
+            directus.update_item(
+                "foerdermittel_scraped_data",
+                item['id'],
+                {
+                    "processed": True,
+                    "processing_status": "completed",
+                    "foerdermittel_id": created_item.get('id')
+                }
+            )
+
+            print(f"✓ Updated (v{new_version_data['version']}): {new_structured_data.get('title', 'Unknown')}")
+            print(f"  Changes: {change_summary}")
+        else:
+            print(f"[DRY-RUN] Would create version update: {new_structured_data.get('title', 'Unknown')}")
+            print(f"[DRY-RUN] Changes: {change_summary}")
+
+        return True
+
+    except Exception as e:
+        logger.error(f"Error processing program update {item.get('id', 'unknown')}: {str(e)}")
+
+        if not dry_run:
+            try:
+                directus.update_item(
+                    "foerdermittel_scraped_data",
+                    item['id'],
+                    {
+                        "processing_status": "failed",
+                        "error_message": str(e)
+                    }
+                )
+            except Exception as update_error:
+                logger.error(f"Failed to update error status: {str(update_error)}")
+
+        return False
+
+
 def main():
     """Main entry point for the analyzer application."""
     parser = argparse.ArgumentParser(
@@ -564,13 +759,37 @@ def main():
                 except Exception as update_error:
                     logger.error(f"Failed to update error status: {str(update_error)}")
 
+    # Process pending_update items (changed programs)
+    print(f"\nProcessing changed programs...")
+    pending_updates = directus.get_pending_items(
+        collection="foerdermittel_scraped_data",
+        processing_status="pending_update",
+        limit=args.limit
+    )
+
+    print(f"Found {len(pending_updates)} changed programs to process")
+
+    updated_count = 0
+    update_error_count = 0
+
+    for item in pending_updates:
+        success = process_program_update(processor, directus, item, args.dry_run)
+        if success:
+            updated_count += 1
+        else:
+            update_error_count += 1
+
     # Print summary
     print("\n" + "="*60)
     print("PROCESSING SUMMARY")
     print("="*60)
-    print(f"Processed: {processed_count}")
-    print(f"Relevant: {relevant_count}")
-    print(f"Errors: {error_count}")
+    print(f"New programs processed: {processed_count}")
+    print(f"New programs relevant: {relevant_count}")
+    print(f"New programs errors: {error_count}")
+    print(f"Changed programs updated: {updated_count}")
+    print(f"Changed programs errors: {update_error_count}")
+    print(f"Total processed: {processed_count + updated_count}")
+    print(f"Total errors: {error_count + update_error_count}")
     print("="*60)
 
 
