@@ -1,10 +1,10 @@
 // Directus API configuration
 const DIRECTUS_TOKEN = "APpU898yct7V2VyMFfcJse_7WXktDY-o";
 
-// Use the server's proxy endpoints instead of direct API access
-// This avoids CORS issues by using the Nginx proxy
-const API_BASE_URL = "/api"; // Uses the /api/ location in Nginx config
-const ITEMS_BASE_URL = "/items"; // Uses the /items/ location in Nginx config
+// Use direct Directus API URL for GitHub Pages deployment
+const DIRECTUS_URL = "https://calapi.buerofalk.de";
+const API_BASE_URL = `${DIRECTUS_URL}`;
+const ITEMS_BASE_URL = `${DIRECTUS_URL}/items`;
 
 /**
  * Fetch all approved events from Directus
