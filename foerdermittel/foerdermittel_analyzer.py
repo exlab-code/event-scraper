@@ -100,7 +100,13 @@ class FoerdermittelData(BaseModel):
     contact_email: Optional[str] = Field(None, description="Contact email if available")
 
     is_relevant: bool = Field(..., description="Whether this funding is relevant for NGOs/Wohlfahrtsverbände")
-    relevance_reason: str = Field(..., min_length=1, description="Brief explanation of relevance determination")
+    relevance_score: int = Field(
+        ...,
+        ge=0,
+        le=100,
+        description="Relevance score from 0-100 for NGOs/nonprofits. Consider: target group match (40 pts), funding type suitability (30 pts), accessibility/eligibility (20 pts), funding amount adequacy (10 pts)"
+    )
+    relevance_reason: str = Field(..., min_length=1, description="Brief explanation of relevance score and determination")
 
     # Additional fields added by processor
     source: Optional[str] = Field(None, description="Source name")
@@ -413,7 +419,7 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             )
 
             logger.info(f"Extracted title: {structured_data.title}")
-            logger.info(f"Relevance: {structured_data.is_relevant} - {structured_data.relevance_reason}")
+            logger.info(f"Relevance: {structured_data.is_relevant} (score: {structured_data.relevance_score}/100) - {structured_data.relevance_reason}")
 
             # Add source information
             structured_data.source = content.get('source_name', '')
@@ -452,7 +458,8 @@ def detect_changes(old_data, new_data):
         'eligibility_criteria': 'Eligibility criteria',
         'funding_rate': 'Funding rate',
         'deadline_type': 'Deadline type',
-        'is_relevant': 'Relevance status'
+        'is_relevant': 'Relevance status',
+        'relevance_score': 'Relevance score'
     }
 
     changes = []
