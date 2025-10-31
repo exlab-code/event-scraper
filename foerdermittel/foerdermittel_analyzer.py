@@ -106,7 +106,8 @@ class FoerdermittelData(BaseModel):
     target_group: str = Field(..., min_length=1, description="Target group for the funding")
     eligibility_criteria: str = Field(..., min_length=1, description="Detailed eligibility criteria")
 
-    website: str = Field(..., min_length=1, description="Official website URL for the funding program")
+    website: str = Field(..., min_length=1, description="Main information/program website URL where details can be found")
+    application_portal: Optional[str] = Field(None, description="URL where applications can be submitted (if different from main website)")
     contact_email: Optional[str] = Field(None, description="Contact email if available")
 
     # Tags for filtering and categorization
@@ -366,12 +367,15 @@ WICHTIGE HINWEISE:
 4. Bestimme den Bundesland-Bezug oder "bundesweit"
 5. Identifiziere die Art des Fördergebers (Bund, Land, EU, Stiftung, Sonstige)
 6. Bewerte die Relevanz für NGOs/Wohlfahrtsverbände
-7. WEBSITE URL: Wähle die SPEZIFISCHSTE URL für das Förderprogramm aus den verfügbaren externen Links:
-   - Bevorzuge direkte Links zu Antragsformularen (PDFs, Word-Dokumente)
-   - Dann spezifische Programmseiten mit Antragsdetails
-   - Dann allgemeine Informationsseiten zum Programm
-   - VERMEIDE allgemeine Förderdatenbank-URLs - nutze die QUELL-URL nur wenn keine spezifischeren Links verfügbar sind
-   - Die QUELL-URL ist die Datenbank/Quelle und sollte NUR verwendet werden wenn keine besseren externen Links existieren
+7. WEBSITE und APPLICATION_PORTAL URLs:
+   - WEBSITE: Die HAUPT-Informationsseite des Förderprogramms (z.B. Programmübersicht, Details, Richtlinien)
+     • Nutze die spezifischste Programmseite aus den verfügbaren externen Links
+     • VERMEIDE allgemeine Förderdatenbank-URLs - nutze die QUELL-URL nur wenn keine spezifischeren Links verfügbar sind
+   - APPLICATION_PORTAL (optional, separates Feld): URL für die ANTRAGSTELLUNG, wenn separat von der Informationsseite
+     • Direkte Links zu Antragsformularen (PDF, Word, Online-Formulare)
+     • Online-Antragsportale oder Formular-Upload-Systeme
+     • E-Mail-Adressen für Anträge (im Format "mailto:...")
+     • Lasse leer wenn die Antragstellung über die gleiche URL wie die Hauptseite erfolgt oder nicht klar genannt ist
 
 TAG-GRUPPEN RICHTLINIEN:
 WICHTIG: Alle Tags MAXIMAL 2 WÖRTER! Nutze kompakte Begriffe.
@@ -451,9 +455,9 @@ RELEVANZ-KRITERIEN (is_relevant=false wenn):
             logger.info(f"\n--- Processing program {item_id_str} ---")
             logger.info(f"Title: {content.get('title', 'Unknown')}")
 
-            # Call GPT-4o with Instructor for structured output
+            # Call GPT-4o-mini with Instructor for structured output
             structured_data = await self.client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4o-mini",
                 response_model=FoerdermittelData,
                 messages=[
                     {
@@ -509,7 +513,9 @@ def detect_changes(old_data, new_data):
         'funding_rate': 'Funding rate',
         'deadline_type': 'Deadline type',
         'is_relevant': 'Relevance status',
-        'relevance_score': 'Relevance score'
+        'relevance_score': 'Relevance score',
+        'website': 'Website URL',
+        'application_portal': 'Application portal URL'
     }
 
     changes = []
@@ -834,37 +840,37 @@ async def main():
 
             processed_count += 1
 
-    # Process pending_update items (changed programs)
-    print(f"\nProcessing changed programs...")
-    pending_updates = directus.get_pending_items(
-        collection="foerdermittel_scraped_data",
-        processing_status="pending_update",
-        limit=args.limit
-    )
+    # # Process pending_update items (changed programs)
+    # print(f"\nProcessing changed programs...")
+    # pending_updates = directus.get_pending_items(
+    #     collection="foerdermittel_scraped_data",
+    #     processing_status="pending_update",
+    #     limit=args.limit
+    # )
 
-    print(f"Found {len(pending_updates)} changed programs to process")
-    print(f"Using concurrency: {args.concurrency}")
+    # print(f"Found {len(pending_updates)} changed programs to process")
+    # print(f"Using concurrency: {args.concurrency}")
 
     updated_count = 0
     update_error_count = 0
 
-    # Process updates concurrently with concurrency limit
-    for i in range(0, len(pending_updates), args.concurrency):
-        batch = pending_updates[i:i + args.concurrency]
+    # # Process updates concurrently with concurrency limit
+    # for i in range(0, len(pending_updates), args.concurrency):
+    #     batch = pending_updates[i:i + args.concurrency]
 
-        # Process batch concurrently
-        tasks = [process_program_update(processor, directus, item, args.dry_run) for item in batch]
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+    #     # Process batch concurrently
+    #     tasks = [process_program_update(processor, directus, item, args.dry_run) for item in batch]
+    #     results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # Count successes and errors
-        for result in results:
-            if isinstance(result, Exception):
-                logger.error(f"Error processing program update: {str(result)}")
-                update_error_count += 1
-            elif result:
-                updated_count += 1
-            else:
-                update_error_count += 1
+    #     # Count successes and errors
+    #     for result in results:
+    #         if isinstance(result, Exception):
+    #             logger.error(f"Error processing program update: {str(result)}")
+    #             update_error_count += 1
+    #         elif result:
+    #             updated_count += 1
+    #         else:
+    #             update_error_count += 1
 
     # Print summary
     print("\n" + "="*60)

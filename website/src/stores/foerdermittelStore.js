@@ -4,6 +4,7 @@ import * as api from '../services/api';
 // Create writable stores
 export const foerdermittel = writable([]);
 export const filters = writable({
+  searchQuery: '', // Text search query
   tags: [], // Tags from tag_groups (thema, zielgruppe, etc.)
   bundesland: '', // Geographic filter
   fundingType: '', // funding_type filter
@@ -61,6 +62,23 @@ export const filteredFoerdermittel = derived(
     today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
 
     return $foerdermittel.filter(program => {
+      // Filter by search query
+      if ($filters.searchQuery && $filters.searchQuery.trim() !== '') {
+        const query = $filters.searchQuery.toLowerCase().trim();
+        const searchableText = [
+          program.title,
+          program.short_description,
+          program.description,
+          program.funding_organization,
+          program.target_group,
+          program.eligibility_criteria
+        ].filter(Boolean).join(' ').toLowerCase();
+
+        if (!searchableText.includes(query)) {
+          return false;
+        }
+      }
+
       // Filter out programs with past deadlines (but keep laufend/jaehrlich programs)
       if (program.application_deadline &&
           program.deadline_type !== 'laufend' &&
@@ -249,6 +267,7 @@ export function updateFilters(newFilters) {
 // Reset all filters
 export function resetFilters() {
   filters.set({
+    searchQuery: '',
     tags: [],
     bundesland: '',
     fundingType: '',

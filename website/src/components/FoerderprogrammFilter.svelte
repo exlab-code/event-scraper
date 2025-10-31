@@ -4,6 +4,7 @@
   import Tag from './Tag.svelte';
   import Accordion from './Accordion.svelte';
 
+  let searchQuery = '';
   let selectedTags = [];
   let selectedBundesland = '';
   let selectedFundingType = '';
@@ -81,6 +82,7 @@
 
   // Subscribe to the filters store to get current filter values
   filters.subscribe(f => {
+    searchQuery = f.searchQuery || '';
     selectedTags = f.tags ? [...f.tags] : [];
     selectedBundesland = f.bundesland || '';
     selectedFundingType = f.fundingType || '';
@@ -286,8 +288,14 @@
     applyFilters();
   }
 
+  function handleSearchInput(event) {
+    searchQuery = event.target.value;
+    applyFilters();
+  }
+
   function applyFilters() {
     updateFilters({
+      searchQuery: searchQuery,
       tags: selectedTags,
       bundesland: selectedBundesland,
       deadlineHorizon: selectedDeadlineHorizon,
@@ -298,6 +306,7 @@
   }
 
   function clearFilters() {
+    searchQuery = '';
     selectedTags = [];
     selectedBundesland = '';
     selectedFundingType = '';
@@ -322,6 +331,19 @@
     id="filter"
     on:toggle={({ detail }) => isFilterOpen = detail.isOpen}
   >
+    <!-- Search Bar -->
+    <div class="mb-6 pb-4 border-b border-gray-200">
+      <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Suche</label>
+      <input
+        type="text"
+        id="search"
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+        placeholder="Suchbegriff eingeben..."
+        bind:value={searchQuery}
+        on:input={handleSearchInput}
+      />
+    </div>
+
     <!-- Super-Categories (always visible, not subject to frequency threshold) -->
     {#if superKategorien.length > 0}
       <div class="tag-group mb-6 pb-4 border-b border-gray-200">
@@ -437,7 +459,7 @@
         type="button"
         class="flex justify-center items-center px-4 py-2 border border-gray-300 text-sm rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         on:click={clearFilters}
-        disabled={selectedTags.length === 0 && selectedBundesland === '' && selectedDeadlineHorizon === 'all' && selectedFundingAmountRange === '' && selectedFoerdergeber === '' && selectedSource === ''}
+        disabled={searchQuery === '' && selectedTags.length === 0 && selectedBundesland === '' && selectedDeadlineHorizon === 'all' && selectedFundingAmountRange === '' && selectedFoerdergeber === '' && selectedSource === ''}
       >
         Zurücksetzen
       </button>
