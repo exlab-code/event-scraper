@@ -28,14 +28,18 @@
     };
   });
 
+  // Get base path from the URL (for GitHub Pages subdirectory support)
+  const basePath = window.location.pathname.split('/')[1] === 'digikal' ? '/digikal' : '';
+
   function handleRouteChange() {
     const path = window.location.pathname;
+    const pathWithoutBase = path.replace(basePath, '') || '/';
 
-    if (path === '/about') {
+    if (pathWithoutBase === '/about') {
       currentRoute = 'about';
-    } else if (path === '/linkedin-generator') {
+    } else if (pathWithoutBase === '/linkedin-generator') {
       currentRoute = 'linkedin-generator';
-    } else if (path === '/foerderprogramme') {
+    } else if (pathWithoutBase === '/foerderprogramme') {
       currentRoute = 'foerderprogramme';
     } else {
       currentRoute = 'home';
@@ -47,11 +51,12 @@
       event.preventDefault();
     }
 
-    window.history.pushState({}, '', route);
+    const fullRoute = basePath + route;
+    window.history.pushState({}, '', fullRoute);
     handleRouteChange();
 
     // Track page view on navigation
-    trackPageView(route);
+    trackPageView(fullRoute);
   }
 </script>
 
