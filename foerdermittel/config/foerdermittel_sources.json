@@ -20,9 +20,10 @@
       "update_frequency": "daily"
     },
     {
-      "name": "Aktion Mensch Förderfinder",
-      "url": "https://www.aktion-mensch.de/foerderung/angebote/foerderfinder",
+      "name": "Aktion Mensch Förderprogramme",
+      "url": "https://www.aktion-mensch.de/foerderung/foerderprogramme",
       "type": "aktion_mensch",
+      "link_selector": "a[href*='/foerderung/foerderprogramme/']",
       "description": "Aktion Mensch funding programs for inclusive projects, disability services, and social initiatives",
       "target_group": "NGOs, gemeinnützige Organisationen, Wohlfahrtsverbände focusing on inclusion and disability",
       "regions": ["bundesweit"],
