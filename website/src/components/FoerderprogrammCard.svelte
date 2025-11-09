@@ -54,6 +54,34 @@
     return allTags;
   }
 
+  // Get selected tags for display: 2 super categories, 2 themes, 1 target group
+  function getDisplayTags() {
+    if (!program.tag_groups) return [];
+
+    const tagGroupsObj = typeof program.tag_groups === 'string'
+      ? JSON.parse(program.tag_groups)
+      : program.tag_groups;
+
+    const selectedTags = [];
+
+    // Add up to 2 super categories
+    if (tagGroupsObj.super_kategorie && Array.isArray(tagGroupsObj.super_kategorie)) {
+      selectedTags.push(...tagGroupsObj.super_kategorie.slice(0, 2));
+    }
+
+    // Add up to 2 themes
+    if (tagGroupsObj.thema && Array.isArray(tagGroupsObj.thema)) {
+      selectedTags.push(...tagGroupsObj.thema.slice(0, 2));
+    }
+
+    // Add 1 target group
+    if (tagGroupsObj.zielgruppe && Array.isArray(tagGroupsObj.zielgruppe)) {
+      selectedTags.push(...tagGroupsObj.zielgruppe.slice(0, 1));
+    }
+
+    return selectedTags;
+  }
+
   // Format funding amount for display (min/max only)
   function formatFundingAmount() {
     if (program.funding_amount_min && program.funding_amount_max) {
@@ -197,11 +225,11 @@
 
       <!-- Tags -->
       <div class="flex flex-wrap gap-2">
-        {#each getAllTags().slice(0, 3) as tag}
+        {#each getDisplayTags() as tag}
           <Tag {tag} groupId={findTagGroup(tag)} />
         {/each}
-        {#if getAllTags().length > 3}
-          <span class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">+{getAllTags().length - 3} mehr</span>
+        {#if getAllTags().length > getDisplayTags().length}
+          <span class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">+{getAllTags().length - getDisplayTags().length} mehr</span>
         {/if}
       </div>
     </div>

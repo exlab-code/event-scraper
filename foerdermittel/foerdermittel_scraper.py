@@ -93,7 +93,8 @@ class FoerdermittelScraper:
     """Main scraper class for collecting German funding programs with Directus integration."""
 
     def __init__(self, config, directus_config=None, output_dir="data",
-                 max_programs_per_source=10, save_html=False, cache_dir=None):
+                 max_programs_per_source=10, save_html=False, cache_dir=None,
+                 max_content_chars=8000):
         """Initialize the scraper with configuration.
 
         Args:
@@ -103,6 +104,7 @@ class FoerdermittelScraper:
             max_programs_per_source (int): Maximum programs to scrape per source (-1 for all)
             save_html (bool): Whether to save HTML files to disk
             cache_dir (str): Directory to store cache files
+            max_content_chars (int): Maximum characters for content (default: 8000, ~2K tokens)
         """
         self.sources = config.get("sources", [])
         self.max_programs = max_programs_per_source
@@ -110,6 +112,7 @@ class FoerdermittelScraper:
         self.directus_client = None
         self.collection_name = "foerdermittel_scraped_data"
         self.save_html = save_html
+        self.max_content_chars = max_content_chars
 
         # Initialize caches
         cache_file = os.path.join(cache_dir, "foerdermittel_url_cache.pkl") if cache_dir else None
@@ -202,11 +205,38 @@ class FoerdermittelScraper:
             logger.error(f"Error fetching {url}: {str(e)}")
             return None
 
-    def normalize_text(self, text):
+    def clean_html_to_text(self, html_content, truncate=True):
+        """Clean HTML and extract plain text with proper spacing and truncation.
+
+        Args:
+            html_content (str): HTML content to clean
+            truncate (bool): Whether to apply max_content_chars limit
+
+        Returns:
+            str: Cleaned plain text
+        """
+        if not html_content:
+            return ""
+
+        # Parse HTML
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Remove script, style, and other non-content elements
+        for element in soup(['script', 'style', 'meta', 'link', 'noscript']):
+            element.decompose()
+
+        # Get text with proper spacing between elements
+        text = soup.get_text(separator=' ', strip=True)
+
+        # Normalize and truncate
+        return self.normalize_text(text, truncate=truncate)
+
+    def normalize_text(self, text, truncate=True):
         """Normalize text to handle German umlauts and whitespace.
 
         Args:
             text (str): Text to normalize
+            truncate (bool): Whether to apply max_content_chars limit
 
         Returns:
             str: Normalized text
@@ -214,8 +244,13 @@ class FoerdermittelScraper:
         if not text:
             return ""
 
-        # Remove extra whitespace
+        # Remove extra whitespace (collapse multiple spaces/newlines)
         text = re.sub(r'\s+', ' ', text).strip()
+
+        # Truncate if needed and requested
+        if truncate and self.max_content_chars > 0 and len(text) > self.max_content_chars:
+            text = text[:self.max_content_chars] + "... [Content truncated for length]"
+            logger.debug(f"Content truncated to {self.max_content_chars} characters")
 
         return text
 
@@ -684,14 +719,14 @@ class FoerdermittelScraper:
         if title_element:
             title = self.normalize_text(title_element.get_text())
 
-        # Extract main content
+        # Extract main content (use clean_html_to_text for better HTML cleaning)
         content_text = None
         content_element = soup.select_one('main, .content, .main-content, article')
         if content_element:
-            content_text = self.normalize_text(content_element.get_text())
+            content_text = self.clean_html_to_text(str(content_element), truncate=True)
         else:
             # Fallback to body
-            content_text = self.normalize_text(soup.body.get_text())
+            content_text = self.clean_html_to_text(str(soup.body), truncate=True) if soup.body else ""
 
         # Extract meta information
         meta_info = {}
@@ -828,15 +863,15 @@ class FoerdermittelScraper:
 
             soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
 
-            # Extract main content
+            # Extract main content (use clean_html_to_text for better HTML cleaning)
             content_element = soup.select_one('main, .content, .main-content, article, .main')
             if content_element:
-                return self.normalize_text(content_element.get_text())
+                return self.clean_html_to_text(str(content_element), truncate=True)
             else:
                 # Fallback to body but remove nav/footer
                 for element in soup.find_all(['nav', 'footer', 'header']):
                     element.decompose()
-                return self.normalize_text(soup.body.get_text()) if soup.body else None
+                return self.clean_html_to_text(str(soup.body), truncate=True) if soup.body else None
 
         except Exception as e:
             logger.error(f"Error scraping external page {url}: {str(e)}")
