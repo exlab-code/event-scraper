@@ -1024,7 +1024,7 @@ def load_config(config_path):
             "sources": [
                 {
                     "name": "Stifter-helfen.de",
-                    "url": "https://www.hausdesstiftens.org/non-profits/wissen/webinare/",
+                    "url": "https://www.hausdesstiftens.org/non-profits/wissen/alle/",
                     "type": "html",
                     "event_selector": ".eg-webinare-22-wrapper",
                     "link_selector": "a",
@@ -1064,7 +1064,7 @@ def main():
             "sources": [
                 {
                     "name": "Stifter-helfen.de",
-                    "url": "https://www.hausdesstiftens.org/non-profits/wissen/webinare/",
+                    "url": "https://www.hausdesstiftens.org/non-profits/wissen/alle/",
                     "type": "html",
                     "event_selector": ".eg-webinare-22-wrapper",
                     "link_selector": "a",
